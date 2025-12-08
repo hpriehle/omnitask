@@ -1,0 +1,745 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 56;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		2A0000010000000000000001 /* OmniTaskApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2A0000020000000000000001 /* OmniTaskApp.swift */; };
+		2A0000010000000000000002 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2A0000020000000000000002 /* AppDelegate.swift */; };
+		2A0000010000000000000003 /* AppEnvironment.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2A0000020000000000000003 /* AppEnvironment.swift */; };
+		2A0000010000000000000004 /* FloatingPanel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2A0000020000000000000004 /* FloatingPanel.swift */; };
+		2A0000010000000000000005 /* WindowManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2A0000020000000000000005 /* WindowManager.swift */; };
+		2A0000010000000000000006 /* HotkeyManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2A0000020000000000000006 /* HotkeyManager.swift */; };
+		2A0000010000000000000007 /* PushToTalkMonitor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2A0000020000000000000007 /* PushToTalkMonitor.swift */; };
+		2A0000010000000000000008 /* DatabaseManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2A0000020000000000000008 /* DatabaseManager.swift */; };
+		2A0000010000000000000009 /* TaskRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2A0000020000000000000009 /* TaskRepository.swift */; };
+		2A000001000000000000000A /* ProjectRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2A000002000000000000000A /* ProjectRepository.swift */; };
+		2A000001000000000000000B /* OmniTask.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2A000002000000000000000B /* OmniTask.swift */; };
+		2A000001000000000000000C /* Project.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2A000002000000000000000C /* Project.swift */; };
+		2A000001000000000000000D /* Priority.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2A000002000000000000000D /* Priority.swift */; };
+		2A000001000000000000000E /* RecurringPattern.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2A000002000000000000000E /* RecurringPattern.swift */; };
+		2A000001000000000000000F /* ClaudeService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2A000002000000000000000F /* ClaudeService.swift */; };
+		2A0000010000000000000010 /* TaskStructuringService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2A0000020000000000000010 /* TaskStructuringService.swift */; };
+		2A0000010000000000000011 /* SpeechRecognitionService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2A0000020000000000000011 /* SpeechRecognitionService.swift */; };
+		2A0000010000000000000012 /* URLSchemeHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2A0000020000000000000012 /* URLSchemeHandler.swift */; };
+		2A0000010000000000000013 /* TaskListViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2A0000020000000000000013 /* TaskListViewModel.swift */; };
+		2A0000010000000000000014 /* TaskInputViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2A0000020000000000000014 /* TaskInputViewModel.swift */; };
+		2A0000010000000000000015 /* ProjectViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2A0000020000000000000015 /* ProjectViewModel.swift */; };
+		2A0000010000000000000016 /* SettingsViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2A0000020000000000000016 /* SettingsViewModel.swift */; };
+		2A0000010000000000000017 /* MainPillView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2A0000020000000000000017 /* MainPillView.swift */; };
+		2A0000010000000000000018 /* CollapsedPillView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2A0000020000000000000018 /* CollapsedPillView.swift */; };
+		2A0000010000000000000019 /* ExpandedPillView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2A0000020000000000000019 /* ExpandedPillView.swift */; };
+		2A000001000000000000001A /* TaskInputView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2A000002000000000000001A /* TaskInputView.swift */; };
+		2A000001000000000000001B /* VoiceInputView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2A000002000000000000001B /* VoiceInputView.swift */; };
+		2A000001000000000000001C /* TaskListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2A000002000000000000001C /* TaskListView.swift */; };
+		2A000001000000000000001D /* TaskRowView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2A000002000000000000001D /* TaskRowView.swift */; };
+		2A000001000000000000001E /* TaskDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2A000002000000000000001E /* TaskDetailView.swift */; };
+		2A000001000000000000001F /* ProjectTabsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2A000002000000000000001F /* ProjectTabsView.swift */; };
+		2A0000010000000000000020 /* ProjectEditorView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2A0000020000000000000020 /* ProjectEditorView.swift */; };
+		2A0000010000000000000021 /* SettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2A0000020000000000000021 /* SettingsView.swift */; };
+		2A0000010000000000000022 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 2A0000020000000000000022 /* Assets.xcassets */; };
+		2A0000010000000000000023 /* GRDB in Frameworks */ = {isa = PBXBuildFile; productRef = 2A0000030000000000000001 /* GRDB */; };
+		2A0000010000000000000024 /* KeyboardShortcuts in Frameworks */ = {isa = PBXBuildFile; productRef = 2A0000030000000000000002 /* KeyboardShortcuts */; };
+		2A0000010000000000000025 /* ManualTaskCreationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2A0000020000000000000025 /* ManualTaskCreationView.swift */; };
+		2A0000010000000000000026 /* AudioWaveformView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2A0000020000000000000026 /* AudioWaveformView.swift */; };
+		2A0000010000000000000027 /* ProjectsSettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2A0000020000000000000027 /* ProjectsSettingsView.swift */; };
+		2A0000010000000000000028 /* TagRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2A0000020000000000000028 /* TagRepository.swift */; };
+		2A0000010000000000000029 /* Tag.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2A0000020000000000000029 /* Tag.swift */; };
+		2A000001000000000000002A /* TaskTag.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2A000002000000000000002A /* TaskTag.swift */; };
+		2A000001000000000000002B /* SubtaskRowView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2A000002000000000000002B /* SubtaskRowView.swift */; };
+		2A000001000000000000002C /* MarqueeText.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2A000002000000000000002C /* MarqueeText.swift */; };
+		2A000001000000000000002D /* ConfettiView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2A000002000000000000002D /* ConfettiView.swift */; };
+		2A000001000000000000002E /* CurrentTaskFooter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2A000002000000000000002E /* CurrentTaskFooter.swift */; };
+		2A000001000000000000002F /* CarouselText.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2A000002000000000000002F /* CarouselText.swift */; };
+		2A0000010000000000000030 /* ConfettiWindowController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2A0000020000000000000030 /* ConfettiWindowController.swift */; };
+		2A0000010000000000000031 /* FilterSortSettings.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2A0000020000000000000031 /* FilterSortSettings.swift */; };
+		6E7B7A33AF58EC511B682687 /* CompletedTaskRowView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5BD7190D95E3022D5498C541 /* CompletedTaskRowView.swift */; };
+		AC89552F890F3D87E4610F24 /* FilterSortMenuView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D1C41A0B255162F01B45483C /* FilterSortMenuView.swift */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXFileReference section */
+		08C800D4BCF74DE91B8F7751 /* FilterSortSettings.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = FilterSortSettings.swift; path = OmniTask/Models/FilterSortSettings.swift; sourceTree = "<group>"; };
+		2A0000020000000000000001 /* OmniTaskApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OmniTaskApp.swift; sourceTree = "<group>"; };
+		2A0000020000000000000002 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
+		2A0000020000000000000003 /* AppEnvironment.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppEnvironment.swift; sourceTree = "<group>"; };
+		2A0000020000000000000004 /* FloatingPanel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FloatingPanel.swift; sourceTree = "<group>"; };
+		2A0000020000000000000005 /* WindowManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WindowManager.swift; sourceTree = "<group>"; };
+		2A0000020000000000000006 /* HotkeyManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HotkeyManager.swift; sourceTree = "<group>"; };
+		2A0000020000000000000007 /* PushToTalkMonitor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PushToTalkMonitor.swift; sourceTree = "<group>"; };
+		2A0000020000000000000008 /* DatabaseManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DatabaseManager.swift; sourceTree = "<group>"; };
+		2A0000020000000000000009 /* TaskRepository.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TaskRepository.swift; sourceTree = "<group>"; };
+		2A000002000000000000000A /* ProjectRepository.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProjectRepository.swift; sourceTree = "<group>"; };
+		2A000002000000000000000B /* OmniTask.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OmniTask.swift; sourceTree = "<group>"; };
+		2A000002000000000000000C /* Project.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Project.swift; sourceTree = "<group>"; };
+		2A000002000000000000000D /* Priority.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Priority.swift; sourceTree = "<group>"; };
+		2A000002000000000000000E /* RecurringPattern.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecurringPattern.swift; sourceTree = "<group>"; };
+		2A000002000000000000000F /* ClaudeService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ClaudeService.swift; sourceTree = "<group>"; };
+		2A0000020000000000000010 /* TaskStructuringService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TaskStructuringService.swift; sourceTree = "<group>"; };
+		2A0000020000000000000011 /* SpeechRecognitionService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SpeechRecognitionService.swift; sourceTree = "<group>"; };
+		2A0000020000000000000012 /* URLSchemeHandler.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = URLSchemeHandler.swift; sourceTree = "<group>"; };
+		2A0000020000000000000013 /* TaskListViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TaskListViewModel.swift; sourceTree = "<group>"; };
+		2A0000020000000000000014 /* TaskInputViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TaskInputViewModel.swift; sourceTree = "<group>"; };
+		2A0000020000000000000015 /* ProjectViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProjectViewModel.swift; sourceTree = "<group>"; };
+		2A0000020000000000000016 /* SettingsViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsViewModel.swift; sourceTree = "<group>"; };
+		2A0000020000000000000017 /* MainPillView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainPillView.swift; sourceTree = "<group>"; };
+		2A0000020000000000000018 /* CollapsedPillView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CollapsedPillView.swift; sourceTree = "<group>"; };
+		2A0000020000000000000019 /* ExpandedPillView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExpandedPillView.swift; sourceTree = "<group>"; };
+		2A000002000000000000001A /* TaskInputView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TaskInputView.swift; sourceTree = "<group>"; };
+		2A000002000000000000001B /* VoiceInputView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VoiceInputView.swift; sourceTree = "<group>"; };
+		2A000002000000000000001C /* TaskListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TaskListView.swift; sourceTree = "<group>"; };
+		2A000002000000000000001D /* TaskRowView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TaskRowView.swift; sourceTree = "<group>"; };
+		2A000002000000000000001E /* TaskDetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TaskDetailView.swift; sourceTree = "<group>"; };
+		2A000002000000000000001F /* ProjectTabsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProjectTabsView.swift; sourceTree = "<group>"; };
+		2A0000020000000000000020 /* ProjectEditorView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProjectEditorView.swift; sourceTree = "<group>"; };
+		2A0000020000000000000021 /* SettingsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsView.swift; sourceTree = "<group>"; };
+		2A0000020000000000000022 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		2A0000020000000000000023 /* OmniTask.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = OmniTask.entitlements; sourceTree = "<group>"; };
+		2A0000020000000000000024 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		2A0000020000000000000025 /* ManualTaskCreationView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ManualTaskCreationView.swift; sourceTree = "<group>"; };
+		2A0000020000000000000026 /* AudioWaveformView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AudioWaveformView.swift; sourceTree = "<group>"; };
+		2A0000020000000000000027 /* ProjectsSettingsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProjectsSettingsView.swift; sourceTree = "<group>"; };
+		2A0000020000000000000028 /* TagRepository.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TagRepository.swift; sourceTree = "<group>"; };
+		2A0000020000000000000029 /* Tag.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Tag.swift; sourceTree = "<group>"; };
+		2A000002000000000000002A /* TaskTag.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TaskTag.swift; sourceTree = "<group>"; };
+		2A000002000000000000002B /* SubtaskRowView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SubtaskRowView.swift; sourceTree = "<group>"; };
+		2A000002000000000000002C /* MarqueeText.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MarqueeText.swift; sourceTree = "<group>"; };
+		2A000002000000000000002D /* ConfettiView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConfettiView.swift; sourceTree = "<group>"; };
+		2A000002000000000000002E /* CurrentTaskFooter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CurrentTaskFooter.swift; sourceTree = "<group>"; };
+		2A000002000000000000002F /* CarouselText.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CarouselText.swift; sourceTree = "<group>"; };
+		2A0000020000000000000030 /* ConfettiWindowController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConfettiWindowController.swift; sourceTree = "<group>"; };
+		2A0000020000000000000031 /* FilterSortSettings.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FilterSortSettings.swift; sourceTree = "<group>"; };
+		2A0000020000000000000099 /* OmniTask.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = OmniTask.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		5BD7190D95E3022D5498C541 /* CompletedTaskRowView.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = CompletedTaskRowView.swift; sourceTree = "<group>"; };
+		7EB9D30D6A1AAC6E778D35D8 /* FilterSortSettings.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = FilterSortSettings.swift; sourceTree = "<group>"; };
+		CC7D2D499852785807AA7E6D /* CompletedTaskRowView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CompletedTaskRowView.swift; sourceTree = "<group>"; };
+		D1C41A0B255162F01B45483C /* FilterSortMenuView.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = FilterSortMenuView.swift; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		2A0000040000000000000001 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				2A0000010000000000000023 /* GRDB in Frameworks */,
+				2A0000010000000000000024 /* KeyboardShortcuts in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		2A0000050000000000000001 = {
+			isa = PBXGroup;
+			children = (
+				2A0000050000000000000002 /* OmniTask */,
+				2A0000050000000000000099 /* Products */,
+			);
+			sourceTree = "<group>";
+		};
+		2A0000050000000000000002 /* OmniTask */ = {
+			isa = PBXGroup;
+			children = (
+				2A0000050000000000000003 /* App */,
+				2A0000050000000000000004 /* Core */,
+				2A0000050000000000000005 /* Models */,
+				2A0000050000000000000006 /* Services */,
+				2A0000050000000000000007 /* ViewModels */,
+				2A0000050000000000000008 /* Views */,
+				2A0000050000000000000009 /* Resources */,
+			);
+			path = OmniTask;
+			sourceTree = "<group>";
+		};
+		2A0000050000000000000003 /* App */ = {
+			isa = PBXGroup;
+			children = (
+				2A0000020000000000000001 /* OmniTaskApp.swift */,
+				2A0000020000000000000002 /* AppDelegate.swift */,
+				2A0000020000000000000003 /* AppEnvironment.swift */,
+			);
+			path = App;
+			sourceTree = "<group>";
+		};
+		2A0000050000000000000004 /* Core */ = {
+			isa = PBXGroup;
+			children = (
+				2A000005000000000000000A /* Window */,
+				2A000005000000000000000B /* Hotkeys */,
+				2A000005000000000000000C /* Database */,
+			);
+			path = Core;
+			sourceTree = "<group>";
+		};
+		2A0000050000000000000005 /* Models */ = {
+			isa = PBXGroup;
+			children = (
+				2A000002000000000000000B /* OmniTask.swift */,
+				2A000002000000000000000C /* Project.swift */,
+				2A000002000000000000000D /* Priority.swift */,
+				2A000002000000000000000E /* RecurringPattern.swift */,
+				2A0000020000000000000029 /* Tag.swift */,
+				2A000002000000000000002A /* TaskTag.swift */,
+				2A0000020000000000000031 /* FilterSortSettings.swift */,
+				08C800D4BCF74DE91B8F7751 /* FilterSortSettings.swift */,
+				7EB9D30D6A1AAC6E778D35D8 /* FilterSortSettings.swift */,
+			);
+			path = Models;
+			sourceTree = "<group>";
+		};
+		2A0000050000000000000006 /* Services */ = {
+			isa = PBXGroup;
+			children = (
+				2A000005000000000000000E /* AI */,
+				2A000005000000000000000F /* Speech */,
+				2A0000050000000000000010 /* URLScheme */,
+			);
+			path = Services;
+			sourceTree = "<group>";
+		};
+		2A0000050000000000000007 /* ViewModels */ = {
+			isa = PBXGroup;
+			children = (
+				2A0000020000000000000013 /* TaskListViewModel.swift */,
+				2A0000020000000000000014 /* TaskInputViewModel.swift */,
+				2A0000020000000000000015 /* ProjectViewModel.swift */,
+				2A0000020000000000000016 /* SettingsViewModel.swift */,
+			);
+			path = ViewModels;
+			sourceTree = "<group>";
+		};
+		2A0000050000000000000008 /* Views */ = {
+			isa = PBXGroup;
+			children = (
+				2A0000050000000000000011 /* Main */,
+				2A0000050000000000000012 /* Input */,
+				2A0000050000000000000013 /* Tasks */,
+				2A0000050000000000000014 /* Projects */,
+				2A0000050000000000000015 /* Settings */,
+				2A0000050000000000000016 /* Components */,
+				6C18734815F77EB77E1039ED /* Filters */,
+			);
+			path = Views;
+			sourceTree = "<group>";
+		};
+		2A0000050000000000000009 /* Resources */ = {
+			isa = PBXGroup;
+			children = (
+				2A0000020000000000000022 /* Assets.xcassets */,
+				2A0000020000000000000023 /* OmniTask.entitlements */,
+				2A0000020000000000000024 /* Info.plist */,
+			);
+			path = Resources;
+			sourceTree = "<group>";
+		};
+		2A000005000000000000000A /* Window */ = {
+			isa = PBXGroup;
+			children = (
+				2A0000020000000000000004 /* FloatingPanel.swift */,
+				2A0000020000000000000005 /* WindowManager.swift */,
+				2A0000020000000000000030 /* ConfettiWindowController.swift */,
+			);
+			path = Window;
+			sourceTree = "<group>";
+		};
+		2A000005000000000000000B /* Hotkeys */ = {
+			isa = PBXGroup;
+			children = (
+				2A0000020000000000000006 /* HotkeyManager.swift */,
+				2A0000020000000000000007 /* PushToTalkMonitor.swift */,
+			);
+			path = Hotkeys;
+			sourceTree = "<group>";
+		};
+		2A000005000000000000000C /* Database */ = {
+			isa = PBXGroup;
+			children = (
+				2A0000020000000000000008 /* DatabaseManager.swift */,
+				2A000005000000000000000D /* Repositories */,
+			);
+			path = Database;
+			sourceTree = "<group>";
+		};
+		2A000005000000000000000D /* Repositories */ = {
+			isa = PBXGroup;
+			children = (
+				2A0000020000000000000009 /* TaskRepository.swift */,
+				2A000002000000000000000A /* ProjectRepository.swift */,
+				2A0000020000000000000028 /* TagRepository.swift */,
+			);
+			path = Repositories;
+			sourceTree = "<group>";
+		};
+		2A000005000000000000000E /* AI */ = {
+			isa = PBXGroup;
+			children = (
+				2A000002000000000000000F /* ClaudeService.swift */,
+				2A0000020000000000000010 /* TaskStructuringService.swift */,
+			);
+			path = AI;
+			sourceTree = "<group>";
+		};
+		2A000005000000000000000F /* Speech */ = {
+			isa = PBXGroup;
+			children = (
+				2A0000020000000000000011 /* SpeechRecognitionService.swift */,
+			);
+			path = Speech;
+			sourceTree = "<group>";
+		};
+		2A0000050000000000000010 /* URLScheme */ = {
+			isa = PBXGroup;
+			children = (
+				2A0000020000000000000012 /* URLSchemeHandler.swift */,
+			);
+			path = URLScheme;
+			sourceTree = "<group>";
+		};
+		2A0000050000000000000011 /* Main */ = {
+			isa = PBXGroup;
+			children = (
+				2A0000020000000000000017 /* MainPillView.swift */,
+				2A0000020000000000000018 /* CollapsedPillView.swift */,
+				2A0000020000000000000019 /* ExpandedPillView.swift */,
+			);
+			path = Main;
+			sourceTree = "<group>";
+		};
+		2A0000050000000000000012 /* Input */ = {
+			isa = PBXGroup;
+			children = (
+				2A000002000000000000001A /* TaskInputView.swift */,
+				2A000002000000000000001B /* VoiceInputView.swift */,
+			);
+			path = Input;
+			sourceTree = "<group>";
+		};
+		2A0000050000000000000013 /* Tasks */ = {
+			isa = PBXGroup;
+			children = (
+				2A000002000000000000001C /* TaskListView.swift */,
+				2A000002000000000000001D /* TaskRowView.swift */,
+				2A000002000000000000002B /* SubtaskRowView.swift */,
+				2A000002000000000000001E /* TaskDetailView.swift */,
+				2A0000020000000000000025 /* ManualTaskCreationView.swift */,
+				2A000002000000000000002E /* CurrentTaskFooter.swift */,
+				CC7D2D499852785807AA7E6D /* CompletedTaskRowView.swift */,
+				5BD7190D95E3022D5498C541 /* CompletedTaskRowView.swift */,
+			);
+			path = Tasks;
+			sourceTree = "<group>";
+		};
+		2A0000050000000000000014 /* Projects */ = {
+			isa = PBXGroup;
+			children = (
+				2A000002000000000000001F /* ProjectTabsView.swift */,
+				2A0000020000000000000020 /* ProjectEditorView.swift */,
+			);
+			path = Projects;
+			sourceTree = "<group>";
+		};
+		2A0000050000000000000015 /* Settings */ = {
+			isa = PBXGroup;
+			children = (
+				2A0000020000000000000021 /* SettingsView.swift */,
+				2A0000020000000000000027 /* ProjectsSettingsView.swift */,
+			);
+			path = Settings;
+			sourceTree = "<group>";
+		};
+		2A0000050000000000000016 /* Components */ = {
+			isa = PBXGroup;
+			children = (
+				2A0000020000000000000026 /* AudioWaveformView.swift */,
+				2A000002000000000000002C /* MarqueeText.swift */,
+				2A000002000000000000002D /* ConfettiView.swift */,
+				2A000002000000000000002F /* CarouselText.swift */,
+			);
+			path = Components;
+			sourceTree = "<group>";
+		};
+		2A0000050000000000000099 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				2A0000020000000000000099 /* OmniTask.app */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		6C18734815F77EB77E1039ED /* Filters */ = {
+			isa = PBXGroup;
+			children = (
+				D1C41A0B255162F01B45483C /* FilterSortMenuView.swift */,
+			);
+			name = Filters;
+			path = Filters;
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		2A0000060000000000000001 /* OmniTask */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 2A0000080000000000000001 /* Build configuration list for PBXNativeTarget "OmniTask" */;
+			buildPhases = (
+				2A0000070000000000000001 /* Sources */,
+				2A0000040000000000000001 /* Frameworks */,
+				2A0000070000000000000002 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = OmniTask;
+			packageProductDependencies = (
+				2A0000030000000000000001 /* GRDB */,
+				2A0000030000000000000002 /* KeyboardShortcuts */,
+			);
+			productName = OmniTask;
+			productReference = 2A0000020000000000000099 /* OmniTask.app */;
+			productType = "com.apple.product-type.application";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		2A0000090000000000000001 /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				BuildIndependentTargetsInParallel = 1;
+				LastSwiftUpdateCheck = 1500;
+				LastUpgradeCheck = 1500;
+				TargetAttributes = {
+					2A0000060000000000000001 = {
+						CreatedOnToolsVersion = 15.0;
+					};
+				};
+			};
+			buildConfigurationList = 2A0000080000000000000002 /* Build configuration list for PBXProject "OmniTask" */;
+			compatibilityVersion = "Xcode 14.0";
+			developmentRegion = en;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+				Base,
+			);
+			mainGroup = 2A0000050000000000000001;
+			packageReferences = (
+				2A000003000000000000000A /* XCRemoteSwiftPackageReference "GRDB.swift" */,
+				2A000003000000000000000B /* XCRemoteSwiftPackageReference "KeyboardShortcuts" */,
+			);
+			productRefGroup = 2A0000050000000000000099 /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				2A0000060000000000000001 /* OmniTask */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		2A0000070000000000000002 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				2A0000010000000000000022 /* Assets.xcassets in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		2A0000070000000000000001 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				2A0000010000000000000001 /* OmniTaskApp.swift in Sources */,
+				2A0000010000000000000002 /* AppDelegate.swift in Sources */,
+				2A0000010000000000000003 /* AppEnvironment.swift in Sources */,
+				2A0000010000000000000004 /* FloatingPanel.swift in Sources */,
+				2A0000010000000000000005 /* WindowManager.swift in Sources */,
+				2A0000010000000000000006 /* HotkeyManager.swift in Sources */,
+				2A0000010000000000000007 /* PushToTalkMonitor.swift in Sources */,
+				2A0000010000000000000008 /* DatabaseManager.swift in Sources */,
+				2A0000010000000000000009 /* TaskRepository.swift in Sources */,
+				2A000001000000000000000A /* ProjectRepository.swift in Sources */,
+				2A0000010000000000000028 /* TagRepository.swift in Sources */,
+				2A000001000000000000000B /* OmniTask.swift in Sources */,
+				2A000001000000000000000C /* Project.swift in Sources */,
+				2A000001000000000000000D /* Priority.swift in Sources */,
+				2A000001000000000000000E /* RecurringPattern.swift in Sources */,
+				2A0000010000000000000029 /* Tag.swift in Sources */,
+				2A000001000000000000002A /* TaskTag.swift in Sources */,
+				2A000001000000000000000F /* ClaudeService.swift in Sources */,
+				2A0000010000000000000010 /* TaskStructuringService.swift in Sources */,
+				2A0000010000000000000011 /* SpeechRecognitionService.swift in Sources */,
+				2A0000010000000000000012 /* URLSchemeHandler.swift in Sources */,
+				2A0000010000000000000013 /* TaskListViewModel.swift in Sources */,
+				2A0000010000000000000014 /* TaskInputViewModel.swift in Sources */,
+				2A0000010000000000000015 /* ProjectViewModel.swift in Sources */,
+				2A0000010000000000000016 /* SettingsViewModel.swift in Sources */,
+				2A0000010000000000000017 /* MainPillView.swift in Sources */,
+				2A0000010000000000000018 /* CollapsedPillView.swift in Sources */,
+				2A0000010000000000000019 /* ExpandedPillView.swift in Sources */,
+				2A000001000000000000001A /* TaskInputView.swift in Sources */,
+				2A000001000000000000001B /* VoiceInputView.swift in Sources */,
+				2A000001000000000000001C /* TaskListView.swift in Sources */,
+				2A000001000000000000001D /* TaskRowView.swift in Sources */,
+				2A000001000000000000001E /* TaskDetailView.swift in Sources */,
+				2A0000010000000000000025 /* ManualTaskCreationView.swift in Sources */,
+				2A000001000000000000001F /* ProjectTabsView.swift in Sources */,
+				2A0000010000000000000020 /* ProjectEditorView.swift in Sources */,
+				2A0000010000000000000021 /* SettingsView.swift in Sources */,
+				2A0000010000000000000026 /* AudioWaveformView.swift in Sources */,
+				2A0000010000000000000027 /* ProjectsSettingsView.swift in Sources */,
+				2A000001000000000000002B /* SubtaskRowView.swift in Sources */,
+				2A000001000000000000002C /* MarqueeText.swift in Sources */,
+				2A000001000000000000002D /* ConfettiView.swift in Sources */,
+				2A000001000000000000002E /* CurrentTaskFooter.swift in Sources */,
+				2A000001000000000000002F /* CarouselText.swift in Sources */,
+				2A0000010000000000000030 /* ConfettiWindowController.swift in Sources */,
+				2A0000010000000000000031 /* FilterSortSettings.swift in Sources */,
+				AC89552F890F3D87E4610F24 /* FilterSortMenuView.swift in Sources */,
+				6E7B7A33AF58EC511B682687 /* CompletedTaskRowView.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin XCBuildConfiguration section */
+		2A000008000000000000000A /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				ASSETCATALOG_COMPILER_GENERATE_SWIFT_ASSET_SYMBOL_EXTENSIONS = YES;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++20";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_TESTABILITY = YES;
+				ENABLE_USER_SCRIPT_SANDBOXING = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu17;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				LOCALIZATION_PREFERS_STRING_CATALOGS = YES;
+				MACOSX_DEPLOYMENT_TARGET = 13.0;
+				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
+				MTL_FAST_MATH = YES;
+				ONLY_ACTIVE_ARCH = YES;
+				SDKROOT = macosx;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "DEBUG $(inherited)";
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+			};
+			name = Debug;
+		};
+		2A000008000000000000000B /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				ASSETCATALOG_COMPILER_GENERATE_SWIFT_ASSET_SYMBOL_EXTENSIONS = YES;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++20";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_USER_SCRIPT_SANDBOXING = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu17;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				LOCALIZATION_PREFERS_STRING_CATALOGS = YES;
+				MACOSX_DEPLOYMENT_TARGET = 13.0;
+				MTL_ENABLE_DEBUG_INFO = NO;
+				MTL_FAST_MATH = YES;
+				SDKROOT = macosx;
+				SWIFT_COMPILATION_MODE = wholemodule;
+			};
+			name = Release;
+		};
+		2A000008000000000000000C /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_ENTITLEMENTS = OmniTask/Resources/OmniTask.entitlements;
+				CODE_SIGN_STYLE = Automatic;
+				COMBINE_HIDPI_IMAGES = YES;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_ASSET_PATHS = "";
+				DEVELOPMENT_TEAM = 5473W6M839;
+				ENABLE_HARDENED_RUNTIME = YES;
+				ENABLE_PREVIEWS = YES;
+				GENERATE_INFOPLIST_FILE = NO;
+				INFOPLIST_FILE = OmniTask/Resources/Info.plist;
+				INFOPLIST_KEY_CFBundleDisplayName = OmniTask;
+				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.productivity";
+				INFOPLIST_KEY_NSHumanReadableCopyright = "";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/../Frameworks",
+				);
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.omnitask.app;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_VERSION = 5.0;
+			};
+			name = Debug;
+		};
+		2A000008000000000000000D /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_ENTITLEMENTS = OmniTask/Resources/OmniTask.entitlements;
+				CODE_SIGN_STYLE = Automatic;
+				COMBINE_HIDPI_IMAGES = YES;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_ASSET_PATHS = "";
+				DEVELOPMENT_TEAM = 5473W6M839;
+				ENABLE_HARDENED_RUNTIME = YES;
+				ENABLE_PREVIEWS = YES;
+				GENERATE_INFOPLIST_FILE = NO;
+				INFOPLIST_FILE = OmniTask/Resources/Info.plist;
+				INFOPLIST_KEY_CFBundleDisplayName = OmniTask;
+				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.productivity";
+				INFOPLIST_KEY_NSHumanReadableCopyright = "";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/../Frameworks",
+				);
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.omnitask.app;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_VERSION = 5.0;
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		2A0000080000000000000001 /* Build configuration list for PBXNativeTarget "OmniTask" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				2A000008000000000000000C /* Debug */,
+				2A000008000000000000000D /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		2A0000080000000000000002 /* Build configuration list for PBXProject "OmniTask" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				2A000008000000000000000A /* Debug */,
+				2A000008000000000000000B /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+/* End XCConfigurationList section */
+
+/* Begin XCRemoteSwiftPackageReference section */
+		2A000003000000000000000A /* XCRemoteSwiftPackageReference "GRDB.swift" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/groue/GRDB.swift.git";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 7.0.0;
+			};
+		};
+		2A000003000000000000000B /* XCRemoteSwiftPackageReference "KeyboardShortcuts" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/sindresorhus/KeyboardShortcuts.git";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 2.0.0;
+			};
+		};
+/* End XCRemoteSwiftPackageReference section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		2A0000030000000000000001 /* GRDB */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 2A000003000000000000000A /* XCRemoteSwiftPackageReference "GRDB.swift" */;
+			productName = GRDB;
+		};
+		2A0000030000000000000002 /* KeyboardShortcuts */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 2A000003000000000000000B /* XCRemoteSwiftPackageReference "KeyboardShortcuts" */;
+			productName = KeyboardShortcuts;
+		};
+/* End XCSwiftPackageProductDependency section */
+	};
+	rootObject = 2A0000090000000000000001 /* Project object */;
+}

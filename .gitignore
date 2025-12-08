@@ -1,0 +1,41 @@
+# Xcode
+.DS_Store
+*.xcuserstate
+xcuserdata/
+*.xccheckout
+*.moved-aside
+*.xcscmblueprint
+*.xcschememanagement.plist
+
+# Build
+build/
+DerivedData/
+*.ipa
+*.dSYM.zip
+*.dSYM
+
+# Certificates and sensitive files
+*.cer
+*.p12
+*.mobileprovision
+*.certSigningRequest
+
+# CocoaPods
+Pods/
+*.xcworkspace
+
+# Swift Package Manager
+.build/
+Package.resolved
+.swiftpm/
+
+# Fastlane
+fastlane/report.xml
+fastlane/Preview.html
+fastlane/screenshots
+fastlane/test_output
+
+# Secrets
+.env
+*.env
+secrets/
