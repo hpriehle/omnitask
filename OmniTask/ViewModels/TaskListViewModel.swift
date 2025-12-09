@@ -612,11 +612,13 @@ final class TaskListViewModel: ObservableObject {
     }
 
     /// Complete the current task and auto-advance to the next one
-    func completeCurrentTask() async {
+    /// Returns true if completion was successful, false if validation failed or error occurred
+    @discardableResult
+    func completeCurrentTask() async -> Bool {
         print("[TaskListViewModel] completeCurrentTask called")
         guard let current = currentTask else {
             print("[TaskListViewModel] ERROR: No current task to complete")
-            return
+            return false
         }
         print("[TaskListViewModel] Completing task: \(current.title)")
 
@@ -624,7 +626,16 @@ final class TaskListViewModel: ObservableObject {
         if !canCompleteParent(current.id) {
             print("[TaskListViewModel] ERROR: Cannot complete - subtasks incomplete")
             errorMessage = "Complete all subtasks first"
-            return
+            // Auto-clear error after 3 seconds
+            Task {
+                try? await Task.sleep(nanoseconds: 3_000_000_000)
+                await MainActor.run {
+                    if errorMessage == "Complete all subtasks first" {
+                        errorMessage = nil
+                    }
+                }
+            }
+            return false
         }
 
         // Trigger confetti + sound
@@ -675,9 +686,11 @@ final class TaskListViewModel: ObservableObject {
             await loadTodayTasksFlat()
             await refreshTodayCount()
             print("[TaskListViewModel] completeCurrentTask finished successfully")
+            return true
         } catch {
             print("[TaskListViewModel] ERROR completing task: \(error.localizedDescription)")
             errorMessage = error.localizedDescription
+            return false
         }
     }
 

@@ -39,5 +39,9 @@
 	</array>
 	<key>NSPrincipalClass</key>
 	<string>NSApplication</string>
+	<key>SUFeedURL</key>
+	<string>https://harrisonriehle.github.io/omnitask-releases/appcast.xml</string>
+	<key>SUPublicEDKey</key>
+	<string>VcV9HjHTw5b2S5+bgS9U0R9xp0LRrV28OGQbmPXfjg8=</string>
 </dict>
 </plist>

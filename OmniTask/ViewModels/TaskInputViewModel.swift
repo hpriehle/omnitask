@@ -13,6 +13,9 @@ final class TaskInputViewModel: ObservableObject {
     @Published var showError = false
     @Published var showNoAPIKeyError = false
 
+    /// When true, tasks default to due today (used during onboarding)
+    var isOnboarding = false
+
     private let taskStructuringService: TaskStructuringService
     private let taskRepository: TaskRepository
     private let speechService: SpeechRecognitionService
@@ -99,7 +102,7 @@ final class TaskInputViewModel: ObservableObject {
         errorMessage = nil
 
         do {
-            let tasks = try await taskStructuringService.parseInput(input)
+            let tasks = try await taskStructuringService.parseInput(input, defaultToToday: isOnboarding)
 
             // Create tasks in database
             try await taskRepository.createMultiple(tasks)

@@ -14,22 +14,37 @@ struct ExpandedPillView: View {
     @State private var keyboardMonitor: Any?
 
     var body: some View {
-        let _ = print("[ExpandedPillView] body evaluated, showingSettings: \(showingSettings)")
-        VStack(spacing: 0) {
-            if showingSettings {
-                // Settings drawer - replaces main content
-                settingsDrawer
-                    .transition(.asymmetric(
-                        insertion: .move(edge: .trailing).combined(with: .opacity),
-                        removal: .move(edge: .trailing).combined(with: .opacity)
-                    ))
-            } else {
-                // Normal content
-                mainContent
-                    .transition(.asymmetric(
-                        insertion: .move(edge: .leading).combined(with: .opacity),
-                        removal: .move(edge: .leading).combined(with: .opacity)
-                    ))
+        let _ = print("[ExpandedPillView] body evaluated, showingSettings: \(showingSettings), hasCompletedOnboarding: \(environment.hasCompletedOnboarding)")
+        ZStack {
+            // Main content layer
+            VStack(spacing: 0) {
+                if showingSettings {
+                    // Settings drawer - replaces main content
+                    settingsDrawer
+                        .transition(.asymmetric(
+                            insertion: .move(edge: .trailing).combined(with: .opacity),
+                            removal: .move(edge: .trailing).combined(with: .opacity)
+                        ))
+                } else {
+                    // Normal content
+                    mainContent
+                        .transition(.asymmetric(
+                            insertion: .move(edge: .leading).combined(with: .opacity),
+                            removal: .move(edge: .leading).combined(with: .opacity)
+                        ))
+                }
+            }
+
+            // Onboarding overlay - shown when not complete
+            if !environment.hasCompletedOnboarding {
+                OnboardingView(
+                    projectVM: projectVM,
+                    taskInputVM: taskInputVM,
+                    onComplete: {
+                        print("[ExpandedPillView] Onboarding completed")
+                    }
+                )
+                .clipShape(RoundedRectangle(cornerRadius: 16, style: .continuous))
             }
         }
         .frame(width: 360, height: 500)
@@ -95,7 +110,7 @@ struct ExpandedPillView: View {
                         task: currentTask,
                         projects: projectVM.projects,
                         onComplete: {
-                            Task { await taskListVM.completeCurrentTask() }
+                            await taskListVM.completeCurrentTask()
                         },
                         onEdit: {
                             Task { await taskListVM.loadTasks() }
@@ -119,7 +134,8 @@ struct ExpandedPillView: View {
                         onUpdateSubtask: { updatedSubtask in
                             Task { await taskListVM.updateTask(updatedSubtask) }
                         },
-                        isKeyboardSelected: taskListVM.isCurrentTaskSelected
+                        isKeyboardSelected: taskListVM.isCurrentTaskSelected,
+                        canComplete: taskListVM.canCompleteParent(currentTask.id)
                     )
                     .id(currentTask.id)
                     .padding(.horizontal, 12)
@@ -252,14 +268,8 @@ struct ExpandedPillView: View {
                 // Cmd+T - add subtask
                 taskListVM.addSubtaskToSelected()
                 return true
-            default:
-                break
-            }
-        } else {
-            // Non-command shortcuts
-            switch chars.lowercased() {
-            case "c":
-                // C - toggle as current task
+            case "s", "S":
+                // Cmd+S - toggle as current/starred task
                 Task { await taskListVM.toggleSelectedAsCurrent() }
                 return true
             default:

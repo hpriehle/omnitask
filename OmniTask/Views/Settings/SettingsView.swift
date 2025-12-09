@@ -1,5 +1,5 @@
 import SwiftUI
-import KeyboardShortcuts
+import Sparkle
 
 /// Settings window content
 struct SettingsView: View {
@@ -54,11 +54,27 @@ struct SettingsView: View {
 
             Section {
                 LabeledContent("Version") {
-                    Text("1.0.0")
+                    Text(Bundle.main.object(forInfoDictionaryKey: "CFBundleShortVersionString") as? String ?? "1.0.0")
                         .foregroundColor(.secondary)
+                }
+
+                Button {
+                    environment.updaterController.checkForUpdates(nil)
+                } label: {
+                    Text("Check for Updates...")
                 }
             } header: {
                 Text("About")
+            }
+
+            Section {
+                Button {
+                    environment.hasCompletedOnboarding = false
+                } label: {
+                    Text("Show Onboarding Again")
+                }
+            } header: {
+                Text("Onboarding")
             }
 
             Section {
@@ -134,7 +150,7 @@ struct SettingsView: View {
     private var shortcutsTab: some View {
         Form {
             Section {
-                KeyboardShortcuts.Recorder("Toggle OmniTask", name: .toggleOmniTask)
+                ShortcutRecorderButton(shortcutName: .toggleOmniTask, label: "Toggle OmniTask")
 
                 LabeledContent("Voice Input") {
                     Text("Hold Option (\u{2325})")

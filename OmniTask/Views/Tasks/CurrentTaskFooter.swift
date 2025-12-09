@@ -5,7 +5,7 @@ import SwiftUI
 struct CurrentTaskFooter: View {
     let task: OmniTask
     let projects: [Project]
-    let onComplete: () -> Void
+    let onComplete: () async -> Bool
     let onEdit: () -> Void
     let onUnstar: () -> Void
 
@@ -20,6 +20,9 @@ struct CurrentTaskFooter: View {
     // Keyboard navigation
     var isKeyboardSelected: Bool = false
 
+    // Completion validation
+    var canComplete: Bool = true
+
     @State private var isHovered = false
     @State private var isCompleting = false
     @State private var showingDetail = false
@@ -28,7 +31,7 @@ struct CurrentTaskFooter: View {
     init(
         task: OmniTask,
         projects: [Project],
-        onComplete: @escaping () -> Void,
+        onComplete: @escaping () async -> Bool,
         onEdit: @escaping () -> Void,
         onUnstar: @escaping () -> Void = {},
         subtaskCount: (total: Int, completed: Int)? = nil,
@@ -37,7 +40,8 @@ struct CurrentTaskFooter: View {
         onToggleExpand: (() -> Void)? = nil,
         onCompleteSubtask: ((OmniTask) -> Void)? = nil,
         onUpdateSubtask: ((OmniTask) -> Void)? = nil,
-        isKeyboardSelected: Bool = false
+        isKeyboardSelected: Bool = false,
+        canComplete: Bool = true
     ) {
         self.task = task
         self.projects = projects
@@ -51,6 +55,7 @@ struct CurrentTaskFooter: View {
         self.onCompleteSubtask = onCompleteSubtask
         self.onUpdateSubtask = onUpdateSubtask
         self.isKeyboardSelected = isKeyboardSelected
+        self.canComplete = canComplete
         self._editableTask = State(initialValue: task)
     }
 
@@ -62,11 +67,12 @@ struct CurrentTaskFooter: View {
                 Button(action: completeWithAnimation) {
                     Image(systemName: task.isCompleted ? "checkmark.circle.fill" : "circle")
                         .font(.system(size: 18))
-                        .foregroundColor(task.isCompleted ? .green : .secondary)
+                        .foregroundColor(task.isCompleted ? .green : (canComplete ? .secondary : .secondary.opacity(0.5)))
                         .scaleEffect(isCompleting ? 1.2 : 1.0)
                 }
                 .buttonStyle(.plain)
-                .disabled(isCompleting)
+                .disabled(isCompleting || !canComplete)
+                .help(canComplete ? "" : "Complete all subtasks first")
 
                 // Content
                 VStack(alignment: .leading, spacing: 4) {
@@ -232,12 +238,23 @@ struct CurrentTaskFooter: View {
     // MARK: - Actions
 
     private func completeWithAnimation() {
+        // Don't start if can't complete
+        guard canComplete else { return }
+
         withAnimation(.spring(response: 0.3, dampingFraction: 0.6)) {
             isCompleting = true
         }
 
-        DispatchQueue.main.asyncAfter(deadline: .now() + 0.3) {
-            onComplete()
+        Task {
+            try? await Task.sleep(nanoseconds: 300_000_000) // 0.3s
+            let success = await onComplete()
+            if !success {
+                await MainActor.run {
+                    withAnimation {
+                        isCompleting = false // Reset on failure
+                    }
+                }
+            }
         }
     }
 }
@@ -260,7 +277,7 @@ struct CurrentTaskFooter: View {
                 dueDate: Date()
             ),
             projects: projects,
-            onComplete: {},
+            onComplete: { return true },
             onEdit: {}
         )
         .padding()

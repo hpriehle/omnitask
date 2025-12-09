@@ -174,6 +174,45 @@ final class FloatingPanel: NSPanel {
         return false
     }
 
+    // MARK: - Window Activation
+
+    /// Make window key and bring app to front when clicked
+    /// This is needed for KeyboardShortcuts.Recorder to capture keystrokes
+    override func mouseDown(with event: NSEvent) {
+        super.mouseDown(with: event)
+        activateForKeyboardInput()
+    }
+
+    /// Explicitly activate and make key for keyboard input
+    /// Temporarily removes nonactivatingPanel to allow proper keyboard focus
+    func activateForKeyboardInput() {
+        // Temporarily add .nonactivatingPanel to styleMask if removed, or ensure activation works
+        // The key is to activate the app and make this window key
+        NSApp.activate(ignoringOtherApps: true)
+        makeKeyAndOrderFront(nil)
+
+        // Force the window to become first responder target
+        if let contentView = contentView {
+            makeFirstResponder(contentView)
+        }
+    }
+
+    /// Enable full keyboard interaction mode (for shortcut recording)
+    /// Call this when entering a view that needs keyboard input like KeyboardShortcuts.Recorder
+    func enableKeyboardInputMode() {
+        // Remove nonactivatingPanel to allow full keyboard interaction
+        styleMask.remove(.nonactivatingPanel)
+        NSApp.activate(ignoringOtherApps: true)
+        makeKeyAndOrderFront(nil)
+    }
+
+    /// Restore non-activating panel mode
+    /// Call this when leaving keyboard-heavy views
+    func disableKeyboardInputMode() {
+        // Restore nonactivatingPanel behavior
+        styleMask.insert(.nonactivatingPanel)
+    }
+
     // MARK: - Keyboard Events
 
     /// Prevent ESC from closing the panel

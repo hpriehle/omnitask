@@ -23,6 +23,13 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
         setupKeyboardShortcuts()
         print("[AppDelegate] Showing panel...")
         windowManager.showPanel()
+
+        // If onboarding not complete, start expanded so onboarding overlay is visible
+        if !environment.hasCompletedOnboarding {
+            print("[AppDelegate] First launch - starting expanded for onboarding")
+            windowManager.setExpanded(true)
+        }
+
         print("[AppDelegate] Setting up notification observers...")
         setupNotificationObservers()
         print("[AppDelegate] Initializing confetti controller...")
@@ -30,11 +37,14 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
         print("[AppDelegate] App startup complete")
         print("[AppDelegate] ========================================")
 
-        // Initialize database with default projects
-        Task {
-            print("[AppDelegate] Creating default projects...")
-            await environment.projectRepository.createDefaultProjectsIfNeeded()
-            print("[AppDelegate] Default projects initialized")
+        // Initialize database with default projects only if onboarding already complete
+        // During onboarding, projects are created in step 3
+        if environment.hasCompletedOnboarding {
+            Task {
+                print("[AppDelegate] Creating default projects if needed...")
+                await environment.projectRepository.createDefaultProjectsIfNeeded()
+                print("[AppDelegate] Default projects check complete")
+            }
         }
     }
 

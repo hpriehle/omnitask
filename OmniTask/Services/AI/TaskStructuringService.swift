@@ -54,7 +54,10 @@ final class TaskStructuringService {
     }
 
     /// Parse natural language input into structured tasks
-    func parseInput(_ input: String) async throws -> [OmniTask] {
+    /// - Parameters:
+    ///   - input: Natural language task description
+    ///   - defaultToToday: When true, tasks without explicit due date default to today (used during onboarding)
+    func parseInput(_ input: String, defaultToToday: Bool = false) async throws -> [OmniTask] {
         print("[TaskStructuringService] ========================================")
         print("[TaskStructuringService] parseInput called")
         print("[TaskStructuringService] Input: \"\(input)\"")
@@ -71,7 +74,7 @@ final class TaskStructuringService {
 
         guard hasKey else {
             print("[TaskStructuringService] No API key configured - creating simple task (no AI)")
-            let task = createSimpleTask(from: trimmed)
+            let task = createSimpleTask(from: trimmed, defaultToToday: defaultToToday)
             print("[TaskStructuringService] Created simple task: \(task.title)")
             return [task]
         }
@@ -97,7 +100,7 @@ final class TaskStructuringService {
             print("[TaskStructuringService] Response: \(response.prefix(500))...")
 
             // Parse the response
-            let tasks = try parseResponse(response, originalInput: trimmed)
+            let tasks = try parseResponse(response, originalInput: trimmed, defaultToToday: defaultToToday)
             print("[TaskStructuringService] Parsed \(tasks.count) task(s)")
             for (index, task) in tasks.enumerated() {
                 print("[TaskStructuringService] Task \(index + 1): \(task.title)")
@@ -178,7 +181,7 @@ final class TaskStructuringService {
         """
     }
 
-    private func parseResponse(_ response: String, originalInput: String) throws -> [OmniTask] {
+    private func parseResponse(_ response: String, originalInput: String, defaultToToday: Bool = false) throws -> [OmniTask] {
         // Extract JSON from the response (in case there's any wrapping text)
         let jsonString = extractJSON(from: response)
 
@@ -191,18 +194,18 @@ final class TaskStructuringService {
             parseResponse = try JSONDecoder().decode(ParseResponse.self, from: data)
         } catch {
             // If JSON parsing fails, create a simple task with the original input
-            return [createSimpleTask(from: originalInput)]
+            return [createSimpleTask(from: originalInput, defaultToToday: defaultToToday)]
         }
 
         if parseResponse.tasks.isEmpty {
-            return [createSimpleTask(from: originalInput)]
+            return [createSimpleTask(from: originalInput, defaultToToday: defaultToToday)]
         }
 
         // Build all tasks including subtasks
         var allTasks: [OmniTask] = []
 
         for (index, parsed) in parseResponse.tasks.enumerated() {
-            let parentTask = try convertToOmniTask(parsed, sortOrder: index, originalInput: originalInput)
+            let parentTask = try convertToOmniTask(parsed, sortOrder: index, originalInput: originalInput, defaultToToday: defaultToToday)
             allTasks.append(parentTask)
 
             // Create subtasks if present
@@ -234,7 +237,7 @@ final class TaskStructuringService {
         return response
     }
 
-    private func convertToOmniTask(_ parsed: ParsedTask, sortOrder: Int, originalInput: String) throws -> OmniTask {
+    private func convertToOmniTask(_ parsed: ParsedTask, sortOrder: Int, originalInput: String, defaultToToday: Bool = false) throws -> OmniTask {
         // Find project ID
         var projectId: String? = nil
         if let projectName = parsed.project {
@@ -249,6 +252,11 @@ final class TaskStructuringService {
         var dueDate: Date? = nil
         if let dueDateString = parsed.dueDate {
             dueDate = parseDate(dueDateString)
+        }
+
+        // Default to today if requested and no due date was parsed
+        if dueDate == nil && defaultToToday {
+            dueDate = Calendar.current.startOfDay(for: Date())
         }
 
         // Parse priority
@@ -313,10 +321,11 @@ final class TaskStructuringService {
         return nil
     }
 
-    private func createSimpleTask(from input: String) -> OmniTask {
+    private func createSimpleTask(from input: String, defaultToToday: Bool = false) -> OmniTask {
         OmniTask(
             title: input,
             priority: .medium,
+            dueDate: defaultToToday ? Calendar.current.startOfDay(for: Date()) : nil,
             originalInput: input
         )
     }

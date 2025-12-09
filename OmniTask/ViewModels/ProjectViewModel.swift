@@ -114,6 +114,13 @@ final class ProjectViewModel: ObservableObject {
         }
     }
 
+    // MARK: - Onboarding
+
+    /// Create default projects for onboarding if none exist
+    func createDefaultProjectsForOnboarding() async {
+        await projectRepository.createDefaultProjectsIfNeeded()
+    }
+
     // MARK: - Helpers
 
     private func showError(_ message: String) {

@@ -1,6 +1,7 @@
 import Foundation
 import Combine
 import SwiftUI
+import Sparkle
 
 /// Observable state for expansion anchor, shared between WindowManager and SwiftUI views
 @MainActor
@@ -31,6 +32,9 @@ final class AppEnvironment: ObservableObject {
     // UI State
     let expansionState = ExpansionState()
 
+    // Sparkle Updater
+    let updaterController: SPUStandardUpdaterController
+
     // Settings
     @Published var claudeAPIKey: String {
         didSet {
@@ -44,6 +48,12 @@ final class AppEnvironment: ObservableObject {
     @Published var filterSettings: FilterSortSettings {
         didSet {
             filterSettings.save()
+        }
+    }
+
+    @Published var hasCompletedOnboarding: Bool {
+        didSet {
+            UserDefaults.standard.set(hasCompletedOnboarding, forKey: "hasCompletedOnboarding")
         }
     }
 
@@ -63,6 +73,9 @@ final class AppEnvironment: ObservableObject {
         // Load filter settings from UserDefaults
         self.filterSettings = FilterSortSettings.load()
 
+        // Load onboarding state
+        self.hasCompletedOnboarding = UserDefaults.standard.bool(forKey: "hasCompletedOnboarding")
+
         // Initialize services
         self.claudeService = ClaudeService(apiKey: apiKey)
         self.taskStructuringService = TaskStructuringService(
@@ -74,5 +87,12 @@ final class AppEnvironment: ObservableObject {
 
         // Initialize monitors
         self.pushToTalkMonitor = PushToTalkMonitor()
+
+        // Initialize Sparkle updater
+        self.updaterController = SPUStandardUpdaterController(
+            startingUpdater: true,
+            updaterDelegate: nil,
+            userDriverDelegate: nil
+        )
     }
 }
