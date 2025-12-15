@@ -16,8 +16,8 @@
         <p>Initial release with Sparkle auto-updates!</p>
       ]]></description>
       <enclosure url="https://github.com/hpriehle/omnitask/releases/download/v1.0/OmniTask.dmg"
-                 sparkle:edSignature="B8OyAYzX/niEzz8HPNtPGsOLPkb0VkD7s5jdcVBRsyfxKrtAXoHx8C34E8KqAoznHjy0673JR7eqKwWEFU4GAQ=="
-                 length="7787142"
+                 sparkle:edSignature="pZTGazpQUL4Z/oZpjiax3s4ewIrZqhp/oFXBNBNICqABoewb1cL/YvB3LMZpaw0+Di+HbgxdRds+Fr6nXpQfAg=="
+                 length="7787884"
                  type="application/octet-stream"/>
     </item>
   </channel>
