@@ -1,4 +1,5 @@
 import SwiftUI
+import OmniTaskCore
 
 /// Onboarding overlay - shown over the expanded pill view until completed
 struct OnboardingView: View {
@@ -189,9 +190,9 @@ struct OnboardingView: View {
 /// Simplified projects view for onboarding
 struct OnboardingProjectsView: View {
     @ObservedObject var projectVM: ProjectViewModel
-    @State private var editingProject: Project?
+    @State private var editingProject: OmniTaskCore.Project?
     @State private var showingAddProject = false
-    @State private var draggingProject: Project?
+    @State private var draggingProject: OmniTaskCore.Project?
 
     var body: some View {
         VStack(spacing: 0) {
@@ -242,7 +243,7 @@ struct OnboardingProjectsView: View {
     }
 
     @ViewBuilder
-    private func projectRow(for project: Project, isLocked: Bool) -> some View {
+    private func projectRow(for project: OmniTaskCore.Project, isLocked: Bool) -> some View {
         if isLocked {
             // Locked project (Unsorted) - no drag/drop, no tap to edit
             OnboardingProjectRow(project: project, isLocked: true)
@@ -282,7 +283,7 @@ struct OnboardingProjectsView: View {
 
 /// Simplified project row for onboarding
 struct OnboardingProjectRow: View {
-    let project: Project
+    let project: OmniTaskCore.Project
     let isLocked: Bool
 
     var body: some View {
@@ -326,13 +327,14 @@ struct OnboardingProjectRow: View {
 /// Task input for onboarding - wraps TaskInputView with onboarding-specific behavior
 struct OnboardingTaskInput: View {
     @ObservedObject var taskInputVM: TaskInputViewModel
-    let projects: [Project]
+    let projects: [OmniTaskCore.Project]
     let onTaskCreated: () -> Void
 
     var body: some View {
         TaskInputView(
             viewModel: taskInputVM,
             projects: projects,
+            selectedProjectId: nil,
             onTaskCreated: onTaskCreated
         )
         .onAppear {

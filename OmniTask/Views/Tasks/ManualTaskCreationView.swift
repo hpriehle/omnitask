@@ -1,8 +1,9 @@
 import SwiftUI
+import OmniTaskCore
 
 /// Modal view for manually creating a new task
 struct ManualTaskCreationView: View {
-    let projects: [Project]
+    let projects: [OmniTaskCore.Project]
     let onCreate: (OmniTask) -> Void
     let onCancel: () -> Void
 
@@ -13,7 +14,7 @@ struct ManualTaskCreationView: View {
     @State private var dueDate: Date = Date()
     @State private var hasDueDate = false
     @State private var isRecurring = false
-    @State private var recurringFrequency: RecurringPattern.Frequency = .weekly
+    @State private var recurringPattern: RecurringPattern?
 
     var body: some View {
         VStack(alignment: .leading, spacing: 16) {
@@ -89,26 +90,10 @@ struct ManualTaskCreationView: View {
 
             // Recurring
             if hasDueDate {
-                HStack {
-                    Toggle("Recurring", isOn: $isRecurring)
-                        .toggleStyle(.switch)
-                        .labelsHidden()
-
-                    Text("Recurring")
-                        .foregroundColor(.secondary)
-
-                    Spacer()
-
-                    if isRecurring {
-                        Picker("", selection: $recurringFrequency) {
-                            Text("Daily").tag(RecurringPattern.Frequency.daily)
-                            Text("Weekly").tag(RecurringPattern.Frequency.weekly)
-                            Text("Monthly").tag(RecurringPattern.Frequency.monthly)
-                        }
-                        .labelsHidden()
-                        .fixedSize()
-                    }
-                }
+                RecurrenceOptionsView(
+                    isRecurring: $isRecurring,
+                    pattern: $recurringPattern
+                )
             }
 
             // Notes (description)
@@ -142,15 +127,10 @@ struct ManualTaskCreationView: View {
             }
         }
         .padding()
-        .frame(width: 300, height: 400)
+        .frame(minWidth: 320, maxWidth: 320, minHeight: 400, maxHeight: 600)
     }
 
     private func createTask() {
-        var recurringPattern: RecurringPattern? = nil
-        if isRecurring && hasDueDate {
-            recurringPattern = RecurringPattern(frequency: recurringFrequency)
-        }
-
         let task = OmniTask(
             title: title,
             notes: notes.isEmpty ? nil : notes,
@@ -169,8 +149,8 @@ struct ManualTaskCreationView: View {
 #Preview {
     ManualTaskCreationView(
         projects: [
-            Project(name: "Work", color: "#3B82F6"),
-            Project(name: "Personal", color: "#10B981")
+            OmniTaskCore.Project(name: "Work", color: "#3B82F6"),
+            OmniTaskCore.Project(name: "Personal", color: "#10B981")
         ],
         onCreate: { _ in },
         onCancel: {}

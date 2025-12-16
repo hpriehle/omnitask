@@ -2,19 +2,19 @@ import Foundation
 import SwiftUI
 
 /// Task priority levels
-enum Priority: Int, Codable, CaseIterable, Comparable {
+public enum Priority: Int, Codable, CaseIterable, Comparable, Sendable {
     case none = 0
     case low = 4
     case medium = 3
     case high = 2
     case urgent = 1
 
-    static func < (lhs: Priority, rhs: Priority) -> Bool {
+    public static func < (lhs: Priority, rhs: Priority) -> Bool {
         // Lower raw value = higher priority
         lhs.rawValue < rhs.rawValue
     }
 
-    var displayName: String {
+    public var displayName: String {
         switch self {
         case .none: return "No Priority"
         case .low: return "Low"
@@ -24,7 +24,7 @@ enum Priority: Int, Codable, CaseIterable, Comparable {
         }
     }
 
-    var color: Color {
+    public var color: Color {
         switch self {
         case .none: return .secondary
         case .low: return .gray
@@ -34,7 +34,7 @@ enum Priority: Int, Codable, CaseIterable, Comparable {
         }
     }
 
-    var icon: String {
+    public var icon: String {
         switch self {
         case .none: return ""
         case .low: return "arrow.down"
@@ -45,7 +45,7 @@ enum Priority: Int, Codable, CaseIterable, Comparable {
     }
 
     /// Parse from string (e.g., from AI response)
-    static func from(string: String) -> Priority {
+    public static func from(string: String) -> Priority {
         switch string.lowercased() {
         case "urgent", "1": return .urgent
         case "high", "2": return .high

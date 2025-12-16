@@ -20,6 +20,10 @@ final class SpeechRecognitionService: ObservableObject {
     private var isIntentionallyStopping = false
     /// Stores the last valid transcription to prevent overwrites from cancel callbacks
     private var lastValidTranscription = ""
+    /// Accumulated transcription from all segments (handles pauses in speech)
+    private var accumulatedTranscription = ""
+    /// Track the previous segment count to detect new segments
+    private var lastSegmentCount = 0
 
     enum SpeechError: Error, LocalizedError {
         case notAuthorized
@@ -154,16 +158,24 @@ final class SpeechRecognitionService: ObservableObject {
                 }
 
                 if let result = result {
-                    let newTranscription = result.bestTranscription.formattedString
+                    let segments = result.bestTranscription.segments
+                    let currentSegmentCount = segments.count
+
+                    // Build full transcription from all segments
+                    let fullTranscription = segments.map { $0.substring }.joined(separator: " ")
+
                     // Only update if we have actual content (don't overwrite with empty)
-                    if !newTranscription.isEmpty {
-                        self.transcription = newTranscription
-                        self.lastValidTranscription = newTranscription
+                    if !fullTranscription.isEmpty {
+                        self.transcription = fullTranscription
+                        self.lastValidTranscription = fullTranscription
                         print("[SpeechRecognition] Transcription update: \"\(self.transcription)\"")
+                        print("[SpeechRecognition] Segment count: \(currentSegmentCount)")
                     } else {
                         print("[SpeechRecognition] Ignoring empty transcription update")
                     }
                     print("[SpeechRecognition] Is final: \(result.isFinal)")
+
+                    self.lastSegmentCount = currentSegmentCount
                 }
 
                 // Only auto-stop on real errors, not cancellation
@@ -219,6 +231,8 @@ final class SpeechRecognitionService: ObservableObject {
 
         transcription = ""
         lastValidTranscription = ""
+        accumulatedTranscription = ""
+        lastSegmentCount = 0
         isRecording = true
         print("[SpeechRecognition] Recording started successfully")
         print("[SpeechRecognition] ========================================")

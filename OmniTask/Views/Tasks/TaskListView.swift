@@ -1,9 +1,10 @@
 import SwiftUI
+import OmniTaskCore
 
 /// Scrollable list of tasks
 struct TaskListView: View {
     let tasks: [OmniTask]
-    let projects: [Project]
+    let projects: [OmniTaskCore.Project]
     let onComplete: (OmniTask) -> Void
     let onUpdate: (OmniTask) -> Void
     let onReorder: (IndexSet, Int) -> Void
@@ -53,8 +54,8 @@ struct TaskListView: View {
     ]
 
     let projects = [
-        Project(name: "Work", color: "#3B82F6"),
-        Project(name: "Personal", color: "#10B981")
+        OmniTaskCore.Project(name: "Work", color: "#3B82F6"),
+        OmniTaskCore.Project(name: "Personal", color: "#10B981")
     ]
 
     TaskListView(

@@ -1,9 +1,10 @@
 import SwiftUI
+import OmniTaskCore
 
 /// Lightweight inline subtask row with indentation
 struct SubtaskRowView: View {
     let task: OmniTask
-    let projects: [Project]
+    let projects: [OmniTaskCore.Project]
     var tagRepository: TagRepository?
     let onComplete: () -> Void
     let onUpdate: (OmniTask) -> Void
@@ -13,13 +14,12 @@ struct SubtaskRowView: View {
     var isKeyboardSelected: Bool = false
 
     @State private var isHovered = false
-    @State private var isCompleting = false
     @State private var showingDetail = false
     @State private var editableTask: OmniTask
 
     init(
         task: OmniTask,
-        projects: [Project],
+        projects: [OmniTaskCore.Project],
         tagRepository: TagRepository? = nil,
         onComplete: @escaping () -> Void,
         onUpdate: @escaping (OmniTask) -> Void,
@@ -38,15 +38,17 @@ struct SubtaskRowView: View {
 
     var body: some View {
         HStack(alignment: .center, spacing: 8) {
-            // Checkbox
-            Button(action: completeWithAnimation) {
+            // Checkbox - use high priority gesture to prevent row tap from intercepting
+            Button(action: {
+                onComplete()
+            }) {
                 Image(systemName: task.isCompleted ? "checkmark.circle.fill" : "circle")
                     .font(.system(size: 16))
                     .foregroundColor(task.isCompleted ? .green : .secondary)
-                    .scaleEffect(isCompleting ? 1.2 : 1.0)
+                    .frame(width: 24, height: 24)
+                    .contentShape(Rectangle())
             }
             .buttonStyle(.plain)
-            .disabled(isCompleting)
 
             // Title with marquee scroll on hover for long titles
             GeometryReader { geo in
@@ -60,6 +62,11 @@ struct SubtaskRowView: View {
             }
             .frame(height: 16)
             .strikethrough(task.isCompleted)
+            .contentShape(Rectangle())
+            .onTapGesture {
+                editableTask = task
+                showingDetail = true
+            }
         }
         .padding(.leading, 36) // Indent - checkbox aligns under parent title
         .padding(.trailing, 8)
@@ -74,17 +81,18 @@ struct SubtaskRowView: View {
                     .strokeBorder(Color.accentColor.opacity(0.5), lineWidth: 1.5)
             }
         }
-        .contentShape(Rectangle())
-        .onTapGesture {
-            editableTask = task
-            showingDetail = true
-        }
         .onHover { hovering in
             withAnimation(.easeInOut(duration: 0.15)) {
                 isHovered = hovering
             }
         }
-        .opacity(isCompleting ? 0.5 : 1.0)
+        .contextMenu {
+            SubtaskContextMenu(
+                task: task,
+                projects: projects,
+                onUpdate: onUpdate
+            )
+        }
         .sheet(isPresented: $showingDetail) {
             TaskDetailView(
                 task: $editableTask,
@@ -98,18 +106,6 @@ struct SubtaskRowView: View {
                     showingDetail = false
                 }
             )
-        }
-    }
-
-    // MARK: - Actions
-
-    private func completeWithAnimation() {
-        withAnimation(.spring(response: 0.3, dampingFraction: 0.6)) {
-            isCompleting = true
-        }
-
-        DispatchQueue.main.asyncAfter(deadline: .now() + 0.3) {
-            onComplete()
         }
     }
 }

@@ -1,9 +1,11 @@
 import SwiftUI
+import OmniTaskCore
 
 /// Input bar for text entry with voice input indicator
 struct TaskInputView: View {
     @ObservedObject var viewModel: TaskInputViewModel
-    let projects: [Project]
+    let projects: [OmniTaskCore.Project]
+    let selectedProjectId: String?
     let onTaskCreated: () -> Void
 
     @FocusState private var isFocused: Bool
@@ -27,7 +29,13 @@ struct TaskInputView: View {
                     .scaleEffect(0.7)
                     .frame(width: 20, height: 20)
             } else if viewModel.isRecording {
-                VoiceInputView(isRecording: viewModel.isRecording)
+                Button {
+                    Task { await viewModel.stopRecordingAndProcess() }
+                } label: {
+                    VoiceInputView(isRecording: viewModel.isRecording)
+                }
+                .buttonStyle(.plain)
+                .help("Click to stop recording")
             } else {
                 // Microphone button
                 Button {
@@ -89,6 +97,12 @@ struct TaskInputView: View {
         .onReceive(NotificationCenter.default.publisher(for: .focusTaskInput)) { _ in
             isFocused = true
         }
+        .onAppear {
+            viewModel.currentViewProjectId = selectedProjectId
+        }
+        .onChange(of: selectedProjectId) { newValue in
+            viewModel.currentViewProjectId = newValue
+        }
     }
 }
 
@@ -106,9 +120,10 @@ struct TaskInputView: View {
             pushToTalkMonitor: PushToTalkMonitor()
         ),
         projects: [
-            Project(name: "Work", color: "#3B82F6"),
-            Project(name: "Personal", color: "#10B981")
+            OmniTaskCore.Project(name: "Work", color: "#3B82F6"),
+            OmniTaskCore.Project(name: "Personal", color: "#10B981")
         ],
+        selectedProjectId: nil,
         onTaskCreated: {}
     )
     .padding()

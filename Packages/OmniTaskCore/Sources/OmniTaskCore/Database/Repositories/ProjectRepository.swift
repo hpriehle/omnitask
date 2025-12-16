@@ -3,11 +3,11 @@ import GRDB
 
 /// Repository for Project CRUD operations
 @MainActor
-final class ProjectRepository: ObservableObject {
+public final class ProjectRepository: ObservableObject {
     private let database: DatabaseManager
-    @Published private(set) var projects: [Project] = []
+    @Published public private(set) var projects: [Project] = []
 
-    init(database: DatabaseManager) {
+    public init(database: DatabaseManager) {
         self.database = database
         loadProjects()
     }
@@ -27,7 +27,7 @@ final class ProjectRepository: ObservableObject {
 
     // MARK: - Default Projects
 
-    func createDefaultProjectsIfNeeded() async {
+    public func createDefaultProjectsIfNeeded() async {
         do {
             let count = try await database.asyncRead { db in
                 try Project.fetchCount(db)
@@ -55,7 +55,7 @@ final class ProjectRepository: ObservableObject {
 
     // MARK: - Create
 
-    func create(_ project: Project) async throws {
+    public func create(_ project: Project) async throws {
         try await database.asyncWrite { db in
             var project = project
             try project.insert(db)
@@ -65,7 +65,7 @@ final class ProjectRepository: ObservableObject {
 
     // MARK: - Read
 
-    func fetchAll(includeArchived: Bool = false) async throws -> [Project] {
+    public func fetchAll(includeArchived: Bool = false) async throws -> [Project] {
         try await database.asyncRead { db in
             var request = Project.all()
             if !includeArchived {
@@ -75,20 +75,20 @@ final class ProjectRepository: ObservableObject {
         }
     }
 
-    func fetch(by id: String) async throws -> Project? {
+    public func fetch(by id: String) async throws -> Project? {
         try await database.asyncRead { db in
             try Project.fetchOne(db, key: id)
         }
     }
 
-    func fetch(byName name: String) async throws -> Project? {
+    public func fetch(byName name: String) async throws -> Project? {
         try await database.asyncRead { db in
             try Project.filter(Column("name").lowercased == name.lowercased()).fetchOne(db)
         }
     }
 
     /// Returns project names for AI context
-    func projectNamesWithDescriptions() async throws -> [(name: String, description: String?)] {
+    public func projectNamesWithDescriptions() async throws -> [(name: String, description: String?)] {
         try await database.asyncRead { db in
             try Project
                 .filter(Column("isArchived") == false)
@@ -100,7 +100,7 @@ final class ProjectRepository: ObservableObject {
 
     // MARK: - Update
 
-    func update(_ project: Project) async throws {
+    public func update(_ project: Project) async throws {
         try await database.asyncWrite { db in
             var updatedProject = project
             updatedProject.updatedAt = Date()
@@ -109,14 +109,14 @@ final class ProjectRepository: ObservableObject {
         loadProjects()
     }
 
-    func archive(_ project: Project) async throws {
+    public func archive(_ project: Project) async throws {
         var updated = project
         updated.isArchived = true
         updated.updatedAt = Date()
         try await update(updated)
     }
 
-    func unarchive(_ project: Project) async throws {
+    public func unarchive(_ project: Project) async throws {
         var updated = project
         updated.isArchived = false
         updated.updatedAt = Date()
@@ -125,7 +125,7 @@ final class ProjectRepository: ObservableObject {
 
     // MARK: - Delete
 
-    func delete(_ project: Project) async throws {
+    public func delete(_ project: Project) async throws {
         _ = try await database.asyncWrite { db in
             try project.delete(db)
         }
@@ -134,7 +134,7 @@ final class ProjectRepository: ObservableObject {
 
     // MARK: - Reorder
 
-    func updateSortOrders(_ projects: [Project]) async throws {
+    public func updateSortOrders(_ projects: [Project]) async throws {
         try await database.asyncWrite { db in
             for var project in projects {
                 project.updatedAt = Date()
@@ -146,11 +146,29 @@ final class ProjectRepository: ObservableObject {
 
     // MARK: - Helpers
 
-    func getUnsortedProject() async -> Project? {
+    public func getUnsortedProject() async -> Project? {
         try? await fetch(byName: "Unsorted")
     }
 
-    func refresh() {
+    public func refresh() {
+        loadProjects()
+    }
+
+    // MARK: - CloudKit Sync Support
+
+    /// Upsert a project from CloudKit sync (insert or update based on existence)
+    public func upsertFromCloud(_ project: Project) async throws {
+        try await database.asyncWrite { db in
+            if try Project.fetchOne(db, key: project.id) != nil {
+                // Update existing
+                var updatedProject = project
+                try updatedProject.update(db)
+            } else {
+                // Insert new
+                var newProject = project
+                try newProject.insert(db)
+            }
+        }
         loadProjects()
     }
 }

@@ -1,5 +1,6 @@
 import Foundation
 import Combine
+import OmniTaskCore
 
 /// ViewModel for task input (text and voice)
 @MainActor
@@ -15,6 +16,9 @@ final class TaskInputViewModel: ObservableObject {
 
     /// When true, tasks default to due today (used during onboarding)
     var isOnboarding = false
+
+    /// Current view context - nil = Today, "all" = All, UUID = specific project
+    var currentViewProjectId: String?
 
     private let taskStructuringService: TaskStructuringService
     private let taskRepository: TaskRepository
@@ -102,10 +106,32 @@ final class TaskInputViewModel: ObservableObject {
         errorMessage = nil
 
         do {
-            let tasks = try await taskStructuringService.parseInput(input, defaultToToday: isOnboarding)
+            // Determine defaults based on current view context
+            // Today view (nil): default due date to today
+            // All view ("all"): no default due date
+            // Project view (UUID): assign to that project, no default due date
+            let shouldDefaultToToday = isOnboarding || currentViewProjectId == nil
+            let defaultProjectId: String? = {
+                guard let projectId = currentViewProjectId,
+                      projectId != "all" else { return nil }
+                return projectId
+            }()
+
+            let tasks = try await taskStructuringService.parseInput(
+                input,
+                defaultToToday: shouldDefaultToToday,
+                defaultProjectId: defaultProjectId
+            )
 
             // Create tasks in database
             try await taskRepository.createMultiple(tasks)
+
+            // Post notification for toast display
+            NotificationCenter.default.post(
+                name: .taskCreated,
+                object: nil,
+                userInfo: ["tasks": tasks]
+            )
 
             // Clear input on success
             inputText = ""
@@ -125,9 +151,16 @@ final class TaskInputViewModel: ObservableObject {
 
     // MARK: - Manual Task Creation
 
-    func createManualTask(task: OmniTask) async {
+    func createManualTask(task: OmniTaskCore.OmniTask) async {
         do {
             try await taskRepository.create(task)
+
+            // Post notification for toast display
+            NotificationCenter.default.post(
+                name: .taskCreated,
+                object: nil,
+                userInfo: ["tasks": [task]]
+            )
         } catch {
             showError(error.localizedDescription)
         }

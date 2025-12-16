@@ -3,15 +3,15 @@ import GRDB
 import SwiftUI
 
 /// A tag for categorizing tasks within a project
-struct Tag: Identifiable, Codable, Equatable, Hashable {
-    var id: String
-    var name: String
-    var color: String
-    var projectId: String
-    var createdAt: Date
-    var updatedAt: Date
+public struct Tag: Identifiable, Codable, Equatable, Hashable, Sendable {
+    public var id: String
+    public var name: String
+    public var color: String
+    public var projectId: String
+    public var createdAt: Date
+    public var updatedAt: Date
 
-    init(
+    public init(
         id: String = UUID().uuidString,
         name: String,
         color: String = "#6B7280",
@@ -27,7 +27,7 @@ struct Tag: Identifiable, Codable, Equatable, Hashable {
         self.updatedAt = updatedAt
     }
 
-    var swiftUIColor: Color {
+    public var swiftUIColor: Color {
         Color(hex: color)
     }
 }
@@ -35,9 +35,9 @@ struct Tag: Identifiable, Codable, Equatable, Hashable {
 // MARK: - GRDB Support
 
 extension Tag: FetchableRecord, PersistableRecord {
-    static var databaseTableName: String { "tags" }
+    public static var databaseTableName: String { "tags" }
 
-    enum Columns: String, ColumnExpression {
+    public enum Columns: String, ColumnExpression {
         case id, name, color, projectId, createdAt, updatedAt
     }
 }

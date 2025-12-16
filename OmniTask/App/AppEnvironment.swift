@@ -2,6 +2,7 @@ import Foundation
 import Combine
 import SwiftUI
 import Sparkle
+import OmniTaskCore
 
 /// Observable state for expansion anchor, shared between WindowManager and SwiftUI views
 @MainActor
@@ -25,6 +26,9 @@ final class AppEnvironment: ObservableObject {
     let taskStructuringService: TaskStructuringService
     let speechRecognitionService: SpeechRecognitionService
     let urlSchemeHandler: URLSchemeHandler
+
+    // CloudKit Sync
+    let cloudKitSyncService: CloudKitSyncService
 
     // Monitors
     let pushToTalkMonitor: PushToTalkMonitor
@@ -85,6 +89,12 @@ final class AppEnvironment: ObservableObject {
         self.speechRecognitionService = SpeechRecognitionService()
         self.urlSchemeHandler = URLSchemeHandler()
 
+        // Initialize CloudKit sync service with OmniTaskCore repositories
+        self.cloudKitSyncService = CloudKitSyncService(
+            taskRepository: taskRepository,
+            projectRepository: projectRepository
+        )
+
         // Initialize monitors
         self.pushToTalkMonitor = PushToTalkMonitor()
 
@@ -94,5 +104,11 @@ final class AppEnvironment: ObservableObject {
             updaterDelegate: nil,
             userDriverDelegate: nil
         )
+
+        // Start services
+        Task {
+            await projectRepository.createDefaultProjectsIfNeeded()
+            await cloudKitSyncService.start()
+        }
     }
 }

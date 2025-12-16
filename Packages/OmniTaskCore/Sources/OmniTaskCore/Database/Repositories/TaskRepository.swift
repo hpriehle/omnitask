@@ -3,11 +3,11 @@ import GRDB
 
 /// Repository for Task CRUD operations
 @MainActor
-final class TaskRepository: ObservableObject {
+public final class TaskRepository: ObservableObject {
     private let database: DatabaseManager
-    @Published private(set) var tasks: [OmniTask] = []
+    @Published public private(set) var tasks: [OmniTask] = []
 
-    init(database: DatabaseManager) {
+    public init(database: DatabaseManager) {
         self.database = database
         loadTasks()
     }
@@ -27,7 +27,7 @@ final class TaskRepository: ObservableObject {
 
     // MARK: - Create
 
-    func create(_ task: OmniTask) async throws {
+    public func create(_ task: OmniTask) async throws {
         print("[TaskRepository] Creating task: \"\(task.title)\"")
         print("  - Project ID: \(task.projectId ?? "none")")
         print("  - Priority: \(task.priority.displayName)")
@@ -41,7 +41,7 @@ final class TaskRepository: ObservableObject {
         loadTasks()
     }
 
-    func createMultiple(_ tasks: [OmniTask]) async throws {
+    public func createMultiple(_ tasks: [OmniTask]) async throws {
         print("[TaskRepository] Creating \(tasks.count) task(s)...")
         for task in tasks {
             print("  - \"\(task.title)\" (priority: \(task.priority.displayName), project: \(task.projectId ?? "none"))")
@@ -58,7 +58,7 @@ final class TaskRepository: ObservableObject {
 
     // MARK: - Read
 
-    func fetchAll(includeCompleted: Bool = false) async throws -> [OmniTask] {
+    public func fetchAll(includeCompleted: Bool = false) async throws -> [OmniTask] {
         try await database.asyncRead { db in
             var request = OmniTask.all()
             if !includeCompleted {
@@ -68,7 +68,7 @@ final class TaskRepository: ObservableObject {
         }
     }
 
-    func fetchByProject(_ projectId: String?, includeCompleted: Bool = false) async throws -> [OmniTask] {
+    public func fetchByProject(_ projectId: String?, includeCompleted: Bool = false) async throws -> [OmniTask] {
         try await database.asyncRead { db in
             var request: QueryInterfaceRequest<OmniTask>
             if let projectId = projectId {
@@ -83,7 +83,7 @@ final class TaskRepository: ObservableObject {
         }
     }
 
-    func fetchTodayTasks() async throws -> [OmniTask] {
+    public func fetchTodayTasks() async throws -> [OmniTask] {
         let calendar = Calendar.current
         let startOfDay = calendar.startOfDay(for: Date())
         let endOfDay = calendar.date(byAdding: .day, value: 1, to: startOfDay)!
@@ -97,7 +97,7 @@ final class TaskRepository: ObservableObject {
         }
     }
 
-    func fetchOverdueTasks() async throws -> [OmniTask] {
+    public func fetchOverdueTasks() async throws -> [OmniTask] {
         let now = Date()
         return try await database.asyncRead { db in
             try OmniTask
@@ -108,7 +108,7 @@ final class TaskRepository: ObservableObject {
         }
     }
 
-    func fetchSubtasks(for parentId: String) async throws -> [OmniTask] {
+    public func fetchSubtasks(for parentId: String) async throws -> [OmniTask] {
         try await database.asyncRead { db in
             try OmniTask
                 .filter(Column("parentTaskId") == parentId)
@@ -118,7 +118,7 @@ final class TaskRepository: ObservableObject {
     }
 
     /// Fetch subtask counts for multiple parent tasks
-    func fetchSubtaskCounts(for parentIds: [String]) async throws -> [String: (total: Int, completed: Int)] {
+    public func fetchSubtaskCounts(for parentIds: [String]) async throws -> [String: (total: Int, completed: Int)] {
         guard !parentIds.isEmpty else { return [:] }
 
         return try await database.asyncRead { db in
@@ -144,7 +144,7 @@ final class TaskRepository: ObservableObject {
     }
 
     /// Create a subtask for a parent task
-    func createSubtask(parentId: String, title: String) async throws -> OmniTask {
+    public func createSubtask(parentId: String, title: String) async throws -> OmniTask {
         // Get parent task to inherit properties
         let parent = try await database.asyncRead { db in
             try OmniTask.fetchOne(db, key: parentId)
@@ -170,7 +170,7 @@ final class TaskRepository: ObservableObject {
     }
 
     /// Check if all subtasks of a parent are completed
-    func areAllSubtasksCompleted(parentId: String) async throws -> Bool {
+    public func areAllSubtasksCompleted(parentId: String) async throws -> Bool {
         let counts = try await fetchSubtaskCounts(for: [parentId])
         guard let subtaskInfo = counts[parentId] else {
             return true // No subtasks means "all done"
@@ -179,7 +179,7 @@ final class TaskRepository: ObservableObject {
     }
 
     /// Fetch top-level tasks only (no subtasks)
-    func fetchTopLevelTasks(includeCompleted: Bool = false) async throws -> [OmniTask] {
+    public func fetchTopLevelTasks(includeCompleted: Bool = false) async throws -> [OmniTask] {
         try await database.asyncRead { db in
             var request = OmniTask
                 .filter(Column("parentTaskId") == nil)
@@ -193,7 +193,7 @@ final class TaskRepository: ObservableObject {
     }
 
     /// Fetch today's tasks including subtasks whose parent is due today
-    func fetchTodayTasksWithSubtasks() async throws -> [OmniTask] {
+    public func fetchTodayTasksWithSubtasks() async throws -> [OmniTask] {
         let calendar = Calendar.current
         let startOfDay = calendar.startOfDay(for: Date())
         let endOfDay = calendar.date(byAdding: .day, value: 1, to: startOfDay)!
@@ -232,7 +232,7 @@ final class TaskRepository: ObservableObject {
         }
     }
 
-    func fetchCompletedTasks(limit: Int = 100) async throws -> [OmniTask] {
+    public func fetchCompletedTasks(limit: Int = 100) async throws -> [OmniTask] {
         try await database.asyncRead { db in
             try OmniTask
                 .filter(Column("isCompleted") == true)
@@ -244,7 +244,7 @@ final class TaskRepository: ObservableObject {
 
     // MARK: - Update
 
-    func update(_ task: OmniTask) async throws {
+    public func update(_ task: OmniTask) async throws {
         print("[TaskRepository] update called for task: \(task.title)")
         print("[TaskRepository] Task ID: \(task.id)")
         print("[TaskRepository] Task priority: \(task.priority.displayName)")
@@ -263,26 +263,67 @@ final class TaskRepository: ObservableObject {
         print("[TaskRepository] loadTasks complete, tasks count: \(tasks.count)")
     }
 
-    func complete(_ task: OmniTask) async throws {
+    public func complete(_ task: OmniTask) async throws {
         var updatedTask = task
         updatedTask.isCompleted = true
         updatedTask.completedAt = Date()
         updatedTask.updatedAt = Date()
+        let taskToSave = updatedTask
 
         try await database.asyncWrite { db in
-            try updatedTask.update(db)
+            try taskToSave.update(db)
         }
 
-        // Handle recurring tasks
+        // Handle recurring tasks - check end conditions before creating next occurrence
         if let pattern = task.recurringPattern {
-            let nextTask = createNextRecurringTask(from: task, pattern: pattern)
-            try await create(nextTask)
+            // Increment the occurrence count
+            let updatedPattern = pattern.incrementingOccurrence()
+
+            // Only create next task if the pattern should continue
+            if updatedPattern.shouldContinue {
+                let nextTask = createNextRecurringTask(from: task, pattern: updatedPattern)
+                try await create(nextTask)
+            }
         }
 
         loadTasks()
     }
 
-    func uncomplete(_ task: OmniTask) async throws {
+    /// Complete a task and all its incomplete subtasks in a single transaction
+    public func completeWithSubtasks(_ task: OmniTask) async throws {
+        let now = Date()
+
+        try await database.asyncWrite { db in
+            // Complete the parent task
+            var updatedTask = task
+            updatedTask.isCompleted = true
+            updatedTask.completedAt = now
+            updatedTask.updatedAt = now
+            try updatedTask.update(db)
+
+            // Complete all incomplete subtasks
+            try db.execute(
+                sql: "UPDATE tasks SET isCompleted = 1, completedAt = ?, updatedAt = ? WHERE parentTaskId = ? AND isCompleted = 0",
+                arguments: [now, now, task.id]
+            )
+        }
+
+        // Handle recurring tasks - check end conditions before creating next occurrence
+        if let pattern = task.recurringPattern {
+            // Increment the occurrence count
+            let updatedPattern = pattern.incrementingOccurrence()
+
+            // Only create next task if the pattern should continue
+            if updatedPattern.shouldContinue {
+                let nextTask = createNextRecurringTask(from: task, pattern: updatedPattern)
+                try await create(nextTask)
+            }
+        }
+
+        loadTasks()
+    }
+
+    public func uncomplete(_ task: OmniTask) async throws {
         var updatedTask = task
         updatedTask.isCompleted = false
         updatedTask.completedAt = nil
@@ -290,7 +331,7 @@ final class TaskRepository: ObservableObject {
         try await update(updatedTask)
     }
 
-    func updateSortOrder(taskId: String, newOrder: Int) async throws {
+    public func updateSortOrder(taskId: String, newOrder: Int) async throws {
         try await database.asyncWrite { db in
             try db.execute(
                 sql: "UPDATE tasks SET sortOrder = ?, updatedAt = ? WHERE id = ?",
@@ -302,7 +343,7 @@ final class TaskRepository: ObservableObject {
 
     // MARK: - Delete
 
-    func delete(_ task: OmniTask) async throws {
+    public func delete(_ task: OmniTask) async throws {
         _ = try await database.asyncWrite { db in
             try task.delete(db)
         }
@@ -328,14 +369,14 @@ final class TaskRepository: ObservableObject {
 
     // MARK: - Refresh
 
-    func refresh() {
+    public func refresh() {
         loadTasks()
     }
 
     // MARK: - Current Task
 
     /// Fetch the current task (only one should exist)
-    func fetchCurrentTask() async throws -> OmniTask? {
+    public func fetchCurrentTask() async throws -> OmniTask? {
         try await database.asyncRead { db in
             try OmniTask
                 .filter(Column("isCurrentTask") == true)
@@ -345,7 +386,7 @@ final class TaskRepository: ObservableObject {
     }
 
     /// Set a task as the current task (clears any existing current task first)
-    func setCurrentTask(_ taskId: String) async throws {
+    public func setCurrentTask(_ taskId: String) async throws {
         try await database.asyncWrite { db in
             // Clear any existing current task
             try db.execute(
@@ -363,7 +404,7 @@ final class TaskRepository: ObservableObject {
     }
 
     /// Clear the current task (no task is current)
-    func clearCurrentTask() async throws {
+    public func clearCurrentTask() async throws {
         try await database.asyncWrite { db in
             try db.execute(
                 sql: "UPDATE tasks SET isCurrentTask = 0, updatedAt = ? WHERE isCurrentTask = 1",
@@ -376,7 +417,7 @@ final class TaskRepository: ObservableObject {
     // MARK: - Today Sort Order
 
     /// Update the today sort order for a task
-    func updateTodaySortOrder(_ taskId: String, order: Int) async throws {
+    public func updateTodaySortOrder(_ taskId: String, order: Int) async throws {
         try await database.asyncWrite { db in
             try db.execute(
                 sql: "UPDATE tasks SET todaySortOrder = ?, updatedAt = ? WHERE id = ?",
@@ -387,7 +428,7 @@ final class TaskRepository: ObservableObject {
     }
 
     /// Batch update today sort orders for multiple tasks
-    func updateTodaySortOrders(_ orderings: [(taskId: String, order: Int)]) async throws {
+    public func updateTodaySortOrders(_ orderings: [(taskId: String, order: Int)]) async throws {
         try await database.asyncWrite { db in
             let now = Date()
             for (taskId, order) in orderings {
@@ -401,7 +442,7 @@ final class TaskRepository: ObservableObject {
     }
 
     /// Fetch today's tasks sorted by todaySortOrder (flat list, not grouped by project)
-    func fetchTodayTasksFlat() async throws -> [OmniTask] {
+    public func fetchTodayTasksFlat() async throws -> [OmniTask] {
         let calendar = Calendar.current
         let startOfDay = calendar.startOfDay(for: Date())
         let endOfDay = calendar.date(byAdding: .day, value: 1, to: startOfDay)!
@@ -421,7 +462,7 @@ final class TaskRepository: ObservableObject {
     }
 
     /// Fetch overdue tasks (due before start of today) as flat list
-    func fetchOverdueTasksFlat() async throws -> [OmniTask] {
+    public func fetchOverdueTasksFlat() async throws -> [OmniTask] {
         let calendar = Calendar.current
         let startOfDay = calendar.startOfDay(for: Date())
 
@@ -434,5 +475,30 @@ final class TaskRepository: ObservableObject {
                 .order(Column("dueDate").asc)
                 .fetchAll(db)
         }
+    }
+
+    // MARK: - CloudKit Sync Support
+
+    /// Fetch a single task by ID
+    public func fetch(by id: String) async throws -> OmniTask? {
+        try await database.asyncRead { db in
+            try OmniTask.fetchOne(db, key: id)
+        }
+    }
+
+    /// Upsert a task from CloudKit sync (insert or update based on existence)
+    public func upsertFromCloud(_ task: OmniTask) async throws {
+        try await database.asyncWrite { db in
+            if try OmniTask.fetchOne(db, key: task.id) != nil {
+                // Update existing
+                var updatedTask = task
+                try updatedTask.update(db)
+            } else {
+                // Insert new
+                var newTask = task
+                try newTask.insert(db)
+            }
+        }
+        loadTasks()
     }
 }

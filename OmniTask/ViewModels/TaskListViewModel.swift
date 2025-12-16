@@ -1,6 +1,8 @@
 import Foundation
 import Combine
 import AppKit
+import SwiftUI
+import OmniTaskCore
 
 /// ViewModel for the task list
 @MainActor
@@ -33,10 +35,17 @@ final class TaskListViewModel: ObservableObject {
     // nil = current task in footer selected, "first" marker handled specially
     @Published var selectedTaskId: String? = nil
     @Published var isCurrentTaskSelected: Bool = true // Start with current task selected
+    @Published var scrollToTaskId: String? = nil // Triggers scroll-to-visible in views
+
+    // Pending completion confirmation state (for double-click/double-keypress pattern)
+    @Published var pendingCompletionTaskId: String? = nil
+    private var pendingCompletionTimer: Task<Void, Never>? = nil
+    private let confirmationTimeout: TimeInterval = 2.5 // seconds
 
     private let taskRepository: TaskRepository
     private let projectRepository: ProjectRepository
     private var cancellables = Set<AnyCancellable>()
+    private var skipNextObserverReload = false // Flag to skip reload after optimistic update
 
     init(taskRepository: TaskRepository, projectRepository: ProjectRepository) {
         self.taskRepository = taskRepository
@@ -46,7 +55,15 @@ final class TaskListViewModel: ObservableObject {
         taskRepository.$tasks
             .receive(on: DispatchQueue.main)
             .sink { [weak self] _ in
-                Task { await self?.loadTasks() }
+                guard let self = self else { return }
+                // Skip reload if we just did an optimistic update
+                if self.skipNextObserverReload {
+                    print("[TaskListViewModel] Observer: skipping reload (skipNextObserverReload=true)")
+                    self.skipNextObserverReload = false
+                    return
+                }
+                print("[TaskListViewModel] Observer: triggering loadTasks()")
+                Task { await self.loadTasks() }
             }
             .store(in: &cancellables)
 
@@ -102,7 +119,9 @@ final class TaskListViewModel: ObservableObject {
                 print("[TaskListViewModel] After filters & sort, Today tasks count: \(fetchedTasks.count)")
             }
 
-            tasks = fetchedTasks
+            withAnimation {
+                tasks = fetchedTasks
+            }
 
             // Load subtask counts for all parent tasks
             let parentIds = fetchedTasks.map { $0.id }
@@ -112,6 +131,13 @@ final class TaskListViewModel: ObservableObject {
             // Reload subtasks for expanded tasks
             for taskId in expandedTaskIds {
                 await loadSubtasks(for: taskId)
+            }
+
+            // Pre-load subtasks for all tasks that have them (for copy functionality)
+            for (taskId, counts) in subtaskCounts where counts.total > 0 {
+                if subtasks[taskId] == nil {
+                    await loadSubtasks(for: taskId)
+                }
             }
 
             // Load completed tasks if showCompleted is enabled
@@ -136,22 +162,32 @@ final class TaskListViewModel: ObservableObject {
     // MARK: - Actions
 
     func completeTask(_ task: OmniTask) async {
-        // Prevent completing parent tasks with incomplete subtasks
-        if !canCompleteParent(task.id) {
-            errorMessage = "Complete all subtasks first"
-            return
-        }
-
-        do {
-            try await taskRepository.complete(task)
-        } catch {
-            errorMessage = error.localizedDescription
-        }
+        print("[TaskListViewModel] completeTask called for: '\(task.title)' (id: \(task.id))")
+        // Use confirmation flow for tasks with incomplete subtasks
+        let result = await attemptCompletion(for: task)
+        print("[TaskListViewModel] completeTask - attemptCompletion returned: \(result)")
     }
 
     func uncompleteTask(_ task: OmniTask) async {
         do {
             try await taskRepository.uncomplete(task)
+
+            // If this is a subtask, update it in the local subtasks array
+            if let parentId = task.parentTaskId {
+                skipNextObserverReload = true
+                if var parentSubtasks = subtasks[parentId],
+                   let index = parentSubtasks.firstIndex(where: { $0.id == task.id }) {
+                    var updated = parentSubtasks[index]
+                    updated.isCompleted = false
+                    updated.completedAt = nil
+                    parentSubtasks[index] = updated
+                    subtasks[parentId] = parentSubtasks
+                    print("[TaskListViewModel] uncompleteTask: updated subtask in place at index \(index)")
+                }
+                // Update subtask counts
+                let counts = try await taskRepository.fetchSubtaskCounts(for: [parentId])
+                subtaskCounts[parentId] = counts[parentId]
+            }
         } catch {
             errorMessage = error.localizedDescription
         }
@@ -493,24 +529,72 @@ final class TaskListViewModel: ObservableObject {
 
     /// Create a new subtask
     func createSubtask(parentId: String, title: String) async {
-        guard !title.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty else {
+        print("[TaskListViewModel] createSubtask called for parent: \(parentId), title: \(title)")
+
+        let trimmedTitle = title.trimmingCharacters(in: .whitespacesAndNewlines)
+        guard !trimmedTitle.isEmpty else {
+            print("[TaskListViewModel] createSubtask: empty title, canceling")
             addingSubtaskToTaskId = nil
             return
         }
 
+        // Optimistic update: add subtask locally first to prevent scroll jump
+        let optimisticSubtask = OmniTask(
+            title: trimmedTitle,
+            parentTaskId: parentId
+        )
+        print("[TaskListViewModel] createSubtask: created optimistic subtask with id: \(optimisticSubtask.id)")
+
+        // Add to local subtasks array
+        if subtasks[parentId] != nil {
+            subtasks[parentId]?.append(optimisticSubtask)
+            print("[TaskListViewModel] createSubtask: appended to existing subtasks array, count now: \(subtasks[parentId]?.count ?? 0)")
+        } else {
+            subtasks[parentId] = [optimisticSubtask]
+            print("[TaskListViewModel] createSubtask: created new subtasks array for parent")
+        }
+
+        // Update local subtask count
+        if let currentCount = subtaskCounts[parentId] {
+            subtaskCounts[parentId] = (total: currentCount.total + 1, completed: currentCount.completed)
+            print("[TaskListViewModel] createSubtask: updated subtaskCounts to \(currentCount.total + 1)")
+        } else {
+            subtaskCounts[parentId] = (total: 1, completed: 0)
+            print("[TaskListViewModel] createSubtask: initialized subtaskCounts to 1")
+        }
+
+        // Skip the next observer reload since we already updated locally
+        skipNextObserverReload = true
+        print("[TaskListViewModel] createSubtask: set skipNextObserverReload = true")
+
+        addingSubtaskToTaskId = nil
+        print("[TaskListViewModel] createSubtask: cleared addingSubtaskToTaskId")
+
         do {
-            _ = try await taskRepository.createSubtask(parentId: parentId, title: title)
-            addingSubtaskToTaskId = nil
-            // Reload subtasks for this parent
-            await loadSubtasks(for: parentId)
-            // Update subtask counts
-            let counts = try await taskRepository.fetchSubtaskCounts(for: [parentId])
-            if let count = counts[parentId] {
-                subtaskCounts[parentId] = count
+            // Create in repository (will trigger observer but we skip the reload)
+            print("[TaskListViewModel] createSubtask: calling repository.createSubtask...")
+            let createdSubtask = try await taskRepository.createSubtask(parentId: parentId, title: trimmedTitle)
+            print("[TaskListViewModel] createSubtask: repository returned subtask with id: \(createdSubtask.id)")
+
+            // Replace optimistic subtask with the real one (has correct ID from DB)
+            if var parentSubtasks = subtasks[parentId],
+               let index = parentSubtasks.firstIndex(where: { $0.id == optimisticSubtask.id }) {
+                parentSubtasks[index] = createdSubtask
+                subtasks[parentId] = parentSubtasks
+                print("[TaskListViewModel] createSubtask: replaced optimistic subtask with real one at index \(index)")
+            } else {
+                print("[TaskListViewModel] createSubtask: WARNING - could not find optimistic subtask to replace")
             }
         } catch {
+            print("[TaskListViewModel] createSubtask: ERROR - \(error.localizedDescription)")
+            // Rollback optimistic update on error
+            subtasks[parentId]?.removeAll { $0.id == optimisticSubtask.id }
+            if let currentCount = subtaskCounts[parentId], currentCount.total > 0 {
+                subtaskCounts[parentId] = (total: currentCount.total - 1, completed: currentCount.completed)
+            }
             errorMessage = error.localizedDescription
         }
+        print("[TaskListViewModel] createSubtask: completed")
     }
 
     /// Check if currently adding subtask to a specific task
@@ -524,6 +608,111 @@ final class TaskListViewModel: ObservableObject {
             return true // No subtasks, can complete
         }
         return counts.completed == counts.total
+    }
+
+    // MARK: - Completion Confirmation Flow
+
+    /// Check if completing a task requires confirmation (has incomplete subtasks)
+    func needsCompletionConfirmation(_ taskId: String) -> Bool {
+        guard let counts = subtaskCounts[taskId], counts.total > 0 else {
+            print("[TaskListViewModel] needsCompletionConfirmation(\(taskId)): NO - no subtasks")
+            return false // No subtasks, no confirmation needed
+        }
+        let needsConfirmation = counts.completed < counts.total
+        print("[TaskListViewModel] needsCompletionConfirmation(\(taskId)): \(needsConfirmation) - \(counts.completed)/\(counts.total) completed")
+        return needsConfirmation // Has incomplete subtasks
+    }
+
+    /// Clear pending completion state
+    func clearPendingCompletion() {
+        print("[TaskListViewModel] clearPendingCompletion() - was: \(pendingCompletionTaskId ?? "nil")")
+        pendingCompletionTimer?.cancel()
+        pendingCompletionTimer = nil
+        pendingCompletionTaskId = nil
+    }
+
+    /// Set pending completion state with timeout
+    private func setPendingCompletion(taskId: String) {
+        print("[TaskListViewModel] setPendingCompletion(\(taskId)) - starting \(confirmationTimeout)s timeout")
+        // Cancel any existing timer
+        pendingCompletionTimer?.cancel()
+
+        pendingCompletionTaskId = taskId
+        print("[TaskListViewModel] pendingCompletionTaskId set to: \(taskId)")
+
+        // Start timeout timer
+        pendingCompletionTimer = Task {
+            try? await Task.sleep(nanoseconds: UInt64(confirmationTimeout * 1_000_000_000))
+            await MainActor.run {
+                if self.pendingCompletionTaskId == taskId {
+                    print("[TaskListViewModel] Timeout expired - clearing pendingCompletionTaskId")
+                    self.pendingCompletionTaskId = nil
+                }
+            }
+        }
+    }
+
+    /// Attempt to complete a task with confirmation flow
+    /// Returns: true if completed immediately or confirmed, false if pending confirmation
+    private func attemptCompletion(for task: OmniTask) async -> Bool {
+        print("[TaskListViewModel] attemptCompletion called for task: '\(task.title)' (id: \(task.id))")
+        print("[TaskListViewModel] - pendingCompletionTaskId: \(pendingCompletionTaskId ?? "nil")")
+
+        // Check if this task needs confirmation
+        if !needsCompletionConfirmation(task.id) {
+            print("[TaskListViewModel] No confirmation needed - completing immediately")
+            clearPendingCompletion()
+            // Complete immediately - optimistically remove from UI first to prevent scroll jump
+            removeTaskFromLocalArrays(task.id)
+            do {
+                try await taskRepository.complete(task)
+                print("[TaskListViewModel] Task completed successfully")
+                return true
+            } catch {
+                print("[TaskListViewModel] ERROR completing task: \(error)")
+                errorMessage = error.localizedDescription
+                // Reload to restore task if completion failed
+                await loadTasks()
+                return false
+            }
+        }
+
+        // Check if this is the second click on the same task (confirmation)
+        if pendingCompletionTaskId == task.id {
+            print("[TaskListViewModel] CONFIRMATION DETECTED - second click on same task")
+            clearPendingCompletion()
+            // Confirmed - complete with all subtasks - optimistically remove from UI first
+            removeTaskFromLocalArrays(task.id)
+            do {
+                print("[TaskListViewModel] Completing task WITH subtasks...")
+                try await taskRepository.completeWithSubtasks(task)
+                // Refresh subtask counts since they're now complete
+                let counts = try await taskRepository.fetchSubtaskCounts(for: [task.id])
+                subtaskCounts[task.id] = counts[task.id]
+                print("[TaskListViewModel] Task + subtasks completed successfully")
+                return true
+            } catch {
+                print("[TaskListViewModel] ERROR completing task with subtasks: \(error)")
+                errorMessage = error.localizedDescription
+                // Reload to restore task if completion failed
+                await loadTasks()
+                return false
+            }
+        }
+
+        // First click - set pending state and wait for confirmation
+        print("[TaskListViewModel] FIRST CLICK - setting pending state for confirmation")
+        setPendingCompletion(taskId: task.id)
+        return false
+    }
+
+    /// Remove a task from local arrays without triggering full reload
+    private func removeTaskFromLocalArrays(_ taskId: String) {
+        // Set flag to skip the next observer-triggered reload
+        skipNextObserverReload = true
+        todayTasksFlat.removeAll { $0.id == taskId }
+        overdueTasks.removeAll { $0.id == taskId }
+        tasks.removeAll { $0.id == taskId }
     }
 
     /// Delete a subtask
@@ -546,15 +735,29 @@ final class TaskListViewModel: ObservableObject {
     func completeSubtask(_ subtask: OmniTask) async {
         guard let parentId = subtask.parentTaskId else { return }
 
+        // Set flag to skip the next observer-triggered reload
+        skipNextObserverReload = true
+
+        // Update subtask in place (don't remove - keep visible with completed state)
+        if var parentSubtasks = subtasks[parentId],
+           let index = parentSubtasks.firstIndex(where: { $0.id == subtask.id }) {
+            var updated = parentSubtasks[index]
+            updated.isCompleted = true
+            updated.completedAt = Date()
+            parentSubtasks[index] = updated
+            subtasks[parentId] = parentSubtasks
+            print("[TaskListViewModel] completeSubtask: updated subtask in place at index \(index)")
+        }
+
         do {
             try await taskRepository.complete(subtask)
-            // Reload subtasks for this parent
-            await loadSubtasks(for: parentId)
             // Update subtask counts
             let counts = try await taskRepository.fetchSubtaskCounts(for: [parentId])
             subtaskCounts[parentId] = counts[parentId]
         } catch {
             errorMessage = error.localizedDescription
+            // Reload subtasks to restore on error
+            await loadSubtasks(for: parentId)
         }
     }
 
@@ -622,20 +825,19 @@ final class TaskListViewModel: ObservableObject {
         }
         print("[TaskListViewModel] Completing task: \(current.title)")
 
-        // Prevent completing if subtasks are incomplete
-        if !canCompleteParent(current.id) {
-            print("[TaskListViewModel] ERROR: Cannot complete - subtasks incomplete")
-            errorMessage = "Complete all subtasks first"
-            // Auto-clear error after 3 seconds
-            Task {
-                try? await Task.sleep(nanoseconds: 3_000_000_000)
-                await MainActor.run {
-                    if errorMessage == "Complete all subtasks first" {
-                        errorMessage = nil
-                    }
-                }
+        // Check if this task needs confirmation (has incomplete subtasks)
+        if needsCompletionConfirmation(current.id) {
+            // Check if this is the second click (confirmation)
+            if pendingCompletionTaskId == current.id {
+                print("[TaskListViewModel] Second click - confirming completion with subtasks")
+                clearPendingCompletion()
+                // Continue to complete with subtasks below
+            } else {
+                // First click - set pending state
+                print("[TaskListViewModel] First click - setting pending confirmation")
+                setPendingCompletion(taskId: current.id)
+                return false
             }
-            return false
         }
 
         // Trigger confetti + sound
@@ -663,9 +865,13 @@ final class TaskListViewModel: ObservableObject {
         print("[TaskListViewModel] Confetti delay complete, proceeding with task completion")
 
         do {
-            // Complete the task
+            // Complete the task (with subtasks if it has any incomplete ones)
             print("[TaskListViewModel] Completing task in repository...")
-            try await taskRepository.complete(current)
+            if needsCompletionConfirmation(current.id) || hasSubtasks(current.id) {
+                try await taskRepository.completeWithSubtasks(current)
+            } else {
+                try await taskRepository.complete(current)
+            }
             print("[TaskListViewModel] Task completed in repository")
 
             // Get the next task in today's list
@@ -705,8 +911,12 @@ final class TaskListViewModel: ObservableObject {
     /// Also loads overdue tasks separately for the overdue section
     func loadTodayTasksFlat() async {
         do {
-            todayTasksFlat = try await taskRepository.fetchTodayTasksFlat()
-            overdueTasks = try await taskRepository.fetchOverdueTasksFlat()
+            let newTodayTasks = try await taskRepository.fetchTodayTasksFlat()
+            let newOverdueTasks = try await taskRepository.fetchOverdueTasksFlat()
+            withAnimation {
+                todayTasksFlat = newTodayTasks
+                overdueTasks = newOverdueTasks
+            }
             print("[TaskListViewModel] Loaded \(todayTasksFlat.count) today tasks, \(overdueTasks.count) overdue tasks (flat)")
         } catch {
             print("[TaskListViewModel] Error loading today tasks flat: \(error)")
@@ -735,22 +945,37 @@ final class TaskListViewModel: ObservableObject {
     // MARK: - Keyboard Navigation
 
     /// Get a flat list of all navigable tasks (including expanded subtasks)
+    /// This matches the exact order tasks are rendered in the UI
     func getNavigableTaskList() -> [OmniTask] {
         var result: [OmniTask] = []
 
-        // Use todayTasksFlat for Today view, tasks for other views
-        let taskList = selectedProjectId == nil ? todayTasksFlat : tasks
-
-        for task in taskList {
-            // Skip current task (it's in footer)
-            if isCurrentTask(task.id) { continue }
-
-            result.append(task)
-
-            // If expanded, add subtasks
-            if isExpanded(task.id) {
-                let taskSubtasks = subtasksFor(task.id)
-                result.append(contentsOf: taskSubtasks)
+        if selectedProjectId == nil {
+            // Today view - use todayTasksFlat then overdueTasks (matches UI order)
+            for task in todayTasksFlat {
+                if isCurrentTask(task.id) { continue }
+                result.append(task)
+                if isExpanded(task.id) {
+                    result.append(contentsOf: subtasksFor(task.id))
+                }
+            }
+            // Include overdue tasks (shown in separate section below today tasks)
+            for task in overdueTasks {
+                if isCurrentTask(task.id) { continue }
+                result.append(task)
+                if isExpanded(task.id) {
+                    result.append(contentsOf: subtasksFor(task.id))
+                }
+            }
+        } else {
+            // All view / Project view - use groupedTasks order (sorted by project sortOrder)
+            for group in groupedTasks {
+                for task in group.tasks {
+                    if isCurrentTask(task.id) { continue }
+                    result.append(task)
+                    if isExpanded(task.id) {
+                        result.append(contentsOf: subtasksFor(task.id))
+                    }
+                }
             }
         }
 
@@ -766,6 +991,7 @@ final class TaskListViewModel: ObservableObject {
             // Moving from current task footer to first task in list
             isCurrentTaskSelected = false
             selectedTaskId = navigable.first?.id
+            scrollToTaskId = selectedTaskId
             print("[TaskListViewModel] Selected first task from current task")
             return
         }
@@ -774,6 +1000,7 @@ final class TaskListViewModel: ObservableObject {
               let currentIndex = navigable.firstIndex(where: { $0.id == currentId }) else {
             // No selection, select first task
             selectedTaskId = navigable.first?.id
+            scrollToTaskId = selectedTaskId
             isCurrentTaskSelected = false
             return
         }
@@ -781,6 +1008,7 @@ final class TaskListViewModel: ObservableObject {
         let nextIndex = currentIndex + 1
         if nextIndex < navigable.count {
             selectedTaskId = navigable[nextIndex].id
+            scrollToTaskId = selectedTaskId
             print("[TaskListViewModel] Selected next task at index \(nextIndex)")
         }
         // At end of list, don't wrap
@@ -808,6 +1036,7 @@ final class TaskListViewModel: ObservableObject {
             print("[TaskListViewModel] Selected current task in footer from first task")
         } else {
             selectedTaskId = navigable[currentIndex - 1].id
+            scrollToTaskId = selectedTaskId
             print("[TaskListViewModel] Selected previous task at index \(currentIndex - 1)")
         }
     }
@@ -851,10 +1080,12 @@ final class TaskListViewModel: ObservableObject {
             // Select next task after completion
             selectNextTask()
         } else {
-            // Completing a regular task
-            await completeTask(task)
-            // Select next task after completion
-            selectNextTask()
+            // Completing a regular task - use confirmation flow
+            let completed = await attemptCompletion(for: task)
+            // Only select next task if actually completed (not just pending)
+            if completed {
+                selectNextTask()
+            }
         }
     }
 

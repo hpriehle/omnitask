@@ -1,14 +1,15 @@
 import SwiftUI
+import OmniTaskCore
 
 /// A simplified row view for completed tasks
 struct CompletedTaskRowView: View {
     let task: OmniTask
-    let projects: [Project]
+    let projects: [OmniTaskCore.Project]
     let onUncomplete: () -> Void
 
     @State private var isHovered = false
 
-    private var project: Project? {
+    private var project: OmniTaskCore.Project? {
         projects.first { $0.id == task.projectId }
     }
 
@@ -55,6 +56,9 @@ struct CompletedTaskRowView: View {
         .onHover { hovering in
             isHovered = hovering
         }
+        .contextMenu {
+            CompletedTaskContextMenu(task: task)
+        }
     }
 }
 
@@ -79,7 +83,7 @@ struct CompletedTaskRowView: View {
                 isCompleted: true,
                 completedAt: Date().addingTimeInterval(-86400)
             ),
-            projects: [Project(id: "1", name: "Work", color: "#3B82F6")],
+            projects: [OmniTaskCore.Project(id: "1", name: "Work", color: "#3B82F6")],
             onUncomplete: {}
         )
     }

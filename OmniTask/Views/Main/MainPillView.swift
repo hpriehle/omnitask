@@ -1,4 +1,5 @@
 import SwiftUI
+import OmniTaskCore
 
 /// Root view for the floating pill - switches between collapsed and expanded states
 struct MainPillView: View {
@@ -8,6 +9,7 @@ struct MainPillView: View {
     @State private var taskListVM: TaskListViewModel?
     @State private var taskInputVM: TaskInputViewModel?
     @State private var projectVM: ProjectViewModel?
+    @State private var toastVM = ToastViewModel()
     @State private var isInitialized = false
 
     var body: some View {
@@ -25,13 +27,15 @@ struct MainPillView: View {
                             isExpanded: $isExpanded,
                             taskListVM: taskListVM,
                             taskInputVM: taskInputVM,
-                            projectVM: projectVM
+                            projectVM: projectVM,
+                            toastVM: toastVM
                         )
                         .transition(.asymmetric(
                             insertion: .scale(scale: 0.8, anchor: anchor).combined(with: .opacity),
                             removal: .scale(scale: 0.8, anchor: anchor).combined(with: .opacity)
                         ))
                     } else {
+                        // Pill with toast overlay - pill defines size, toast floats above
                         CollapsedPillView(
                             isExpanded: $isExpanded,
                             taskCount: taskListVM.todayTaskCount,
@@ -52,6 +56,29 @@ struct MainPillView: View {
                                 )
                             }
                         )
+                        .overlay(alignment: .top) {
+                            CompactToastContainerView(
+                                viewModel: toastVM,
+                                onExpandAndNavigate: { task in
+                                    // Expand pill first, then navigate
+                                    withAnimation(.spring(response: 0.35, dampingFraction: 0.8)) {
+                                        isExpanded = true
+                                    }
+                                    // Navigate after expansion animation
+                                    DispatchQueue.main.asyncAfter(deadline: .now() + 0.4) {
+                                        if let projectId = task.projectId {
+                                            projectVM.selectedProjectId = projectId
+                                        } else {
+                                            projectVM.selectAll()
+                                        }
+                                        DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) {
+                                            taskListVM.selectedTaskId = task.id
+                                        }
+                                    }
+                                }
+                            )
+                            .offset(y: -44) // Position above pill
+                        }
                         .transition(.asymmetric(
                             insertion: .scale(scale: 1.2, anchor: anchor).combined(with: .opacity),
                             removal: .scale(scale: 1.2, anchor: anchor).combined(with: .opacity)
@@ -117,6 +144,7 @@ extension Notification.Name {
     static let hidePillRequested = Notification.Name("hidePillRequested")
     static let pillSizeChanged = Notification.Name("pillSizeChanged")
     static let focusTaskInput = Notification.Name("focusTaskInput")
+    static let taskCreated = Notification.Name("taskCreated")
 }
 
 // MARK: - Preview

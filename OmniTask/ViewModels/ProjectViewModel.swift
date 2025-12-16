@@ -1,10 +1,11 @@
 import Foundation
 import Combine
+import OmniTaskCore
 
 /// ViewModel for project management
 @MainActor
 final class ProjectViewModel: ObservableObject {
-    @Published var projects: [Project] = []
+    @Published var projects: [OmniTaskCore.Project] = []
     @Published var selectedProjectId: String? // nil = Today view
     @Published var isLoading = false
     @Published var errorMessage: String?
@@ -23,7 +24,7 @@ final class ProjectViewModel: ObservableObject {
 
     // MARK: - Selection
 
-    func selectProject(_ project: Project?) {
+    func selectProject(_ project: OmniTaskCore.Project?) {
         selectedProjectId = project?.id
     }
 
@@ -42,14 +43,14 @@ final class ProjectViewModel: ObservableObject {
         selectedProjectId = projects[index].id
     }
 
-    var selectedProject: Project? {
+    var selectedProject: OmniTaskCore.Project? {
         projects.first { $0.id == selectedProjectId }
     }
 
     // MARK: - CRUD Operations
 
     func createProject(name: String, description: String?, color: String?) async {
-        let project = Project(
+        let project = OmniTaskCore.Project(
             name: name,
             description: description,
             color: color,
@@ -63,7 +64,7 @@ final class ProjectViewModel: ObservableObject {
         }
     }
 
-    func updateProject(_ project: Project) async {
+    func updateProject(_ project: OmniTaskCore.Project) async {
         do {
             try await projectRepository.update(project)
         } catch {
@@ -71,7 +72,7 @@ final class ProjectViewModel: ObservableObject {
         }
     }
 
-    func archiveProject(_ project: Project) async {
+    func archiveProject(_ project: OmniTaskCore.Project) async {
         do {
             try await projectRepository.archive(project)
         } catch {
@@ -79,7 +80,7 @@ final class ProjectViewModel: ObservableObject {
         }
     }
 
-    func deleteProject(_ project: Project) async {
+    func deleteProject(_ project: OmniTaskCore.Project) async {
         do {
             try await projectRepository.delete(project)
 
@@ -97,7 +98,7 @@ final class ProjectViewModel: ObservableObject {
         reordered.move(fromOffsets: source, toOffset: destination)
 
         // Update sort orders, keeping Unsorted at 999
-        var updatedProjects: [Project] = []
+        var updatedProjects: [OmniTaskCore.Project] = []
         for (index, var project) in reordered.enumerated() {
             if project.name == "Unsorted" {
                 project.sortOrder = 999

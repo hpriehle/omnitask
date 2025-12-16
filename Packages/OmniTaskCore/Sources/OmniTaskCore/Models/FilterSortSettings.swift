@@ -1,7 +1,7 @@
 import Foundation
 
 /// Sort options for task list
-enum SortOption: String, Codable, CaseIterable {
+public enum SortOption: String, Codable, CaseIterable, Sendable {
     case dueDateAsc = "due_date_asc"
     case dueDateDesc = "due_date_desc"
     case priorityAsc = "priority_asc"
@@ -11,7 +11,7 @@ enum SortOption: String, Codable, CaseIterable {
     case createdAsc = "created_asc"
     case createdDesc = "created_desc"
 
-    var displayName: String {
+    public var displayName: String {
         switch self {
         case .dueDateAsc: return "Due Date ↑"
         case .dueDateDesc: return "Due Date ↓"
@@ -26,7 +26,7 @@ enum SortOption: String, Codable, CaseIterable {
 }
 
 /// Due date filter presets
-enum DueDateFilter: String, Codable, CaseIterable {
+public enum DueDateFilter: String, Codable, CaseIterable, Sendable {
     case all = "all"
     case overdue = "overdue"
     case today = "today"
@@ -34,7 +34,7 @@ enum DueDateFilter: String, Codable, CaseIterable {
     case thisMonth = "this_month"
     case noDueDate = "no_due_date"
 
-    var displayName: String {
+    public var displayName: String {
         switch self {
         case .all: return "All"
         case .overdue: return "Overdue"
@@ -47,14 +47,26 @@ enum DueDateFilter: String, Codable, CaseIterable {
 }
 
 /// Filter and sort settings for task list
-struct FilterSortSettings: Codable, Equatable {
-    var sortOption: SortOption
-    var showCompleted: Bool
-    var selectedPriorities: Set<Priority>
-    var dueDateFilter: DueDateFilter
+public struct FilterSortSettings: Codable, Equatable, Sendable {
+    public var sortOption: SortOption
+    public var showCompleted: Bool
+    public var selectedPriorities: Set<Priority>
+    public var dueDateFilter: DueDateFilter
+
+    public init(
+        sortOption: SortOption = .dueDateAsc,
+        showCompleted: Bool = false,
+        selectedPriorities: Set<Priority> = Set(Priority.allCases),
+        dueDateFilter: DueDateFilter = .all
+    ) {
+        self.sortOption = sortOption
+        self.showCompleted = showCompleted
+        self.selectedPriorities = selectedPriorities
+        self.dueDateFilter = dueDateFilter
+    }
 
     /// Default settings (no filters active)
-    static let `default` = FilterSortSettings(
+    public static let `default` = FilterSortSettings(
         sortOption: .dueDateAsc,
         showCompleted: false,
         selectedPriorities: Set(Priority.allCases),
@@ -62,7 +74,7 @@ struct FilterSortSettings: Codable, Equatable {
     )
 
     /// Check if any non-default filters/sort are active
-    var hasActiveFilters: Bool {
+    public var hasActiveFilters: Bool {
         sortOption != .dueDateAsc ||
         showCompleted ||
         selectedPriorities != Set(Priority.allCases) ||
@@ -70,14 +82,14 @@ struct FilterSortSettings: Codable, Equatable {
     }
 
     /// Reset to default settings
-    mutating func reset() {
+    public mutating func reset() {
         self = .default
     }
 }
 
 // MARK: - UserDefaults Persistence
 
-extension FilterSortSettings {
+public extension FilterSortSettings {
     private static let userDefaultsKey = "filterSortSettings"
 
     /// Save settings to UserDefaults
@@ -107,7 +119,7 @@ extension FilterSortSettings {
         case dueDateFilter
     }
 
-    init(from decoder: Decoder) throws {
+    public init(from decoder: Decoder) throws {
         let container = try decoder.container(keyedBy: CodingKeys.self)
         sortOption = try container.decode(SortOption.self, forKey: .sortOption)
         showCompleted = try container.decode(Bool.self, forKey: .showCompleted)
@@ -116,7 +128,7 @@ extension FilterSortSettings {
         dueDateFilter = try container.decode(DueDateFilter.self, forKey: .dueDateFilter)
     }
 
-    func encode(to encoder: Encoder) throws {
+    public func encode(to encoder: Encoder) throws {
         var container = encoder.container(keyedBy: CodingKeys.self)
         try container.encode(sortOption, forKey: .sortOption)
         try container.encode(showCompleted, forKey: .showCompleted)

@@ -46,6 +46,13 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
                 print("[AppDelegate] Default projects check complete")
             }
         }
+
+        // Start CloudKit sync service
+        Task {
+            print("[AppDelegate] Starting CloudKit sync service...")
+            await environment.cloudKitSyncService.start()
+            print("[AppDelegate] CloudKit sync service started")
+        }
     }
 
     func applicationShouldTerminateAfterLastWindowClosed(_ sender: NSApplication) -> Bool {

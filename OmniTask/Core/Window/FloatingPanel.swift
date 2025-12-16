@@ -39,6 +39,9 @@ final class FloatingPanel: NSPanel {
 
         configurePanel()
         self.contentView = hostingView
+
+        // Disable clipping to allow content (like toasts) to render outside bounds
+        hostingView.layer?.masksToBounds = false
     }
 
     private func configurePanel() {
@@ -152,15 +155,19 @@ final class FloatingPanel: NSPanel {
 
         let newFrame = NSRect(origin: newOrigin, size: size)
         print("[FloatingPanel] Resizing from \(currentFrame) to \(newFrame) with anchor: \(anchor)")
+        print("[FloatingPanel] Origin change: (\(currentFrame.origin.x), \(currentFrame.origin.y)) -> (\(newOrigin.x), \(newOrigin.y))")
 
         if animated {
-            NSAnimationContext.runAnimationGroup { context in
+            NSAnimationContext.runAnimationGroup({ context in
                 context.duration = 0.35
                 context.timingFunction = CAMediaTimingFunction(name: .easeOut)
-                animator().setFrame(newFrame, display: true)
-            }
+                self.animator().setFrame(newFrame, display: true)
+            }, completionHandler: { [weak self] in
+                print("[FloatingPanel] Animation complete, actual frame: \(self?.frame ?? .zero)")
+            })
         } else {
             setFrame(newFrame, display: true)
+            print("[FloatingPanel] Immediate resize complete, actual frame: \(frame)")
         }
     }
 

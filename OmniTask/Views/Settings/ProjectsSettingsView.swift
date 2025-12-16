@@ -1,4 +1,5 @@
 import SwiftUI
+import OmniTaskCore
 
 /// Projects management view for Settings
 struct ProjectsSettingsView: View {

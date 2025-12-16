@@ -16,16 +16,6 @@
 	<string>$(PRODUCT_BUNDLE_PACKAGE_TYPE)</string>
 	<key>CFBundleShortVersionString</key>
 	<string>$(MARKETING_VERSION)</string>
-	<key>CFBundleVersion</key>
-	<string>$(CURRENT_PROJECT_VERSION)</string>
-	<key>LSMinimumSystemVersion</key>
-	<string>$(MACOSX_DEPLOYMENT_TARGET)</string>
-	<key>LSUIElement</key>
-	<true/>
-	<key>NSMicrophoneUsageDescription</key>
-	<string>OmniTask uses the microphone for voice-to-task input. Hold the Option key and speak to create tasks hands-free.</string>
-	<key>NSSpeechRecognitionUsageDescription</key>
-	<string>OmniTask uses speech recognition to convert your voice into text for creating tasks.</string>
 	<key>CFBundleURLTypes</key>
 	<array>
 		<dict>
@@ -37,10 +27,20 @@
 			</array>
 		</dict>
 	</array>
+	<key>CFBundleVersion</key>
+	<string>$(CURRENT_PROJECT_VERSION)</string>
+	<key>LSMinimumSystemVersion</key>
+	<string>$(MACOSX_DEPLOYMENT_TARGET)</string>
+	<key>LSUIElement</key>
+	<true/>
+	<key>NSMicrophoneUsageDescription</key>
+	<string>OmniTask uses the microphone for voice-to-task input. Hold the Option key and speak to create tasks hands-free.</string>
 	<key>NSPrincipalClass</key>
 	<string>NSApplication</string>
+	<key>NSSpeechRecognitionUsageDescription</key>
+	<string>OmniTask uses speech recognition to convert your voice into text for creating tasks.</string>
 	<key>SUFeedURL</key>
-	<string>https://harrisonriehle.github.io/omnitask-releases/appcast.xml</string>
+	<string>https://hpriehle.github.io/omnitask/appcast.xml</string>
 	<key>SUPublicEDKey</key>
 	<string>VcV9HjHTw5b2S5+bgS9U0R9xp0LRrV28OGQbmPXfjg8=</string>
 </dict>

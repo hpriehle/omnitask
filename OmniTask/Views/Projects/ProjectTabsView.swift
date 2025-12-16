@@ -1,8 +1,9 @@
 import SwiftUI
+import OmniTaskCore
 
 /// Horizontal scrollable project tabs
 struct ProjectTabsView: View {
-    let projects: [Project]
+    let projects: [OmniTaskCore.Project]
     @Binding var selectedProjectId: String?
     let onAddProject: () -> Void
 
@@ -104,9 +105,9 @@ struct ProjectTab: View {
     VStack {
         ProjectTabsView(
             projects: [
-                Project(name: "Work", color: "#3B82F6"),
-                Project(name: "Personal", color: "#10B981"),
-                Project(name: "Unsorted", color: "#6B7280")
+                OmniTaskCore.Project(name: "Work", color: "#3B82F6"),
+                OmniTaskCore.Project(name: "Personal", color: "#10B981"),
+                OmniTaskCore.Project(name: "Unsorted", color: "#6B7280")
             ],
             selectedProjectId: .constant(nil),
             onAddProject: {}
@@ -114,8 +115,8 @@ struct ProjectTab: View {
 
         ProjectTabsView(
             projects: [
-                Project(id: "1", name: "Work", color: "#3B82F6"),
-                Project(name: "Personal", color: "#10B981")
+                OmniTaskCore.Project(id: "1", name: "Work", color: "#3B82F6"),
+                OmniTaskCore.Project(name: "Personal", color: "#10B981")
             ],
             selectedProjectId: .constant("1"),
             onAddProject: {}

@@ -1,10 +1,11 @@
 import SwiftUI
+import OmniTaskCore
 
 /// Sticky footer showing the current task with yellow border
 /// Always visible at the bottom of the task list regardless of tab or scroll position
 struct CurrentTaskFooter: View {
     let task: OmniTask
-    let projects: [Project]
+    let projects: [OmniTaskCore.Project]
     let onComplete: () async -> Bool
     let onEdit: () -> Void
     let onUnstar: () -> Void
@@ -22,6 +23,7 @@ struct CurrentTaskFooter: View {
 
     // Completion validation
     var canComplete: Bool = true
+    var isPendingConfirmation: Bool = false // Waiting for second click to confirm completion
 
     @State private var isHovered = false
     @State private var isCompleting = false
@@ -41,7 +43,8 @@ struct CurrentTaskFooter: View {
         onCompleteSubtask: ((OmniTask) -> Void)? = nil,
         onUpdateSubtask: ((OmniTask) -> Void)? = nil,
         isKeyboardSelected: Bool = false,
-        canComplete: Bool = true
+        canComplete: Bool = true,
+        isPendingConfirmation: Bool = false
     ) {
         self.task = task
         self.projects = projects
@@ -56,6 +59,7 @@ struct CurrentTaskFooter: View {
         self.onUpdateSubtask = onUpdateSubtask
         self.isKeyboardSelected = isKeyboardSelected
         self.canComplete = canComplete
+        self.isPendingConfirmation = isPendingConfirmation
         self._editableTask = State(initialValue: task)
     }
 
@@ -63,16 +67,15 @@ struct CurrentTaskFooter: View {
         VStack(spacing: 0) {
             // Main footer row
             HStack(alignment: .center, spacing: 10) {
-                // Checkbox
+                // Checkbox with confirmation tooltip overlay
                 Button(action: completeWithAnimation) {
                     Image(systemName: task.isCompleted ? "checkmark.circle.fill" : "circle")
                         .font(.system(size: 18))
-                        .foregroundColor(task.isCompleted ? .green : (canComplete ? .secondary : .secondary.opacity(0.5)))
+                        .foregroundColor(task.isCompleted ? .green : checkboxColor)
                         .scaleEffect(isCompleting ? 1.2 : 1.0)
                 }
                 .buttonStyle(.plain)
-                .disabled(isCompleting || !canComplete)
-                .help(canComplete ? "" : "Complete all subtasks first")
+                .disabled(isCompleting)
 
                 // Content
                 VStack(alignment: .leading, spacing: 4) {
@@ -179,6 +182,15 @@ struct CurrentTaskFooter: View {
             }
         }
         .opacity(isCompleting ? 0.5 : 1.0)
+        .overlay(alignment: .top) {
+            ConfirmationTooltip(
+                message: "Click again to complete with subtasks",
+                isVisible: isPendingConfirmation
+            )
+            .offset(y: -8)
+            .allowsHitTesting(false)
+            .animation(.easeInOut(duration: 0.2), value: isPendingConfirmation)
+        }
         .sheet(isPresented: $showingDetail) {
             TaskDetailView(
                 task: $editableTask,
@@ -196,6 +208,13 @@ struct CurrentTaskFooter: View {
     }
 
     // MARK: - Components
+
+    private var checkboxColor: Color {
+        if isPendingConfirmation {
+            return .orange
+        }
+        return .secondary
+    }
 
     @ViewBuilder
     private var projectDot: some View {
@@ -238,9 +257,6 @@ struct CurrentTaskFooter: View {
     // MARK: - Actions
 
     private func completeWithAnimation() {
-        // Don't start if can't complete
-        guard canComplete else { return }
-
         withAnimation(.spring(response: 0.3, dampingFraction: 0.6)) {
             isCompleting = true
         }
@@ -251,7 +267,7 @@ struct CurrentTaskFooter: View {
             if !success {
                 await MainActor.run {
                     withAnimation {
-                        isCompleting = false // Reset on failure
+                        isCompleting = false // Reset on failure (e.g., pending confirmation)
                     }
                 }
             }
@@ -262,21 +278,18 @@ struct CurrentTaskFooter: View {
 // MARK: - Preview
 
 #Preview {
-    let projects = [
-        Project(name: "Work", color: "#3B82F6"),
-        Project(name: "Personal", color: "#10B981")
-    ]
-
-    return VStack {
+    VStack {
         Spacer()
 
         CurrentTaskFooter(
             task: OmniTask(
                 title: "Complete the current task feature implementation",
-                projectId: projects[0].id,
                 dueDate: Date()
             ),
-            projects: projects,
+            projects: [
+                OmniTaskCore.Project(name: "Work", color: "#3B82F6"),
+                OmniTaskCore.Project(name: "Personal", color: "#10B981")
+            ],
             onComplete: { return true },
             onEdit: {}
         )

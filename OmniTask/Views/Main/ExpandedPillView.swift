@@ -1,4 +1,5 @@
 import SwiftUI
+import OmniTaskCore
 
 /// Expanded state of the floating pill - full task interface
 struct ExpandedPillView: View {
@@ -6,6 +7,7 @@ struct ExpandedPillView: View {
     @ObservedObject var taskListVM: TaskListViewModel
     @ObservedObject var taskInputVM: TaskInputViewModel
     @ObservedObject var projectVM: ProjectViewModel
+    @ObservedObject var toastVM: ToastViewModel
     @EnvironmentObject var environment: AppEnvironment
 
     @State private var showingSettings = false
@@ -135,7 +137,8 @@ struct ExpandedPillView: View {
                             Task { await taskListVM.updateTask(updatedSubtask) }
                         },
                         isKeyboardSelected: taskListVM.isCurrentTaskSelected,
-                        canComplete: taskListVM.canCompleteParent(currentTask.id)
+                        canComplete: true,
+                        isPendingConfirmation: taskListVM.pendingCompletionTaskId == currentTask.id
                     )
                     .id(currentTask.id)
                     .padding(.horizontal, 12)
@@ -171,6 +174,18 @@ struct ExpandedPillView: View {
                 }
                 .transition(.opacity.combined(with: .move(edge: .top)))
             }
+
+            // Toast notifications overlay - positioned below header
+            ToastContainerView(
+                viewModel: toastVM,
+                projects: projectVM.projects,
+                onNavigateToTask: { task in
+                    navigateToTask(task)
+                }
+            )
+            .padding(.top, 90) // Below header (~85px)
+            .padding(.horizontal, 12)
+            .allowsHitTesting(true)
         }
         .onAppear {
             // Select current task in footer on appear
@@ -278,6 +293,22 @@ struct ExpandedPillView: View {
         }
 
         return false
+    }
+
+    // MARK: - Toast Navigation
+
+    private func navigateToTask(_ task: OmniTask) {
+        // Switch to the correct project/view
+        if let projectId = task.projectId {
+            projectVM.selectedProjectId = projectId
+        } else {
+            projectVM.selectAll() // Tasks without project go to All view
+        }
+
+        // Slight delay to allow list to reload, then select task
+        DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) {
+            taskListVM.selectedTaskId = task.id
+        }
     }
 
     // MARK: - Settings Drawer
@@ -394,6 +425,7 @@ struct ExpandedPillView: View {
             TaskInputView(
                 viewModel: taskInputVM,
                 projects: projectVM.projects,
+                selectedProjectId: projectVM.selectedProjectId,
                 onTaskCreated: {
                     Task { await taskListVM.loadTasks() }
                 }
@@ -418,7 +450,9 @@ struct ExpandedPillView: View {
     }
 
     /// Today tab: flat list with drag-drop reordering
+    @ViewBuilder
     private var todayFlatList: some View {
+        ScrollViewReader { (proxy: ScrollViewProxy) in
         List {
             if taskListVM.isLoading {
                 ProgressView()
@@ -430,7 +464,7 @@ struct ExpandedPillView: View {
                     .listRowBackground(Color.clear)
                     .listRowSeparator(.hidden)
             } else {
-                ForEach(taskListVM.todayTasksFlat) { task in
+                ForEach(taskListVM.todayTasksFlat, id: \.id) { task in
                     // Skip current task (shown in footer)
                     if !taskListVM.isCurrentTask(task.id) {
                         VStack(spacing: 0) {
@@ -438,12 +472,25 @@ struct ExpandedPillView: View {
                                 task: task,
                                 projects: projectVM.projects,
                                 tagRepository: environment.tagRepository,
+                                subtasks: taskListVM.subtasksFor(task.id),
                                 subtaskCount: taskListVM.subtaskCountFor(task.id),
                                 isExpanded: taskListVM.isExpanded(task.id),
-                                canComplete: taskListVM.canCompleteParent(task.id),
+                                canComplete: true,
+                                isPendingConfirmation: taskListVM.pendingCompletionTaskId == task.id,
                                 onComplete: {
-                                    print("[ExpandedPillView] Task completed: \(task.title)")
-                                    Task { await taskListVM.completeTask(task) }
+                                    print("[ExpandedPillView] onComplete CLOSURE CALLED for task: '\(task.title)' (id: \(task.id))")
+                                    print("[ExpandedPillView] - task.isCompleted: \(task.isCompleted)")
+                                    print("[ExpandedPillView] - pendingCompletionTaskId: \(taskListVM.pendingCompletionTaskId ?? "nil")")
+                                    Task {
+                                        if task.isCompleted {
+                                            print("[ExpandedPillView] Task is completed - calling uncompleteTask...")
+                                            await taskListVM.uncompleteTask(task)
+                                        } else {
+                                            print("[ExpandedPillView] Task is not completed - calling completeTask...")
+                                            await taskListVM.completeTask(task)
+                                        }
+                                        print("[ExpandedPillView] Task block finished")
+                                    }
                                 },
                                 onUpdate: { updatedTask in
                                     print("[ExpandedPillView] Task updated: \(updatedTask.title)")
@@ -475,7 +522,14 @@ struct ExpandedPillView: View {
                                         projects: projectVM.projects,
                                         tagRepository: environment.tagRepository,
                                         onComplete: {
-                                            Task { await taskListVM.completeSubtask(subtask) }
+                                            print("[ExpandedPillView] Subtask onComplete for: '\(subtask.title)' isCompleted: \(subtask.isCompleted)")
+                                            Task {
+                                                if subtask.isCompleted {
+                                                    await taskListVM.uncompleteTask(subtask)
+                                                } else {
+                                                    await taskListVM.completeSubtask(subtask)
+                                                }
+                                            }
                                         },
                                         onUpdate: { updatedSubtask in
                                             Task { await taskListVM.updateTask(updatedSubtask) }
@@ -485,6 +539,7 @@ struct ExpandedPillView: View {
                                         },
                                         isKeyboardSelected: taskListVM.selectedTaskId == subtask.id
                                     )
+                                    .id(subtask.id)
                                 }
 
                                 // Inline subtask input
@@ -498,23 +553,26 @@ struct ExpandedPillView: View {
                                             taskListVM.cancelAddingSubtask()
                                         }
                                     )
+                                    .id("subtask-input-\(task.id)")
                                 }
                             }
                         }
                         .listRowInsets(EdgeInsets(top: 0, leading: 0, bottom: 0, trailing: 0))
                         .listRowBackground(Color.clear)
                         .listRowSeparator(.hidden)
+                        .id(task.id)
                     }
                 }
                 .onMove { source, destination in
                     Task { await taskListVM.reorderTodayTasks(from: source, to: destination) }
                 }
+                .animation(.none, value: taskListVM.todayTasksFlat.map(\.id))
 
                 // Overdue tasks section
                 if !taskListVM.overdueTasks.isEmpty {
                     Section {
                         if !taskListVM.isOverdueSectionCollapsed {
-                            ForEach(taskListVM.overdueTasks) { task in
+                            ForEach(taskListVM.overdueTasks, id: \.id) { task in
                                 // Skip current task (shown in footer)
                                 if !taskListVM.isCurrentTask(task.id) {
                                     VStack(spacing: 0) {
@@ -522,12 +580,20 @@ struct ExpandedPillView: View {
                                             task: task,
                                             projects: projectVM.projects,
                                             tagRepository: environment.tagRepository,
+                                            subtasks: taskListVM.subtasksFor(task.id),
                                             subtaskCount: taskListVM.subtaskCountFor(task.id),
                                             isExpanded: taskListVM.isExpanded(task.id),
-                                            canComplete: taskListVM.canCompleteParent(task.id),
+                                            canComplete: true,
+                                            isPendingConfirmation: taskListVM.pendingCompletionTaskId == task.id,
                                             onComplete: {
-                                                print("[ExpandedPillView] Overdue task completed: \(task.title)")
-                                                Task { await taskListVM.completeTask(task) }
+                                                print("[ExpandedPillView] Overdue onComplete for: '\(task.title)' isCompleted: \(task.isCompleted)")
+                                                Task {
+                                                    if task.isCompleted {
+                                                        await taskListVM.uncompleteTask(task)
+                                                    } else {
+                                                        await taskListVM.completeTask(task)
+                                                    }
+                                                }
                                             },
                                             onUpdate: { updatedTask in
                                                 print("[ExpandedPillView] Overdue task updated: \(updatedTask.title)")
@@ -559,7 +625,14 @@ struct ExpandedPillView: View {
                                                     projects: projectVM.projects,
                                                     tagRepository: environment.tagRepository,
                                                     onComplete: {
-                                                        Task { await taskListVM.completeSubtask(subtask) }
+                                                        print("[ExpandedPillView] Overdue subtask onComplete for: '\(subtask.title)' isCompleted: \(subtask.isCompleted)")
+                                                        Task {
+                                                            if subtask.isCompleted {
+                                                                await taskListVM.uncompleteTask(subtask)
+                                                            } else {
+                                                                await taskListVM.completeSubtask(subtask)
+                                                            }
+                                                        }
                                                     },
                                                     onUpdate: { updatedSubtask in
                                                         Task { await taskListVM.updateTask(updatedSubtask) }
@@ -569,6 +642,7 @@ struct ExpandedPillView: View {
                                                     },
                                                     isKeyboardSelected: taskListVM.selectedTaskId == subtask.id
                                                 )
+                                                .id(subtask.id)
                                             }
 
                                             // Inline subtask input
@@ -582,12 +656,14 @@ struct ExpandedPillView: View {
                                                         taskListVM.cancelAddingSubtask()
                                                     }
                                                 )
+                                                .id("subtask-input-\(task.id)")
                                             }
                                         }
                                     }
                                     .listRowInsets(EdgeInsets(top: 0, leading: 0, bottom: 0, trailing: 0))
                                     .listRowBackground(Color.clear)
                                     .listRowSeparator(.hidden)
+                                    .id(task.id)
                                 }
                             }
                         }
@@ -665,10 +741,22 @@ struct ExpandedPillView: View {
         .task {
             await taskListVM.loadTodayTasksFlat()
         }
+        .onChange(of: taskListVM.scrollToTaskId) { newId in
+            if let id = newId {
+                withAnimation(.easeInOut(duration: 0.2)) {
+                    proxy.scrollTo(id, anchor: .center)
+                }
+                // Reset after scrolling
+                taskListVM.scrollToTaskId = nil
+            }
+        }
+        } // ScrollViewReader
     }
 
     /// Other tabs: grouped by project
+    @ViewBuilder
     private var groupedTaskList: some View {
+        ScrollViewReader { (proxy: ScrollViewProxy) in
         ScrollView {
             LazyVStack(spacing: 0) {
                 if taskListVM.isLoading {
@@ -691,12 +779,20 @@ struct ExpandedPillView: View {
                                     task: task,
                                     projects: projectVM.projects,
                                     tagRepository: environment.tagRepository,
+                                    subtasks: taskListVM.subtasksFor(task.id),
                                     subtaskCount: taskListVM.subtaskCountFor(task.id),
                                     isExpanded: taskListVM.isExpanded(task.id),
-                                    canComplete: taskListVM.canCompleteParent(task.id),
+                                    canComplete: true,
+                                    isPendingConfirmation: taskListVM.pendingCompletionTaskId == task.id,
                                     onComplete: {
-                                        print("[ExpandedPillView] Task completed: \(task.title)")
-                                        Task { await taskListVM.completeTask(task) }
+                                        print("[ExpandedPillView] Project task onComplete for: '\(task.title)' isCompleted: \(task.isCompleted)")
+                                        Task {
+                                            if task.isCompleted {
+                                                await taskListVM.uncompleteTask(task)
+                                            } else {
+                                                await taskListVM.completeTask(task)
+                                            }
+                                        }
                                     },
                                     onUpdate: { updatedTask in
                                         print("[ExpandedPillView] Task updated: \(updatedTask.title)")
@@ -719,6 +815,7 @@ struct ExpandedPillView: View {
                                     showProjectDot: projectVM.selectedProjectId == "all",
                                     isKeyboardSelected: taskListVM.selectedTaskId == task.id
                                 )
+                                .id(task.id)
 
                                 // Expanded subtasks
                                 if taskListVM.isExpanded(task.id) {
@@ -728,7 +825,14 @@ struct ExpandedPillView: View {
                                             projects: projectVM.projects,
                                             tagRepository: environment.tagRepository,
                                             onComplete: {
-                                                Task { await taskListVM.completeSubtask(subtask) }
+                                                print("[ExpandedPillView] Project subtask onComplete for: '\(subtask.title)' isCompleted: \(subtask.isCompleted)")
+                                                Task {
+                                                    if subtask.isCompleted {
+                                                        await taskListVM.uncompleteTask(subtask)
+                                                    } else {
+                                                        await taskListVM.completeSubtask(subtask)
+                                                    }
+                                                }
                                             },
                                             onUpdate: { updatedSubtask in
                                                 Task { await taskListVM.updateTask(updatedSubtask) }
@@ -738,6 +842,7 @@ struct ExpandedPillView: View {
                                             },
                                             isKeyboardSelected: taskListVM.selectedTaskId == subtask.id
                                         )
+                                        .id(subtask.id)
                                     }
 
                                     // Inline subtask input
@@ -751,6 +856,7 @@ struct ExpandedPillView: View {
                                                 taskListVM.cancelAddingSubtask()
                                             }
                                         )
+                                        .id("subtask-input-\(task.id)")
                                     }
                                 }
                             } // end if !isCurrentTask
@@ -765,6 +871,16 @@ struct ExpandedPillView: View {
             }
             .padding(.vertical, 8)
         }
+        .onChange(of: taskListVM.scrollToTaskId) { newId in
+            if let id = newId {
+                withAnimation(.easeInOut(duration: 0.2)) {
+                    proxy.scrollTo(id, anchor: .center)
+                }
+                // Reset after scrolling
+                taskListVM.scrollToTaskId = nil
+            }
+        }
+        } // ScrollViewReader
     }
 
     /// Completed tasks section (shown when showCompleted is enabled)
@@ -925,7 +1041,8 @@ struct ExpandedPillView: View {
         ),
         projectVM: ProjectViewModel(
             projectRepository: ProjectRepository(database: DatabaseManager())
-        )
+        ),
+        toastVM: ToastViewModel()
     )
     .environmentObject(AppEnvironment())
     .frame(width: 360, height: 500)

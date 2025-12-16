@@ -2,36 +2,51 @@ import Foundation
 import GRDB
 
 /// Manages the SQLite database using GRDB
-final class DatabaseManager {
-    let dbQueue: DatabaseQueue
+public final class DatabaseManager: Sendable {
+    public let dbQueue: DatabaseQueue
 
-    init() {
+    public init() {
         do {
-            // Get the app's Application Support directory
-            let fileManager = FileManager.default
-            let appSupport = try fileManager.url(
-                for: .applicationSupportDirectory,
-                in: .userDomainMask,
-                appropriateFor: nil,
-                create: true
-            )
-            let dbDirectory = appSupport.appendingPathComponent("OmniTask", isDirectory: true)
+            let dbPath = Self.databaseURL.path
 
-            // Create directory if needed
-            try fileManager.createDirectory(at: dbDirectory, withIntermediateDirectories: true)
+            // Ensure directory exists
+            let dbDirectory = Self.databaseURL.deletingLastPathComponent()
+            try FileManager.default.createDirectory(at: dbDirectory, withIntermediateDirectories: true)
 
-            let dbPath = dbDirectory.appendingPathComponent("omnitask.db").path
             dbQueue = try DatabaseQueue(path: dbPath)
 
             // Run migrations
-            try migrator.migrate(dbQueue)
+            try Self.migrator.migrate(dbQueue)
 
         } catch {
             fatalError("Database initialization failed: \(error)")
         }
     }
 
-    private var migrator: DatabaseMigrator {
+    // MARK: - Platform-Specific Database Path
+
+    public static var databaseURL: URL {
+        #if os(iOS)
+        // iOS: Use app group container for widget sharing (future)
+        // For now, use Documents directory
+        let documentsURL = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask)[0]
+        return documentsURL.appendingPathComponent("OmniTask").appendingPathComponent("omnitask.db")
+        #else
+        // macOS: Application Support
+        let fileManager = FileManager.default
+        let appSupport = try! fileManager.url(
+            for: .applicationSupportDirectory,
+            in: .userDomainMask,
+            appropriateFor: nil,
+            create: true
+        )
+        return appSupport
+            .appendingPathComponent("OmniTask", isDirectory: true)
+            .appendingPathComponent("omnitask.db")
+        #endif
+    }
+
+    private static var migrator: DatabaseMigrator {
         var migrator = DatabaseMigrator()
 
         #if DEBUG
@@ -121,19 +136,19 @@ final class DatabaseManager {
 
     // MARK: - Utility Methods
 
-    func read<T>(_ block: (Database) throws -> T) throws -> T {
+    public func read<T>(_ block: (Database) throws -> T) throws -> T {
         try dbQueue.read(block)
     }
 
-    func write<T>(_ block: (Database) throws -> T) throws -> T {
+    public func write<T>(_ block: (Database) throws -> T) throws -> T {
         try dbQueue.write(block)
     }
 
-    func asyncRead<T>(_ block: @escaping (Database) throws -> T) async throws -> T {
+    public func asyncRead<T>(_ block: @escaping @Sendable (Database) throws -> T) async throws -> T {
         try await dbQueue.read(block)
     }
 
-    func asyncWrite<T>(_ block: @escaping (Database) throws -> T) async throws -> T {
+    public func asyncWrite<T>(_ block: @escaping @Sendable (Database) throws -> T) async throws -> T {
         try await dbQueue.write(block)
     }
 }

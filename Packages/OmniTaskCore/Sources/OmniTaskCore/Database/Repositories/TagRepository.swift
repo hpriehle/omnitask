@@ -3,17 +3,17 @@ import GRDB
 
 /// Repository for Tag CRUD operations
 @MainActor
-final class TagRepository: ObservableObject {
+public final class TagRepository: ObservableObject {
     private let database: DatabaseManager
-    @Published private(set) var tags: [Tag] = []
+    @Published public private(set) var tags: [Tag] = []
 
-    init(database: DatabaseManager) {
+    public init(database: DatabaseManager) {
         self.database = database
     }
 
     // MARK: - Create
 
-    func create(_ tag: Tag) async throws {
+    public func create(_ tag: Tag) async throws {
         try await database.asyncWrite { db in
             var tag = tag
             try tag.insert(db)
@@ -22,13 +22,13 @@ final class TagRepository: ObservableObject {
 
     // MARK: - Read
 
-    func fetchAll() async throws -> [Tag] {
+    public func fetchAll() async throws -> [Tag] {
         try await database.asyncRead { db in
             try Tag.order(Column("name").asc).fetchAll(db)
         }
     }
 
-    func fetchByProject(_ projectId: String) async throws -> [Tag] {
+    public func fetchByProject(_ projectId: String) async throws -> [Tag] {
         try await database.asyncRead { db in
             try Tag
                 .filter(Column("projectId") == projectId)
@@ -37,13 +37,13 @@ final class TagRepository: ObservableObject {
         }
     }
 
-    func fetch(by id: String) async throws -> Tag? {
+    public func fetch(by id: String) async throws -> Tag? {
         try await database.asyncRead { db in
             try Tag.fetchOne(db, key: id)
         }
     }
 
-    func fetchByName(_ name: String, projectId: String) async throws -> Tag? {
+    public func fetchByName(_ name: String, projectId: String) async throws -> Tag? {
         try await database.asyncRead { db in
             try Tag
                 .filter(Column("projectId") == projectId)
@@ -54,7 +54,7 @@ final class TagRepository: ObservableObject {
 
     // MARK: - Update
 
-    func update(_ tag: Tag) async throws {
+    public func update(_ tag: Tag) async throws {
         try await database.asyncWrite { db in
             var updatedTag = tag
             updatedTag.updatedAt = Date()
@@ -64,7 +64,7 @@ final class TagRepository: ObservableObject {
 
     // MARK: - Delete
 
-    func delete(_ tag: Tag) async throws {
+    public func delete(_ tag: Tag) async throws {
         _ = try await database.asyncWrite { db in
             try tag.delete(db)
         }
@@ -72,14 +72,14 @@ final class TagRepository: ObservableObject {
 
     // MARK: - Task-Tag Operations
 
-    func addTagToTask(tagId: String, taskId: String) async throws {
+    public func addTagToTask(tagId: String, taskId: String) async throws {
         let taskTag = TaskTag(taskId: taskId, tagId: tagId)
         try await database.asyncWrite { db in
             try taskTag.insert(db)
         }
     }
 
-    func removeTagFromTask(tagId: String, taskId: String) async throws {
+    public func removeTagFromTask(tagId: String, taskId: String) async throws {
         try await database.asyncWrite { db in
             try TaskTag
                 .filter(Column("taskId") == taskId)
@@ -88,7 +88,7 @@ final class TagRepository: ObservableObject {
         }
     }
 
-    func setTagsForTask(taskId: String, tagIds: [String]) async throws {
+    public func setTagsForTask(taskId: String, tagIds: [String]) async throws {
         try await database.asyncWrite { db in
             // Remove existing tags
             try TaskTag.filter(Column("taskId") == taskId).deleteAll(db)
@@ -101,7 +101,7 @@ final class TagRepository: ObservableObject {
         }
     }
 
-    func fetchTagsForTask(_ taskId: String) async throws -> [Tag] {
+    public func fetchTagsForTask(_ taskId: String) async throws -> [Tag] {
         try await database.asyncRead { db in
             let tagIds = try TaskTag
                 .filter(Column("taskId") == taskId)
@@ -117,7 +117,7 @@ final class TagRepository: ObservableObject {
         }
     }
 
-    func fetchTaskIdsForTag(_ tagId: String) async throws -> [String] {
+    public func fetchTaskIdsForTag(_ tagId: String) async throws -> [String] {
         try await database.asyncRead { db in
             try TaskTag
                 .filter(Column("tagId") == tagId)

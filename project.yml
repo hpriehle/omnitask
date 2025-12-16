@@ -1,0 +1,98 @@
+name: OmniTask
+options:
+  bundleIdPrefix: com.omnitask
+  deploymentTarget:
+    iOS: "17.0"
+    macOS: "14.0"
+  xcodeVersion: "15.0"
+  generateEmptyDirectories: true
+
+packages:
+  OmniTaskCore:
+    path: Packages/OmniTaskCore
+  KeyboardShortcuts:
+    url: https://github.com/sindresorhus/KeyboardShortcuts
+    from: "2.0.0"
+  Sparkle:
+    url: https://github.com/sparkle-project/Sparkle
+    from: "2.0.0"
+
+targets:
+  OmniTask:
+    type: application
+    platform: macOS
+    deploymentTarget: "14.0"
+    sources:
+      - path: OmniTask
+        excludes:
+          - "**/.DS_Store"
+    settings:
+      base:
+        PRODUCT_BUNDLE_IDENTIFIER: com.omnitask.app
+        INFOPLIST_FILE: OmniTask/Resources/Info.plist
+        CODE_SIGN_ENTITLEMENTS: OmniTask/Resources/OmniTask.entitlements
+        DEVELOPMENT_TEAM: ""
+        ASSETCATALOG_COMPILER_APPICON_NAME: AppIcon
+        ENABLE_HARDENED_RUNTIME: YES
+        MACOSX_DEPLOYMENT_TARGET: "14.0"
+        SWIFT_VERSION: "5.0"
+    dependencies:
+      - package: OmniTaskCore
+      - package: KeyboardShortcuts
+      - package: Sparkle
+    entitlements:
+      path: OmniTask/Resources/OmniTask.entitlements
+
+  OmniTaskiOS:
+    type: application
+    platform: iOS
+    deploymentTarget: "17.0"
+    sources:
+      - path: OmniTaskiOS
+        excludes:
+          - "**/.DS_Store"
+    settings:
+      base:
+        PRODUCT_BUNDLE_IDENTIFIER: com.omnitask.app
+        INFOPLIST_FILE: OmniTaskiOS/Resources/Info.plist
+        CODE_SIGN_ENTITLEMENTS: OmniTaskiOS/Resources/OmniTaskiOS.entitlements
+        DEVELOPMENT_TEAM: ""
+        ASSETCATALOG_COMPILER_APPICON_NAME: AppIcon
+        IPHONEOS_DEPLOYMENT_TARGET: "17.0"
+        SWIFT_VERSION: "5.0"
+        TARGETED_DEVICE_FAMILY: "1,2"
+    dependencies:
+      - package: OmniTaskCore
+    entitlements:
+      path: OmniTaskiOS/Resources/OmniTaskiOS.entitlements
+
+schemes:
+  OmniTask:
+    build:
+      targets:
+        OmniTask: all
+    run:
+      config: Debug
+    test:
+      config: Debug
+    profile:
+      config: Release
+    analyze:
+      config: Debug
+    archive:
+      config: Release
+
+  OmniTaskiOS:
+    build:
+      targets:
+        OmniTaskiOS: all
+    run:
+      config: Debug
+    test:
+      config: Debug
+    profile:
+      config: Release
+    analyze:
+      config: Debug
+    archive:
+      config: Release

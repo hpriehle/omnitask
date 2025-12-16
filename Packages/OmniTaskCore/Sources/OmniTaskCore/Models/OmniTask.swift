@@ -2,25 +2,25 @@ import Foundation
 import GRDB
 
 /// A task in OmniTask
-struct OmniTask: Identifiable, Codable, Equatable {
-    var id: String
-    var title: String
-    var notes: String?
-    var projectId: String?
-    var parentTaskId: String?
-    var priority: Priority
-    var dueDate: Date?
-    var isCompleted: Bool
-    var completedAt: Date?
-    var sortOrder: Int
-    var todaySortOrder: Int?
-    var isCurrentTask: Bool
-    var recurringPattern: RecurringPattern?
-    var originalInput: String?
-    var createdAt: Date
-    var updatedAt: Date
+public struct OmniTask: Identifiable, Codable, Equatable, Sendable {
+    public var id: String
+    public var title: String
+    public var notes: String?
+    public var projectId: String?
+    public var parentTaskId: String?
+    public var priority: Priority
+    public var dueDate: Date?
+    public var isCompleted: Bool
+    public var completedAt: Date?
+    public var sortOrder: Int
+    public var todaySortOrder: Int?
+    public var isCurrentTask: Bool
+    public var recurringPattern: RecurringPattern?
+    public var originalInput: String?
+    public var createdAt: Date
+    public var updatedAt: Date
 
-    init(
+    public init(
         id: String = UUID().uuidString,
         title: String,
         notes: String? = nil,
@@ -58,21 +58,21 @@ struct OmniTask: Identifiable, Codable, Equatable {
 
     // MARK: - Computed Properties
 
-    var isOverdue: Bool {
+    public var isOverdue: Bool {
         guard let dueDate = dueDate, !isCompleted else { return false }
         return dueDate < Date()
     }
 
-    var isDueToday: Bool {
+    public var isDueToday: Bool {
         guard let dueDate = dueDate else { return false }
         return Calendar.current.isDateInToday(dueDate)
     }
 
-    var isSubtask: Bool {
+    public var isSubtask: Bool {
         parentTaskId != nil
     }
 
-    var isRecurring: Bool {
+    public var isRecurring: Bool {
         recurringPattern != nil
     }
 }
@@ -80,9 +80,9 @@ struct OmniTask: Identifiable, Codable, Equatable {
 // MARK: - GRDB Support
 
 extension OmniTask: FetchableRecord, PersistableRecord {
-    static var databaseTableName: String { "tasks" }
+    public static var databaseTableName: String { "tasks" }
 
-    enum Columns: String, ColumnExpression {
+    public enum Columns: String, ColumnExpression {
         case id, title, notes, projectId, parentTaskId, priority
         case dueDate, isCompleted, completedAt, sortOrder, todaySortOrder, isCurrentTask
         case recurringPattern, originalInput, createdAt, updatedAt
@@ -92,7 +92,7 @@ extension OmniTask: FetchableRecord, PersistableRecord {
 // MARK: - Database Value Conversions
 
 extension OmniTask {
-    init(row: Row) {
+    public init(row: Row) {
         id = row["id"]
         title = row["title"]
         notes = row["notes"]
@@ -118,7 +118,7 @@ extension OmniTask {
         updatedAt = row["updatedAt"]
     }
 
-    func encode(to container: inout PersistenceContainer) {
+    public func encode(to container: inout PersistenceContainer) {
         container["id"] = id
         container["title"] = title
         container["notes"] = notes

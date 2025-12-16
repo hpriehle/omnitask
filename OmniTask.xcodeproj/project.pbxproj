@@ -3,406 +3,504 @@
 	archiveVersion = 1;
 	classes = {
 	};
-	objectVersion = 56;
+	objectVersion = 63;
 	objects = {
 
 /* Begin PBXBuildFile section */
-		2A0000010000000000000001 /* OmniTaskApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2A0000020000000000000001 /* OmniTaskApp.swift */; };
-		2A0000010000000000000002 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2A0000020000000000000002 /* AppDelegate.swift */; };
-		2A0000010000000000000003 /* AppEnvironment.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2A0000020000000000000003 /* AppEnvironment.swift */; };
-		2A0000010000000000000004 /* FloatingPanel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2A0000020000000000000004 /* FloatingPanel.swift */; };
-		2A0000010000000000000005 /* WindowManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2A0000020000000000000005 /* WindowManager.swift */; };
-		2A0000010000000000000006 /* HotkeyManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2A0000020000000000000006 /* HotkeyManager.swift */; };
-		2A0000010000000000000007 /* PushToTalkMonitor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2A0000020000000000000007 /* PushToTalkMonitor.swift */; };
-		2A0000010000000000000008 /* DatabaseManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2A0000020000000000000008 /* DatabaseManager.swift */; };
-		2A0000010000000000000009 /* TaskRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2A0000020000000000000009 /* TaskRepository.swift */; };
-		2A000001000000000000000A /* ProjectRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2A000002000000000000000A /* ProjectRepository.swift */; };
-		2A000001000000000000000B /* OmniTask.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2A000002000000000000000B /* OmniTask.swift */; };
-		2A000001000000000000000C /* Project.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2A000002000000000000000C /* Project.swift */; };
-		2A000001000000000000000D /* Priority.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2A000002000000000000000D /* Priority.swift */; };
-		2A000001000000000000000E /* RecurringPattern.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2A000002000000000000000E /* RecurringPattern.swift */; };
-		2A000001000000000000000F /* ClaudeService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2A000002000000000000000F /* ClaudeService.swift */; };
-		2A0000010000000000000010 /* TaskStructuringService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2A0000020000000000000010 /* TaskStructuringService.swift */; };
-		2A0000010000000000000011 /* SpeechRecognitionService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2A0000020000000000000011 /* SpeechRecognitionService.swift */; };
-		2A0000010000000000000012 /* URLSchemeHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2A0000020000000000000012 /* URLSchemeHandler.swift */; };
-		2A0000010000000000000013 /* TaskListViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2A0000020000000000000013 /* TaskListViewModel.swift */; };
-		2A0000010000000000000014 /* TaskInputViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2A0000020000000000000014 /* TaskInputViewModel.swift */; };
-		2A0000010000000000000015 /* ProjectViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2A0000020000000000000015 /* ProjectViewModel.swift */; };
-		2A0000010000000000000016 /* SettingsViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2A0000020000000000000016 /* SettingsViewModel.swift */; };
-		2A0000010000000000000017 /* MainPillView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2A0000020000000000000017 /* MainPillView.swift */; };
-		2A0000010000000000000018 /* CollapsedPillView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2A0000020000000000000018 /* CollapsedPillView.swift */; };
-		2A0000010000000000000019 /* ExpandedPillView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2A0000020000000000000019 /* ExpandedPillView.swift */; };
-		2A000001000000000000001A /* TaskInputView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2A000002000000000000001A /* TaskInputView.swift */; };
-		2A000001000000000000001B /* VoiceInputView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2A000002000000000000001B /* VoiceInputView.swift */; };
-		2A000001000000000000001C /* TaskListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2A000002000000000000001C /* TaskListView.swift */; };
-		2A000001000000000000001D /* TaskRowView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2A000002000000000000001D /* TaskRowView.swift */; };
-		2A000001000000000000001E /* TaskDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2A000002000000000000001E /* TaskDetailView.swift */; };
-		2A000001000000000000001F /* ProjectTabsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2A000002000000000000001F /* ProjectTabsView.swift */; };
-		2A0000010000000000000020 /* ProjectEditorView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2A0000020000000000000020 /* ProjectEditorView.swift */; };
-		2A0000010000000000000021 /* SettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2A0000020000000000000021 /* SettingsView.swift */; };
-		2A0000010000000000000022 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 2A0000020000000000000022 /* Assets.xcassets */; };
-		2A0000010000000000000023 /* GRDB in Frameworks */ = {isa = PBXBuildFile; productRef = 2A0000030000000000000001 /* GRDB */; };
-		2A0000010000000000000024 /* KeyboardShortcuts in Frameworks */ = {isa = PBXBuildFile; productRef = 2A0000030000000000000002 /* KeyboardShortcuts */; };
-		2A0000010000000000000033 /* Sparkle in Frameworks */ = {isa = PBXBuildFile; productRef = 2A0000030000000000000003 /* Sparkle */; };
-		2A0000010000000000000025 /* ManualTaskCreationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2A0000020000000000000025 /* ManualTaskCreationView.swift */; };
-		2A0000010000000000000026 /* AudioWaveformView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2A0000020000000000000026 /* AudioWaveformView.swift */; };
-		2A0000010000000000000027 /* ProjectsSettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2A0000020000000000000027 /* ProjectsSettingsView.swift */; };
-		2A0000010000000000000028 /* TagRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2A0000020000000000000028 /* TagRepository.swift */; };
-		2A0000010000000000000029 /* Tag.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2A0000020000000000000029 /* Tag.swift */; };
-		2A000001000000000000002A /* TaskTag.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2A000002000000000000002A /* TaskTag.swift */; };
-		2A000001000000000000002B /* SubtaskRowView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2A000002000000000000002B /* SubtaskRowView.swift */; };
-		2A000001000000000000002C /* MarqueeText.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2A000002000000000000002C /* MarqueeText.swift */; };
-		2A000001000000000000002D /* ConfettiView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2A000002000000000000002D /* ConfettiView.swift */; };
-		2A000001000000000000002E /* CurrentTaskFooter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2A000002000000000000002E /* CurrentTaskFooter.swift */; };
-		2A000001000000000000002F /* CarouselText.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2A000002000000000000002F /* CarouselText.swift */; };
-		2A0000010000000000000030 /* ConfettiWindowController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2A0000020000000000000030 /* ConfettiWindowController.swift */; };
-		2A0000010000000000000031 /* FilterSortSettings.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2A0000020000000000000031 /* FilterSortSettings.swift */; };
-		6E7B7A33AF58EC511B682687 /* CompletedTaskRowView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5BD7190D95E3022D5498C541 /* CompletedTaskRowView.swift */; };
-		AC89552F890F3D87E4610F24 /* FilterSortMenuView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D1C41A0B255162F01B45483C /* FilterSortMenuView.swift */; };
-		2A0000010000000000000032 /* OnboardingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2A0000020000000000000032 /* OnboardingView.swift */; };
-		2A0000010000000000000034 /* ShortcutRecorderButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2A0000020000000000000034 /* ShortcutRecorderButton.swift */; };
+		07C1E86CE8476B5115BBBA01 /* TaskListViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6D5F74B24DB49851D1590628 /* TaskListViewModel.swift */; };
+		08A1B2C3D4E5F6A7B8C9D0E1 /* MainView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A1B2C3D4E5F6A7B8C9D0E1F2 /* MainView.swift */; };
+		08B2C3D4E5F6A7B8C9D0E1F2 /* ProjectTabsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B2C3D4E5F6A7B8C9D0E1F2A3 /* ProjectTabsView.swift */; };
+		08C3D4E5F6A7B8C9D0E1F2A3 /* CurrentTaskCard.swift in Sources */ = {isa = PBXBuildFile; fileRef = C3D4E5F6A7B8C9D0E1F2A3B4 /* CurrentTaskCard.swift */; };
+		08D4E5F6A7B8C9D0E1F2A3B4 /* TaskInputBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4E5F6A7B8C9D0E1F2A3B4C5 /* TaskInputBar.swift */; };
+		09710F1D3E388D07C094A567 /* AllTasksView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 28497FDB1DF4355316A19978 /* AllTasksView.swift */; };
+		0A534CE4A2AAD31361FF01F8 /* CarouselText.swift in Sources */ = {isa = PBXBuildFile; fileRef = BEE823A063BDC28500FCB28E /* CarouselText.swift */; };
+		0D0A4EFE272E4C14EE9503DC /* TodayView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C4A048D82BF270AD8E56B28F /* TodayView.swift */; };
+		138526CBCC122156BFA0B279 /* ConfirmationTooltip.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB5107C593D58A3000E3A9F5 /* ConfirmationTooltip.swift */; };
+		157A5AF35C1D65AC7E60BB8C /* URLSchemeHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = 255DE3CAA124F51474942DE6 /* URLSchemeHandler.swift */; };
+		15F6862DC4010CE0DBF90395 /* FloatingPanel.swift in Sources */ = {isa = PBXBuildFile; fileRef = FFCF45B0904F10A16BAFDE86 /* FloatingPanel.swift */; };
+		1AAD4D4A4DC35CB4D4DD2AA2 /* FilterSortMenuView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 516DCA035AEEEC14FE92302A /* FilterSortMenuView.swift */; };
+		1CC5F9E31104C885DB1AD422 /* AppEnvironment.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1172A1DDF37495EBD87F0375 /* AppEnvironment.swift */; };
+		2E580A81BD68B31B512C869B /* RecurrenceOptionsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D9E379A0326903916B30E7B /* RecurrenceOptionsView.swift */; };
+		35AC19C0BBD93B6C3E5F303D /* ProjectsSettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FBA95483E0863B63922B40FD /* ProjectsSettingsView.swift */; };
+		3BCB0E6D176BF530945E61AE /* OmniTaskCore in Frameworks */ = {isa = PBXBuildFile; productRef = 56DF3B3458A8E828C64FD409 /* OmniTaskCore */; };
+		3DEB49C9337D6370C7288B62 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5D99073F5ADFAE8A2A351436 /* AppDelegate.swift */; };
+		3E370EF2795453D7C2D8774B /* SubtaskRowView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A628BE63D628D83C969AD5F0 /* SubtaskRowView.swift */; };
+		3FD5648A2D3D3F49C344D7EF /* TaskDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 53E813A5A4E8E8590A5034E7 /* TaskDetailView.swift */; };
+		4604B16CE32CB70E9A0A8FC3 /* SpeechRecognitionService.swift in Sources */ = {isa = PBXBuildFile; fileRef = CD1BE4FA68B05A7795D75B01 /* SpeechRecognitionService.swift */; };
+		47FE7762010373BF414345A2 /* PushToTalkMonitor.swift in Sources */ = {isa = PBXBuildFile; fileRef = F1B9B359C957C30EEEFE5FD5 /* PushToTalkMonitor.swift */; };
+		49B809C1FCA0AE588945619A /* OmniTaskApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78A0CA8F00C1BB49E14E738F /* OmniTaskApp.swift */; };
+		4C1A6897B1976B9EF5088EA7 /* AppEnvironmentiOS.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9766011F4FD5EB749050EE63 /* AppEnvironmentiOS.swift */; };
+		5821BCF8D2942173D65D22BB /* TaskRowView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0F2FE8A650368B43C362659B /* TaskRowView.swift */; };
+		5B0F1BE77D6E9C26B4A1C104 /* SettingsViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 24898C2C9798F2CB42DF6EB1 /* SettingsViewModel.swift */; };
+		5EDFCE9D6D1B45950A5F4522 /* MainPillView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D86BC143D9DE2F142C5F6FB8 /* MainPillView.swift */; };
+		6174EB0137EAC4B6ED1904AD /* ExpandedPillView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 123D513ACCB72BE24693F1C4 /* ExpandedPillView.swift */; };
+		67F721144BFF9C8525B37E26 /* ToastView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 095406CB7E7A6B3FF63A8855 /* ToastView.swift */; };
+		6C66BA121C050D8E18F94940 /* HotkeyManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = D3E56C9F20872F4219E4BCDE /* HotkeyManager.swift */; };
+		7EBFB4CEE5E1D7DFB03B58A7 /* ConfettiWindowController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5BA137158D0691A3160A7D96 /* ConfettiWindowController.swift */; };
+		8092A6ABF5C1413F138740AD /* CompletedTaskRowView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3C0C4EA380E25151D2FED7FB /* CompletedTaskRowView.swift */; };
+		815FD44BE6075FACBA82A208 /* ProjectEditorView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7F750516C908F1745CE884C3 /* ProjectEditorView.swift */; };
+		8287B149C70A0A877CCA5793 /* ProjectViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = BACC4B5865B2360202F9610C /* ProjectViewModel.swift */; };
+		8992049DE64746983079BE9B /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FD4494AD8625FD4BF23EF0AD /* ContentView.swift */; };
+		8F1D68244F43D016C090F542 /* TaskInputSheet.swift in Sources */ = {isa = PBXBuildFile; fileRef = 478FDFDD4EF8CB7EBFB2A290 /* TaskInputSheet.swift */; };
+		90339EE68FBC600C71BEF24A /* OmniTaskCore in Frameworks */ = {isa = PBXBuildFile; productRef = C6605577CD2FC1EBDA19DBC1 /* OmniTaskCore */; };
+		942FE721EE84D61CD3C887A9 /* ProjectsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C3AF39669AECCCFD5E5974C9 /* ProjectsView.swift */; };
+		9640551F7C83CEA4E6E24115 /* TaskContextMenu.swift in Sources */ = {isa = PBXBuildFile; fileRef = D11210078FECC4B38256A6B1 /* TaskContextMenu.swift */; };
+		972D4C0C0B4D9DA38379E9FA /* ManualTaskCreationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 72D6C42F08E9998A01677B07 /* ManualTaskCreationView.swift */; };
+		97908796D6FD081F19476A17 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = C6CC18653A9865D9D762C113 /* Assets.xcassets */; };
+		9919E659AEE091C8D50F8D84 /* TaskRowView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52734B79228A8C54483B4C7D /* TaskRowView.swift */; };
+		9C2DBC608E11D9187D0328FA /* CurrentTaskFooter.swift in Sources */ = {isa = PBXBuildFile; fileRef = E7E006D3975AAFEA92FB0CDF /* CurrentTaskFooter.swift */; };
+		9E7220E9E6379B1BD84D2250 /* TaskInputViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = B59AB6D89B60D130B676396C /* TaskInputViewModel.swift */; };
+		A178F3969C5F182F38A0282C /* WindowManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 248286509B8FDC32A92698CA /* WindowManager.swift */; };
+		A6B403F13B05BA621A95C942 /* ClaudeService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0DC57937343AD9828759510B /* ClaudeService.swift */; };
+		B80D24F666622786D4CCCF3B /* VoiceInputView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0E3D1E27D33FD0FF79DEA515 /* VoiceInputView.swift */; };
+		BDB55DB59E5E735FCE1F2B4A /* AudioWaveformView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6F538703F044798DFF19D711 /* AudioWaveformView.swift */; };
+		CD83E8EED73B1258BA49CB3D /* ToastViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6C26FC517407323CBEF6D976 /* ToastViewModel.swift */; };
+		D28B3B9A6728BCB5A1EEC6AE /* OmniTaskiOSApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 419C1AB0E2551DC79BA1B53D /* OmniTaskiOSApp.swift */; };
+		D416458168A0B87818C25C7A /* Sparkle in Frameworks */ = {isa = PBXBuildFile; productRef = 75ED91C8A257D93862063F39 /* Sparkle */; };
+		D973793C1D90FB8CD03D4DF0 /* MarqueeText.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0F8A8340B71819FFB2FBC0E4 /* MarqueeText.swift */; };
+		DD86AEEB0B98EEA2068B1D89 /* SettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 20A0D58D2B2EA247C2B3F0B9 /* SettingsView.swift */; };
+		DE63B856F992F40F795CAA31 /* ShortcutRecorderButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2F800473978B0F586C551E9A /* ShortcutRecorderButton.swift */; };
+		DF5D0F267447A43754DAD0BF /* SettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 94159488990407E92E9D98F2 /* SettingsView.swift */; };
+		E170ECF798827733F859C645 /* ProjectTabsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D529E04B1C9650B52FD59A7D /* ProjectTabsView.swift */; };
+		E2FACE360A27BABD52A12762 /* OnboardingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 27735CEF94B640A78208FE40 /* OnboardingView.swift */; };
+		E5F14E19196CCD226778DBF2 /* KeyboardShortcuts in Frameworks */ = {isa = PBXBuildFile; productRef = 1287F4E9750B32D69D93321F /* KeyboardShortcuts */; };
+		E6575E1A6C9792220CBA067B /* TaskStructuringService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2E2745178332A60DF6592A91 /* TaskStructuringService.swift */; };
+		EA86F1148A892BB652E37704 /* TaskDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C06948697FAA27A2A358BBE2 /* TaskDetailView.swift */; };
+		F02F39BF7300CC2D8513ECF5 /* CollapsedPillView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 64AE1ACC22473869943660DC /* CollapsedPillView.swift */; };
+		F4682721DE403C2BB2EFABA3 /* ConfettiView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3494A13C6439658DF96C6542 /* ConfettiView.swift */; };
+		F632F5D19F05678029E8EF68 /* TaskListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 05F659F0CBF3FDF0FAE32DD5 /* TaskListView.swift */; };
+		FD6EB74C79F0C61BDF899DF7 /* TaskInputView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 44AE0904640452B05AE16C34 /* TaskInputView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
-		08C800D4BCF74DE91B8F7751 /* FilterSortSettings.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = FilterSortSettings.swift; path = OmniTask/Models/FilterSortSettings.swift; sourceTree = "<group>"; };
-		2A0000020000000000000001 /* OmniTaskApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OmniTaskApp.swift; sourceTree = "<group>"; };
-		2A0000020000000000000002 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
-		2A0000020000000000000003 /* AppEnvironment.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppEnvironment.swift; sourceTree = "<group>"; };
-		2A0000020000000000000004 /* FloatingPanel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FloatingPanel.swift; sourceTree = "<group>"; };
-		2A0000020000000000000005 /* WindowManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WindowManager.swift; sourceTree = "<group>"; };
-		2A0000020000000000000006 /* HotkeyManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HotkeyManager.swift; sourceTree = "<group>"; };
-		2A0000020000000000000007 /* PushToTalkMonitor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PushToTalkMonitor.swift; sourceTree = "<group>"; };
-		2A0000020000000000000008 /* DatabaseManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DatabaseManager.swift; sourceTree = "<group>"; };
-		2A0000020000000000000009 /* TaskRepository.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TaskRepository.swift; sourceTree = "<group>"; };
-		2A000002000000000000000A /* ProjectRepository.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProjectRepository.swift; sourceTree = "<group>"; };
-		2A000002000000000000000B /* OmniTask.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OmniTask.swift; sourceTree = "<group>"; };
-		2A000002000000000000000C /* Project.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Project.swift; sourceTree = "<group>"; };
-		2A000002000000000000000D /* Priority.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Priority.swift; sourceTree = "<group>"; };
-		2A000002000000000000000E /* RecurringPattern.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecurringPattern.swift; sourceTree = "<group>"; };
-		2A000002000000000000000F /* ClaudeService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ClaudeService.swift; sourceTree = "<group>"; };
-		2A0000020000000000000010 /* TaskStructuringService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TaskStructuringService.swift; sourceTree = "<group>"; };
-		2A0000020000000000000011 /* SpeechRecognitionService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SpeechRecognitionService.swift; sourceTree = "<group>"; };
-		2A0000020000000000000012 /* URLSchemeHandler.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = URLSchemeHandler.swift; sourceTree = "<group>"; };
-		2A0000020000000000000013 /* TaskListViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TaskListViewModel.swift; sourceTree = "<group>"; };
-		2A0000020000000000000014 /* TaskInputViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TaskInputViewModel.swift; sourceTree = "<group>"; };
-		2A0000020000000000000015 /* ProjectViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProjectViewModel.swift; sourceTree = "<group>"; };
-		2A0000020000000000000016 /* SettingsViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsViewModel.swift; sourceTree = "<group>"; };
-		2A0000020000000000000017 /* MainPillView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainPillView.swift; sourceTree = "<group>"; };
-		2A0000020000000000000018 /* CollapsedPillView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CollapsedPillView.swift; sourceTree = "<group>"; };
-		2A0000020000000000000019 /* ExpandedPillView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExpandedPillView.swift; sourceTree = "<group>"; };
-		2A000002000000000000001A /* TaskInputView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TaskInputView.swift; sourceTree = "<group>"; };
-		2A000002000000000000001B /* VoiceInputView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VoiceInputView.swift; sourceTree = "<group>"; };
-		2A000002000000000000001C /* TaskListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TaskListView.swift; sourceTree = "<group>"; };
-		2A000002000000000000001D /* TaskRowView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TaskRowView.swift; sourceTree = "<group>"; };
-		2A000002000000000000001E /* TaskDetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TaskDetailView.swift; sourceTree = "<group>"; };
-		2A000002000000000000001F /* ProjectTabsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProjectTabsView.swift; sourceTree = "<group>"; };
-		2A0000020000000000000020 /* ProjectEditorView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProjectEditorView.swift; sourceTree = "<group>"; };
-		2A0000020000000000000021 /* SettingsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsView.swift; sourceTree = "<group>"; };
-		2A0000020000000000000022 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
-		2A0000020000000000000023 /* OmniTask.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = OmniTask.entitlements; sourceTree = "<group>"; };
-		2A0000020000000000000024 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		2A0000020000000000000025 /* ManualTaskCreationView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ManualTaskCreationView.swift; sourceTree = "<group>"; };
-		2A0000020000000000000026 /* AudioWaveformView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AudioWaveformView.swift; sourceTree = "<group>"; };
-		2A0000020000000000000027 /* ProjectsSettingsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProjectsSettingsView.swift; sourceTree = "<group>"; };
-		2A0000020000000000000028 /* TagRepository.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TagRepository.swift; sourceTree = "<group>"; };
-		2A0000020000000000000029 /* Tag.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Tag.swift; sourceTree = "<group>"; };
-		2A000002000000000000002A /* TaskTag.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TaskTag.swift; sourceTree = "<group>"; };
-		2A000002000000000000002B /* SubtaskRowView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SubtaskRowView.swift; sourceTree = "<group>"; };
-		2A000002000000000000002C /* MarqueeText.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MarqueeText.swift; sourceTree = "<group>"; };
-		2A000002000000000000002D /* ConfettiView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConfettiView.swift; sourceTree = "<group>"; };
-		2A000002000000000000002E /* CurrentTaskFooter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CurrentTaskFooter.swift; sourceTree = "<group>"; };
-		2A000002000000000000002F /* CarouselText.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CarouselText.swift; sourceTree = "<group>"; };
-		2A0000020000000000000030 /* ConfettiWindowController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConfettiWindowController.swift; sourceTree = "<group>"; };
-		2A0000020000000000000031 /* FilterSortSettings.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FilterSortSettings.swift; sourceTree = "<group>"; };
-		2A0000020000000000000099 /* OmniTask.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = OmniTask.app; sourceTree = BUILT_PRODUCTS_DIR; };
-		5BD7190D95E3022D5498C541 /* CompletedTaskRowView.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = CompletedTaskRowView.swift; sourceTree = "<group>"; };
-		7EB9D30D6A1AAC6E778D35D8 /* FilterSortSettings.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = FilterSortSettings.swift; sourceTree = "<group>"; };
-		CC7D2D499852785807AA7E6D /* CompletedTaskRowView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CompletedTaskRowView.swift; sourceTree = "<group>"; };
-		D1C41A0B255162F01B45483C /* FilterSortMenuView.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = FilterSortMenuView.swift; sourceTree = "<group>"; };
-		2A0000020000000000000032 /* OnboardingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnboardingView.swift; sourceTree = "<group>"; };
-		2A0000020000000000000034 /* ShortcutRecorderButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShortcutRecorderButton.swift; sourceTree = "<group>"; };
+		05F659F0CBF3FDF0FAE32DD5 /* TaskListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TaskListView.swift; sourceTree = "<group>"; };
+		095406CB7E7A6B3FF63A8855 /* ToastView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ToastView.swift; sourceTree = "<group>"; };
+		0DC57937343AD9828759510B /* ClaudeService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ClaudeService.swift; sourceTree = "<group>"; };
+		0E3D1E27D33FD0FF79DEA515 /* VoiceInputView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VoiceInputView.swift; sourceTree = "<group>"; };
+		0F2FE8A650368B43C362659B /* TaskRowView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TaskRowView.swift; sourceTree = "<group>"; };
+		0F8A8340B71819FFB2FBC0E4 /* MarqueeText.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MarqueeText.swift; sourceTree = "<group>"; };
+		1172A1DDF37495EBD87F0375 /* AppEnvironment.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppEnvironment.swift; sourceTree = "<group>"; };
+		123D513ACCB72BE24693F1C4 /* ExpandedPillView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExpandedPillView.swift; sourceTree = "<group>"; };
+		20A0D58D2B2EA247C2B3F0B9 /* SettingsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsView.swift; sourceTree = "<group>"; };
+		2455D445B6602222EB626592 /* OmniTaskiOS.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = OmniTaskiOS.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		248286509B8FDC32A92698CA /* WindowManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WindowManager.swift; sourceTree = "<group>"; };
+		24898C2C9798F2CB42DF6EB1 /* SettingsViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsViewModel.swift; sourceTree = "<group>"; };
+		255DE3CAA124F51474942DE6 /* URLSchemeHandler.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = URLSchemeHandler.swift; sourceTree = "<group>"; };
+		27735CEF94B640A78208FE40 /* OnboardingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnboardingView.swift; sourceTree = "<group>"; };
+		277F538A25586CBB3AACDC0B /* OmniTask.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = OmniTask.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		28497FDB1DF4355316A19978 /* AllTasksView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AllTasksView.swift; sourceTree = "<group>"; };
+		2E2745178332A60DF6592A91 /* TaskStructuringService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TaskStructuringService.swift; sourceTree = "<group>"; };
+		2F800473978B0F586C551E9A /* ShortcutRecorderButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShortcutRecorderButton.swift; sourceTree = "<group>"; };
+		3494A13C6439658DF96C6542 /* ConfettiView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConfettiView.swift; sourceTree = "<group>"; };
+		3C0C4EA380E25151D2FED7FB /* CompletedTaskRowView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CompletedTaskRowView.swift; sourceTree = "<group>"; };
+		419C1AB0E2551DC79BA1B53D /* OmniTaskiOSApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OmniTaskiOSApp.swift; sourceTree = "<group>"; };
+		44AE0904640452B05AE16C34 /* TaskInputView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TaskInputView.swift; sourceTree = "<group>"; };
+		478FDFDD4EF8CB7EBFB2A290 /* TaskInputSheet.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TaskInputSheet.swift; sourceTree = "<group>"; };
+		4ADAB66B87EAE8582C855B31 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
+		516DCA035AEEEC14FE92302A /* FilterSortMenuView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FilterSortMenuView.swift; sourceTree = "<group>"; };
+		52734B79228A8C54483B4C7D /* TaskRowView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TaskRowView.swift; sourceTree = "<group>"; };
+		53E813A5A4E8E8590A5034E7 /* TaskDetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TaskDetailView.swift; sourceTree = "<group>"; };
+		5BA137158D0691A3160A7D96 /* ConfettiWindowController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConfettiWindowController.swift; sourceTree = "<group>"; };
+		5D99073F5ADFAE8A2A351436 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
+		64AE1ACC22473869943660DC /* CollapsedPillView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CollapsedPillView.swift; sourceTree = "<group>"; };
+		6C26FC517407323CBEF6D976 /* ToastViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ToastViewModel.swift; sourceTree = "<group>"; };
+		6D5F74B24DB49851D1590628 /* TaskListViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TaskListViewModel.swift; sourceTree = "<group>"; };
+		6F538703F044798DFF19D711 /* AudioWaveformView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AudioWaveformView.swift; sourceTree = "<group>"; };
+		72D6C42F08E9998A01677B07 /* ManualTaskCreationView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ManualTaskCreationView.swift; sourceTree = "<group>"; };
+		76EDF9D7E9DC428E59F65B46 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
+		78A0CA8F00C1BB49E14E738F /* OmniTaskApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OmniTaskApp.swift; sourceTree = "<group>"; };
+		7EFD08170D175F8C502EC9D6 /* OmniTask.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = OmniTask.entitlements; sourceTree = "<group>"; };
+		7F750516C908F1745CE884C3 /* ProjectEditorView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProjectEditorView.swift; sourceTree = "<group>"; };
+		8185FDBF1E176461ADB80274 /* OmniTaskiOS.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = OmniTaskiOS.entitlements; sourceTree = "<group>"; };
+		94159488990407E92E9D98F2 /* SettingsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsView.swift; sourceTree = "<group>"; };
+		9766011F4FD5EB749050EE63 /* AppEnvironmentiOS.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppEnvironmentiOS.swift; sourceTree = "<group>"; };
+		9D9E379A0326903916B30E7B /* RecurrenceOptionsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecurrenceOptionsView.swift; sourceTree = "<group>"; };
+		A1B2C3D4E5F6A7B8C9D0E1F2 /* MainView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainView.swift; sourceTree = "<group>"; };
+		A628BE63D628D83C969AD5F0 /* SubtaskRowView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SubtaskRowView.swift; sourceTree = "<group>"; };
+		AB5107C593D58A3000E3A9F5 /* ConfirmationTooltip.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConfirmationTooltip.swift; sourceTree = "<group>"; };
+		B2C3D4E5F6A7B8C9D0E1F2A3 /* ProjectTabsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProjectTabsView.swift; sourceTree = "<group>"; };
+		B59AB6D89B60D130B676396C /* TaskInputViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TaskInputViewModel.swift; sourceTree = "<group>"; };
+		B71E7A3734BD90E5D5F7DEDA /* OmniTaskCore */ = {isa = PBXFileReference; lastKnownFileType = folder; name = OmniTaskCore; path = Packages/OmniTaskCore; sourceTree = SOURCE_ROOT; };
+		BACC4B5865B2360202F9610C /* ProjectViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProjectViewModel.swift; sourceTree = "<group>"; };
+		BEE823A063BDC28500FCB28E /* CarouselText.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CarouselText.swift; sourceTree = "<group>"; };
+		C06948697FAA27A2A358BBE2 /* TaskDetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TaskDetailView.swift; sourceTree = "<group>"; };
+		C3AF39669AECCCFD5E5974C9 /* ProjectsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProjectsView.swift; sourceTree = "<group>"; };
+		C3D4E5F6A7B8C9D0E1F2A3B4 /* CurrentTaskCard.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CurrentTaskCard.swift; sourceTree = "<group>"; };
+		C4A048D82BF270AD8E56B28F /* TodayView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TodayView.swift; sourceTree = "<group>"; };
+		C6CC18653A9865D9D762C113 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		CD1BE4FA68B05A7795D75B01 /* SpeechRecognitionService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SpeechRecognitionService.swift; sourceTree = "<group>"; };
+		D11210078FECC4B38256A6B1 /* TaskContextMenu.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TaskContextMenu.swift; sourceTree = "<group>"; };
+		D3E56C9F20872F4219E4BCDE /* HotkeyManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HotkeyManager.swift; sourceTree = "<group>"; };
+		D4E5F6A7B8C9D0E1F2A3B4C5 /* TaskInputBar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TaskInputBar.swift; sourceTree = "<group>"; };
+		D529E04B1C9650B52FD59A7D /* ProjectTabsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProjectTabsView.swift; sourceTree = "<group>"; };
+		D86BC143D9DE2F142C5F6FB8 /* MainPillView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainPillView.swift; sourceTree = "<group>"; };
+		E7E006D3975AAFEA92FB0CDF /* CurrentTaskFooter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CurrentTaskFooter.swift; sourceTree = "<group>"; };
+		F1B9B359C957C30EEEFE5FD5 /* PushToTalkMonitor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PushToTalkMonitor.swift; sourceTree = "<group>"; };
+		FBA95483E0863B63922B40FD /* ProjectsSettingsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProjectsSettingsView.swift; sourceTree = "<group>"; };
+		FD4494AD8625FD4BF23EF0AD /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
+		FFCF45B0904F10A16BAFDE86 /* FloatingPanel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FloatingPanel.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
-		2A0000040000000000000001 /* Frameworks */ = {
+		3BF69C7B794DF4C2E29EF4E6 /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				2A0000010000000000000023 /* GRDB in Frameworks */,
-				2A0000010000000000000024 /* KeyboardShortcuts in Frameworks */,
-				2A0000010000000000000033 /* Sparkle in Frameworks */,
+				3BCB0E6D176BF530945E61AE /* OmniTaskCore in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		7A50EF93AFD26527AE1F61EF /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				90339EE68FBC600C71BEF24A /* OmniTaskCore in Frameworks */,
+				E5F14E19196CCD226778DBF2 /* KeyboardShortcuts in Frameworks */,
+				D416458168A0B87818C25C7A /* Sparkle in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
-		2A0000050000000000000001 = {
+		059534EAC515D08A24A35ADD /* OmniTaskiOS */ = {
 			isa = PBXGroup;
 			children = (
-				2A0000050000000000000002 /* OmniTask */,
-				2A0000050000000000000099 /* Products */,
+				DD013C5A286F571BBCAB6FC4 /* App */,
+				6EF409D1CE623EC685DDA592 /* Resources */,
+				9D45903A6C9749EE7352DC92 /* ViewModels */,
+				BAFEA44A8071300B677E075A /* Views */,
 			);
+			path = OmniTaskiOS;
 			sourceTree = "<group>";
 		};
-		2A0000050000000000000002 /* OmniTask */ = {
+		0BA1A2DCCE82692796EB2306 /* Core */ = {
 			isa = PBXGroup;
 			children = (
-				2A0000050000000000000003 /* App */,
-				2A0000050000000000000004 /* Core */,
-				2A0000050000000000000005 /* Models */,
-				2A0000050000000000000006 /* Services */,
-				2A0000050000000000000007 /* ViewModels */,
-				2A0000050000000000000008 /* Views */,
-				2A0000050000000000000009 /* Resources */,
-			);
-			path = OmniTask;
-			sourceTree = "<group>";
-		};
-		2A0000050000000000000003 /* App */ = {
-			isa = PBXGroup;
-			children = (
-				2A0000020000000000000001 /* OmniTaskApp.swift */,
-				2A0000020000000000000002 /* AppDelegate.swift */,
-				2A0000020000000000000003 /* AppEnvironment.swift */,
-			);
-			path = App;
-			sourceTree = "<group>";
-		};
-		2A0000050000000000000004 /* Core */ = {
-			isa = PBXGroup;
-			children = (
-				2A000005000000000000000A /* Window */,
-				2A000005000000000000000B /* Hotkeys */,
-				2A000005000000000000000C /* Database */,
+				3F5D926ED66F8F2A618DE17A /* Hotkeys */,
+				63779F1DF2B8385E87A7A6C6 /* Window */,
 			);
 			path = Core;
 			sourceTree = "<group>";
 		};
-		2A0000050000000000000005 /* Models */ = {
+		0D83C143778F870308C71015 /* OmniTask */ = {
 			isa = PBXGroup;
 			children = (
-				2A000002000000000000000B /* OmniTask.swift */,
-				2A000002000000000000000C /* Project.swift */,
-				2A000002000000000000000D /* Priority.swift */,
-				2A000002000000000000000E /* RecurringPattern.swift */,
-				2A0000020000000000000029 /* Tag.swift */,
-				2A000002000000000000002A /* TaskTag.swift */,
-				2A0000020000000000000031 /* FilterSortSettings.swift */,
-				08C800D4BCF74DE91B8F7751 /* FilterSortSettings.swift */,
-				7EB9D30D6A1AAC6E778D35D8 /* FilterSortSettings.swift */,
+				3097A7AD16176CCD8D0C8C84 /* App */,
+				0BA1A2DCCE82692796EB2306 /* Core */,
+				DAD3C1304E4555763EF08421 /* Resources */,
+				D66143F95E0B3D52AABC3D1F /* Services */,
+				2A3FEC70BCB2A0C4CC9C4357 /* ViewModels */,
+				DE213B5DB5AF1F85351DA5E6 /* Views */,
 			);
-			path = Models;
+			path = OmniTask;
 			sourceTree = "<group>";
 		};
-		2A0000050000000000000006 /* Services */ = {
+		229B63F694E2EBD98A812647 /* Projects */ = {
 			isa = PBXGroup;
 			children = (
-				2A000005000000000000000E /* AI */,
-				2A000005000000000000000F /* Speech */,
-				2A0000050000000000000010 /* URLScheme */,
-			);
-			path = Services;
-			sourceTree = "<group>";
-		};
-		2A0000050000000000000007 /* ViewModels */ = {
-			isa = PBXGroup;
-			children = (
-				2A0000020000000000000013 /* TaskListViewModel.swift */,
-				2A0000020000000000000014 /* TaskInputViewModel.swift */,
-				2A0000020000000000000015 /* ProjectViewModel.swift */,
-				2A0000020000000000000016 /* SettingsViewModel.swift */,
-			);
-			path = ViewModels;
-			sourceTree = "<group>";
-		};
-		2A0000050000000000000008 /* Views */ = {
-			isa = PBXGroup;
-			children = (
-				2A0000050000000000000011 /* Main */,
-				2A0000050000000000000012 /* Input */,
-				2A0000050000000000000013 /* Tasks */,
-				2A0000050000000000000014 /* Projects */,
-				2A0000050000000000000015 /* Settings */,
-				2A0000050000000000000016 /* Components */,
-				6C18734815F77EB77E1039ED /* Filters */,
-				2A0000050000000000000017 /* Onboarding */,
-			);
-			path = Views;
-			sourceTree = "<group>";
-		};
-		2A0000050000000000000009 /* Resources */ = {
-			isa = PBXGroup;
-			children = (
-				2A0000020000000000000022 /* Assets.xcassets */,
-				2A0000020000000000000023 /* OmniTask.entitlements */,
-				2A0000020000000000000024 /* Info.plist */,
-			);
-			path = Resources;
-			sourceTree = "<group>";
-		};
-		2A000005000000000000000A /* Window */ = {
-			isa = PBXGroup;
-			children = (
-				2A0000020000000000000004 /* FloatingPanel.swift */,
-				2A0000020000000000000005 /* WindowManager.swift */,
-				2A0000020000000000000030 /* ConfettiWindowController.swift */,
-			);
-			path = Window;
-			sourceTree = "<group>";
-		};
-		2A000005000000000000000B /* Hotkeys */ = {
-			isa = PBXGroup;
-			children = (
-				2A0000020000000000000006 /* HotkeyManager.swift */,
-				2A0000020000000000000007 /* PushToTalkMonitor.swift */,
-			);
-			path = Hotkeys;
-			sourceTree = "<group>";
-		};
-		2A000005000000000000000C /* Database */ = {
-			isa = PBXGroup;
-			children = (
-				2A0000020000000000000008 /* DatabaseManager.swift */,
-				2A000005000000000000000D /* Repositories */,
-			);
-			path = Database;
-			sourceTree = "<group>";
-		};
-		2A000005000000000000000D /* Repositories */ = {
-			isa = PBXGroup;
-			children = (
-				2A0000020000000000000009 /* TaskRepository.swift */,
-				2A000002000000000000000A /* ProjectRepository.swift */,
-				2A0000020000000000000028 /* TagRepository.swift */,
-			);
-			path = Repositories;
-			sourceTree = "<group>";
-		};
-		2A000005000000000000000E /* AI */ = {
-			isa = PBXGroup;
-			children = (
-				2A000002000000000000000F /* ClaudeService.swift */,
-				2A0000020000000000000010 /* TaskStructuringService.swift */,
-			);
-			path = AI;
-			sourceTree = "<group>";
-		};
-		2A000005000000000000000F /* Speech */ = {
-			isa = PBXGroup;
-			children = (
-				2A0000020000000000000011 /* SpeechRecognitionService.swift */,
-			);
-			path = Speech;
-			sourceTree = "<group>";
-		};
-		2A0000050000000000000010 /* URLScheme */ = {
-			isa = PBXGroup;
-			children = (
-				2A0000020000000000000012 /* URLSchemeHandler.swift */,
-			);
-			path = URLScheme;
-			sourceTree = "<group>";
-		};
-		2A0000050000000000000011 /* Main */ = {
-			isa = PBXGroup;
-			children = (
-				2A0000020000000000000017 /* MainPillView.swift */,
-				2A0000020000000000000018 /* CollapsedPillView.swift */,
-				2A0000020000000000000019 /* ExpandedPillView.swift */,
-			);
-			path = Main;
-			sourceTree = "<group>";
-		};
-		2A0000050000000000000012 /* Input */ = {
-			isa = PBXGroup;
-			children = (
-				2A000002000000000000001A /* TaskInputView.swift */,
-				2A000002000000000000001B /* VoiceInputView.swift */,
-			);
-			path = Input;
-			sourceTree = "<group>";
-		};
-		2A0000050000000000000013 /* Tasks */ = {
-			isa = PBXGroup;
-			children = (
-				2A000002000000000000001C /* TaskListView.swift */,
-				2A000002000000000000001D /* TaskRowView.swift */,
-				2A000002000000000000002B /* SubtaskRowView.swift */,
-				2A000002000000000000001E /* TaskDetailView.swift */,
-				2A0000020000000000000025 /* ManualTaskCreationView.swift */,
-				2A000002000000000000002E /* CurrentTaskFooter.swift */,
-				CC7D2D499852785807AA7E6D /* CompletedTaskRowView.swift */,
-				5BD7190D95E3022D5498C541 /* CompletedTaskRowView.swift */,
-			);
-			path = Tasks;
-			sourceTree = "<group>";
-		};
-		2A0000050000000000000014 /* Projects */ = {
-			isa = PBXGroup;
-			children = (
-				2A000002000000000000001F /* ProjectTabsView.swift */,
-				2A0000020000000000000020 /* ProjectEditorView.swift */,
+				C3AF39669AECCCFD5E5974C9 /* ProjectsView.swift */,
+				B2C3D4E5F6A7B8C9D0E1F2A3 /* ProjectTabsView.swift */,
 			);
 			path = Projects;
 			sourceTree = "<group>";
 		};
-		2A0000050000000000000015 /* Settings */ = {
+		2A3FEC70BCB2A0C4CC9C4357 /* ViewModels */ = {
 			isa = PBXGroup;
 			children = (
-				2A0000020000000000000021 /* SettingsView.swift */,
-				2A0000020000000000000027 /* ProjectsSettingsView.swift */,
+				BACC4B5865B2360202F9610C /* ProjectViewModel.swift */,
+				24898C2C9798F2CB42DF6EB1 /* SettingsViewModel.swift */,
+				B59AB6D89B60D130B676396C /* TaskInputViewModel.swift */,
+				6D5F74B24DB49851D1590628 /* TaskListViewModel.swift */,
+				6C26FC517407323CBEF6D976 /* ToastViewModel.swift */,
+			);
+			path = ViewModels;
+			sourceTree = "<group>";
+		};
+		2DDEF1D2B946667361731308 /* Main */ = {
+			isa = PBXGroup;
+			children = (
+				FD4494AD8625FD4BF23EF0AD /* ContentView.swift */,
+				A1B2C3D4E5F6A7B8C9D0E1F2 /* MainView.swift */,
+			);
+			path = Main;
+			sourceTree = "<group>";
+		};
+		3097A7AD16176CCD8D0C8C84 /* App */ = {
+			isa = PBXGroup;
+			children = (
+				5D99073F5ADFAE8A2A351436 /* AppDelegate.swift */,
+				1172A1DDF37495EBD87F0375 /* AppEnvironment.swift */,
+				78A0CA8F00C1BB49E14E738F /* OmniTaskApp.swift */,
+			);
+			path = App;
+			sourceTree = "<group>";
+		};
+		33CF6BF312F5B1372E8B9BE4 /* Settings */ = {
+			isa = PBXGroup;
+			children = (
+				94159488990407E92E9D98F2 /* SettingsView.swift */,
 			);
 			path = Settings;
 			sourceTree = "<group>";
 		};
-		2A0000050000000000000016 /* Components */ = {
+		36E1CBD1C145D98795919379 /* Packages */ = {
 			isa = PBXGroup;
 			children = (
-				2A0000020000000000000026 /* AudioWaveformView.swift */,
-				2A000002000000000000002C /* MarqueeText.swift */,
-				2A000002000000000000002D /* ConfettiView.swift */,
-				2A000002000000000000002F /* CarouselText.swift */,
-				2A0000020000000000000034 /* ShortcutRecorderButton.swift */,
+				B71E7A3734BD90E5D5F7DEDA /* OmniTaskCore */,
 			);
-			path = Components;
+			path = Packages;
 			sourceTree = "<group>";
 		};
-		2A0000050000000000000099 /* Products */ = {
+		39BEEF5CA13ECCF5D8611226 = {
 			isa = PBXGroup;
 			children = (
-				2A0000020000000000000099 /* OmniTask.app */,
+				0D83C143778F870308C71015 /* OmniTask */,
+				059534EAC515D08A24A35ADD /* OmniTaskiOS */,
+				36E1CBD1C145D98795919379 /* Packages */,
+				7C8D34FC32545027BCDC8A12 /* Products */,
+			);
+			sourceTree = "<group>";
+		};
+		3BED46946EA46D9713566867 /* Main */ = {
+			isa = PBXGroup;
+			children = (
+				64AE1ACC22473869943660DC /* CollapsedPillView.swift */,
+				123D513ACCB72BE24693F1C4 /* ExpandedPillView.swift */,
+				D86BC143D9DE2F142C5F6FB8 /* MainPillView.swift */,
+			);
+			path = Main;
+			sourceTree = "<group>";
+		};
+		3F5D926ED66F8F2A618DE17A /* Hotkeys */ = {
+			isa = PBXGroup;
+			children = (
+				D3E56C9F20872F4219E4BCDE /* HotkeyManager.swift */,
+				F1B9B359C957C30EEEFE5FD5 /* PushToTalkMonitor.swift */,
+			);
+			path = Hotkeys;
+			sourceTree = "<group>";
+		};
+		61F315DDB32341EEAFB7CBCC /* Speech */ = {
+			isa = PBXGroup;
+			children = (
+				CD1BE4FA68B05A7795D75B01 /* SpeechRecognitionService.swift */,
+			);
+			path = Speech;
+			sourceTree = "<group>";
+		};
+		62D6D50AC35B62631080A58B /* Projects */ = {
+			isa = PBXGroup;
+			children = (
+				7F750516C908F1745CE884C3 /* ProjectEditorView.swift */,
+				D529E04B1C9650B52FD59A7D /* ProjectTabsView.swift */,
+			);
+			path = Projects;
+			sourceTree = "<group>";
+		};
+		63779F1DF2B8385E87A7A6C6 /* Window */ = {
+			isa = PBXGroup;
+			children = (
+				5BA137158D0691A3160A7D96 /* ConfettiWindowController.swift */,
+				FFCF45B0904F10A16BAFDE86 /* FloatingPanel.swift */,
+				248286509B8FDC32A92698CA /* WindowManager.swift */,
+			);
+			path = Window;
+			sourceTree = "<group>";
+		};
+		6A7639A1589E6C031154BB32 /* Settings */ = {
+			isa = PBXGroup;
+			children = (
+				FBA95483E0863B63922B40FD /* ProjectsSettingsView.swift */,
+				20A0D58D2B2EA247C2B3F0B9 /* SettingsView.swift */,
+			);
+			path = Settings;
+			sourceTree = "<group>";
+		};
+		6EF409D1CE623EC685DDA592 /* Resources */ = {
+			isa = PBXGroup;
+			children = (
+				76EDF9D7E9DC428E59F65B46 /* Info.plist */,
+				8185FDBF1E176461ADB80274 /* OmniTaskiOS.entitlements */,
+			);
+			path = Resources;
+			sourceTree = "<group>";
+		};
+		7C8D34FC32545027BCDC8A12 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				277F538A25586CBB3AACDC0B /* OmniTask.app */,
+				2455D445B6602222EB626592 /* OmniTaskiOS.app */,
 			);
 			name = Products;
 			sourceTree = "<group>";
 		};
-		6C18734815F77EB77E1039ED /* Filters */ = {
+		86939B96705F3D0DA5B6BA6F /* Tasks */ = {
 			isa = PBXGroup;
 			children = (
-				D1C41A0B255162F01B45483C /* FilterSortMenuView.swift */,
+				3C0C4EA380E25151D2FED7FB /* CompletedTaskRowView.swift */,
+				E7E006D3975AAFEA92FB0CDF /* CurrentTaskFooter.swift */,
+				72D6C42F08E9998A01677B07 /* ManualTaskCreationView.swift */,
+				A628BE63D628D83C969AD5F0 /* SubtaskRowView.swift */,
+				D11210078FECC4B38256A6B1 /* TaskContextMenu.swift */,
+				C06948697FAA27A2A358BBE2 /* TaskDetailView.swift */,
+				05F659F0CBF3FDF0FAE32DD5 /* TaskListView.swift */,
+				52734B79228A8C54483B4C7D /* TaskRowView.swift */,
 			);
-			name = Filters;
+			path = Tasks;
+			sourceTree = "<group>";
+		};
+		8A6747158E76A762B245799D /* Input */ = {
+			isa = PBXGroup;
+			children = (
+				D4E5F6A7B8C9D0E1F2A3B4C5 /* TaskInputBar.swift */,
+				478FDFDD4EF8CB7EBFB2A290 /* TaskInputSheet.swift */,
+			);
+			path = Input;
+			sourceTree = "<group>";
+		};
+		9543EB86987FA7E9CB343AA7 /* Input */ = {
+			isa = PBXGroup;
+			children = (
+				44AE0904640452B05AE16C34 /* TaskInputView.swift */,
+				0E3D1E27D33FD0FF79DEA515 /* VoiceInputView.swift */,
+			);
+			path = Input;
+			sourceTree = "<group>";
+		};
+		9D45903A6C9749EE7352DC92 /* ViewModels */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = ViewModels;
+			sourceTree = "<group>";
+		};
+		AE1EB88A00269BADEBBE096D /* Onboarding */ = {
+			isa = PBXGroup;
+			children = (
+				27735CEF94B640A78208FE40 /* OnboardingView.swift */,
+			);
+			path = Onboarding;
+			sourceTree = "<group>";
+		};
+		B95F9C5D9AE0885A313F7A87 /* URLScheme */ = {
+			isa = PBXGroup;
+			children = (
+				255DE3CAA124F51474942DE6 /* URLSchemeHandler.swift */,
+			);
+			path = URLScheme;
+			sourceTree = "<group>";
+		};
+		BAFEA44A8071300B677E075A /* Views */ = {
+			isa = PBXGroup;
+			children = (
+				8A6747158E76A762B245799D /* Input */,
+				2DDEF1D2B946667361731308 /* Main */,
+				229B63F694E2EBD98A812647 /* Projects */,
+				33CF6BF312F5B1372E8B9BE4 /* Settings */,
+				F8255FBD9B4C850E85719EAB /* Tasks */,
+			);
+			path = Views;
+			sourceTree = "<group>";
+		};
+		C9D0048471A48EF15EAFB632 /* Filters */ = {
+			isa = PBXGroup;
+			children = (
+				516DCA035AEEEC14FE92302A /* FilterSortMenuView.swift */,
+			);
 			path = Filters;
 			sourceTree = "<group>";
 		};
-		2A0000050000000000000017 /* Onboarding */ = {
+		D0976C8F5A6867FC3ED2500A /* AI */ = {
 			isa = PBXGroup;
 			children = (
-				2A0000020000000000000032 /* OnboardingView.swift */,
+				0DC57937343AD9828759510B /* ClaudeService.swift */,
+				2E2745178332A60DF6592A91 /* TaskStructuringService.swift */,
 			);
-			path = Onboarding;
+			path = AI;
+			sourceTree = "<group>";
+		};
+		D66143F95E0B3D52AABC3D1F /* Services */ = {
+			isa = PBXGroup;
+			children = (
+				D0976C8F5A6867FC3ED2500A /* AI */,
+				61F315DDB32341EEAFB7CBCC /* Speech */,
+				B95F9C5D9AE0885A313F7A87 /* URLScheme */,
+			);
+			path = Services;
+			sourceTree = "<group>";
+		};
+		DAD3C1304E4555763EF08421 /* Resources */ = {
+			isa = PBXGroup;
+			children = (
+				C6CC18653A9865D9D762C113 /* Assets.xcassets */,
+				4ADAB66B87EAE8582C855B31 /* Info.plist */,
+				7EFD08170D175F8C502EC9D6 /* OmniTask.entitlements */,
+			);
+			path = Resources;
+			sourceTree = "<group>";
+		};
+		DB87652291CB915FF9BB2458 /* Components */ = {
+			isa = PBXGroup;
+			children = (
+				6F538703F044798DFF19D711 /* AudioWaveformView.swift */,
+				BEE823A063BDC28500FCB28E /* CarouselText.swift */,
+				3494A13C6439658DF96C6542 /* ConfettiView.swift */,
+				AB5107C593D58A3000E3A9F5 /* ConfirmationTooltip.swift */,
+				0F8A8340B71819FFB2FBC0E4 /* MarqueeText.swift */,
+				9D9E379A0326903916B30E7B /* RecurrenceOptionsView.swift */,
+				2F800473978B0F586C551E9A /* ShortcutRecorderButton.swift */,
+				095406CB7E7A6B3FF63A8855 /* ToastView.swift */,
+			);
+			path = Components;
+			sourceTree = "<group>";
+		};
+		DD013C5A286F571BBCAB6FC4 /* App */ = {
+			isa = PBXGroup;
+			children = (
+				9766011F4FD5EB749050EE63 /* AppEnvironmentiOS.swift */,
+				419C1AB0E2551DC79BA1B53D /* OmniTaskiOSApp.swift */,
+			);
+			path = App;
+			sourceTree = "<group>";
+		};
+		DE213B5DB5AF1F85351DA5E6 /* Views */ = {
+			isa = PBXGroup;
+			children = (
+				DB87652291CB915FF9BB2458 /* Components */,
+				C9D0048471A48EF15EAFB632 /* Filters */,
+				9543EB86987FA7E9CB343AA7 /* Input */,
+				3BED46946EA46D9713566867 /* Main */,
+				AE1EB88A00269BADEBBE096D /* Onboarding */,
+				62D6D50AC35B62631080A58B /* Projects */,
+				6A7639A1589E6C031154BB32 /* Settings */,
+				86939B96705F3D0DA5B6BA6F /* Tasks */,
+			);
+			path = Views;
+			sourceTree = "<group>";
+		};
+		F8255FBD9B4C850E85719EAB /* Tasks */ = {
+			isa = PBXGroup;
+			children = (
+				28497FDB1DF4355316A19978 /* AllTasksView.swift */,
+				C3D4E5F6A7B8C9D0E1F2A3B4 /* CurrentTaskCard.swift */,
+				53E813A5A4E8E8590A5034E7 /* TaskDetailView.swift */,
+				0F2FE8A650368B43C362659B /* TaskRowView.swift */,
+				C4A048D82BF270AD8E56B28F /* TodayView.swift */,
+			);
+			path = Tasks;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
-		2A0000060000000000000001 /* OmniTask */ = {
+		3D5EE1EA472355BFC4B0844D /* OmniTask */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = 2A0000080000000000000001 /* Build configuration list for PBXNativeTarget "OmniTask" */;
+			buildConfigurationList = 6FF1F507481EC455DDE37617 /* Build configuration list for PBXNativeTarget "OmniTask" */;
 			buildPhases = (
-				2A0000070000000000000001 /* Sources */,
-				2A0000040000000000000001 /* Frameworks */,
-				2A0000070000000000000002 /* Resources */,
+				AEA75DB27298D6E0C289BCA0 /* Sources */,
+				FE5E34B628DC083584B29095 /* Resources */,
+				7A50EF93AFD26527AE1F61EF /* Frameworks */,
 			);
 			buildRules = (
 			);
@@ -410,131 +508,201 @@
 			);
 			name = OmniTask;
 			packageProductDependencies = (
-				2A0000030000000000000001 /* GRDB */,
-				2A0000030000000000000002 /* KeyboardShortcuts */,
+				C6605577CD2FC1EBDA19DBC1 /* OmniTaskCore */,
+				1287F4E9750B32D69D93321F /* KeyboardShortcuts */,
+				75ED91C8A257D93862063F39 /* Sparkle */,
 			);
 			productName = OmniTask;
-			productReference = 2A0000020000000000000099 /* OmniTask.app */;
+			productReference = 277F538A25586CBB3AACDC0B /* OmniTask.app */;
+			productType = "com.apple.product-type.application";
+		};
+		9045462A56BBF118BAD25B22 /* OmniTaskiOS */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = C293524221B956AAEF2416F9 /* Build configuration list for PBXNativeTarget "OmniTaskiOS" */;
+			buildPhases = (
+				CDAA3A7E667111D1C7AAA2EE /* Sources */,
+				3BF69C7B794DF4C2E29EF4E6 /* Frameworks */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = OmniTaskiOS;
+			packageProductDependencies = (
+				56DF3B3458A8E828C64FD409 /* OmniTaskCore */,
+			);
+			productName = OmniTaskiOS;
+			productReference = 2455D445B6602222EB626592 /* OmniTaskiOS.app */;
 			productType = "com.apple.product-type.application";
 		};
 /* End PBXNativeTarget section */
 
 /* Begin PBXProject section */
-		2A0000090000000000000001 /* Project object */ = {
+		049C28C14F3FA4F48A273DB0 /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
-				BuildIndependentTargetsInParallel = 1;
-				LastSwiftUpdateCheck = 1500;
+				BuildIndependentTargetsInParallel = YES;
 				LastUpgradeCheck = 1500;
-				TargetAttributes = {
-					2A0000060000000000000001 = {
-						CreatedOnToolsVersion = 15.0;
-					};
-				};
 			};
-			buildConfigurationList = 2A0000080000000000000002 /* Build configuration list for PBXProject "OmniTask" */;
+			buildConfigurationList = 24624D44A473B09D1329031A /* Build configuration list for PBXProject "OmniTask" */;
 			compatibilityVersion = "Xcode 14.0";
 			developmentRegion = en;
 			hasScannedForEncodings = 0;
 			knownRegions = (
-				en,
 				Base,
+				en,
 			);
-			mainGroup = 2A0000050000000000000001;
+			mainGroup = 39BEEF5CA13ECCF5D8611226;
+			minimizedProjectReferenceProxies = 1;
 			packageReferences = (
-				2A000003000000000000000A /* XCRemoteSwiftPackageReference "GRDB.swift" */,
-				2A000003000000000000000B /* XCRemoteSwiftPackageReference "KeyboardShortcuts" */,
-				2A000003000000000000000C /* XCRemoteSwiftPackageReference "Sparkle" */,
+				E634DDA5FBD0296DD4C86A29 /* XCRemoteSwiftPackageReference "KeyboardShortcuts" */,
+				DE3598E9754C2C1FE8246AA5 /* XCRemoteSwiftPackageReference "Sparkle" */,
+				3767C25ECD383E787E89CA36 /* XCLocalSwiftPackageReference "Packages/OmniTaskCore" */,
 			);
-			productRefGroup = 2A0000050000000000000099 /* Products */;
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
-				2A0000060000000000000001 /* OmniTask */,
+				3D5EE1EA472355BFC4B0844D /* OmniTask */,
+				9045462A56BBF118BAD25B22 /* OmniTaskiOS */,
 			);
 		};
 /* End PBXProject section */
 
 /* Begin PBXResourcesBuildPhase section */
-		2A0000070000000000000002 /* Resources */ = {
+		FE5E34B628DC083584B29095 /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				2A0000010000000000000022 /* Assets.xcassets in Resources */,
+				97908796D6FD081F19476A17 /* Assets.xcassets in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
-		2A0000070000000000000001 /* Sources */ = {
+		AEA75DB27298D6E0C289BCA0 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				2A0000010000000000000001 /* OmniTaskApp.swift in Sources */,
-				2A0000010000000000000002 /* AppDelegate.swift in Sources */,
-				2A0000010000000000000003 /* AppEnvironment.swift in Sources */,
-				2A0000010000000000000004 /* FloatingPanel.swift in Sources */,
-				2A0000010000000000000005 /* WindowManager.swift in Sources */,
-				2A0000010000000000000006 /* HotkeyManager.swift in Sources */,
-				2A0000010000000000000007 /* PushToTalkMonitor.swift in Sources */,
-				2A0000010000000000000008 /* DatabaseManager.swift in Sources */,
-				2A0000010000000000000009 /* TaskRepository.swift in Sources */,
-				2A000001000000000000000A /* ProjectRepository.swift in Sources */,
-				2A0000010000000000000028 /* TagRepository.swift in Sources */,
-				2A000001000000000000000B /* OmniTask.swift in Sources */,
-				2A000001000000000000000C /* Project.swift in Sources */,
-				2A000001000000000000000D /* Priority.swift in Sources */,
-				2A000001000000000000000E /* RecurringPattern.swift in Sources */,
-				2A0000010000000000000029 /* Tag.swift in Sources */,
-				2A000001000000000000002A /* TaskTag.swift in Sources */,
-				2A000001000000000000000F /* ClaudeService.swift in Sources */,
-				2A0000010000000000000010 /* TaskStructuringService.swift in Sources */,
-				2A0000010000000000000011 /* SpeechRecognitionService.swift in Sources */,
-				2A0000010000000000000012 /* URLSchemeHandler.swift in Sources */,
-				2A0000010000000000000013 /* TaskListViewModel.swift in Sources */,
-				2A0000010000000000000014 /* TaskInputViewModel.swift in Sources */,
-				2A0000010000000000000015 /* ProjectViewModel.swift in Sources */,
-				2A0000010000000000000016 /* SettingsViewModel.swift in Sources */,
-				2A0000010000000000000017 /* MainPillView.swift in Sources */,
-				2A0000010000000000000018 /* CollapsedPillView.swift in Sources */,
-				2A0000010000000000000019 /* ExpandedPillView.swift in Sources */,
-				2A000001000000000000001A /* TaskInputView.swift in Sources */,
-				2A000001000000000000001B /* VoiceInputView.swift in Sources */,
-				2A000001000000000000001C /* TaskListView.swift in Sources */,
-				2A000001000000000000001D /* TaskRowView.swift in Sources */,
-				2A000001000000000000001E /* TaskDetailView.swift in Sources */,
-				2A0000010000000000000025 /* ManualTaskCreationView.swift in Sources */,
-				2A000001000000000000001F /* ProjectTabsView.swift in Sources */,
-				2A0000010000000000000020 /* ProjectEditorView.swift in Sources */,
-				2A0000010000000000000021 /* SettingsView.swift in Sources */,
-				2A0000010000000000000026 /* AudioWaveformView.swift in Sources */,
-				2A0000010000000000000027 /* ProjectsSettingsView.swift in Sources */,
-				2A000001000000000000002B /* SubtaskRowView.swift in Sources */,
-				2A000001000000000000002C /* MarqueeText.swift in Sources */,
-				2A000001000000000000002D /* ConfettiView.swift in Sources */,
-				2A000001000000000000002E /* CurrentTaskFooter.swift in Sources */,
-				2A000001000000000000002F /* CarouselText.swift in Sources */,
-				2A0000010000000000000030 /* ConfettiWindowController.swift in Sources */,
-				2A0000010000000000000031 /* FilterSortSettings.swift in Sources */,
-				AC89552F890F3D87E4610F24 /* FilterSortMenuView.swift in Sources */,
-				6E7B7A33AF58EC511B682687 /* CompletedTaskRowView.swift in Sources */,
-				2A0000010000000000000032 /* OnboardingView.swift in Sources */,
-				2A0000010000000000000034 /* ShortcutRecorderButton.swift in Sources */,
+				3DEB49C9337D6370C7288B62 /* AppDelegate.swift in Sources */,
+				1CC5F9E31104C885DB1AD422 /* AppEnvironment.swift in Sources */,
+				BDB55DB59E5E735FCE1F2B4A /* AudioWaveformView.swift in Sources */,
+				0A534CE4A2AAD31361FF01F8 /* CarouselText.swift in Sources */,
+				A6B403F13B05BA621A95C942 /* ClaudeService.swift in Sources */,
+				F02F39BF7300CC2D8513ECF5 /* CollapsedPillView.swift in Sources */,
+				8092A6ABF5C1413F138740AD /* CompletedTaskRowView.swift in Sources */,
+				F4682721DE403C2BB2EFABA3 /* ConfettiView.swift in Sources */,
+				7EBFB4CEE5E1D7DFB03B58A7 /* ConfettiWindowController.swift in Sources */,
+				138526CBCC122156BFA0B279 /* ConfirmationTooltip.swift in Sources */,
+				9C2DBC608E11D9187D0328FA /* CurrentTaskFooter.swift in Sources */,
+				6174EB0137EAC4B6ED1904AD /* ExpandedPillView.swift in Sources */,
+				1AAD4D4A4DC35CB4D4DD2AA2 /* FilterSortMenuView.swift in Sources */,
+				15F6862DC4010CE0DBF90395 /* FloatingPanel.swift in Sources */,
+				6C66BA121C050D8E18F94940 /* HotkeyManager.swift in Sources */,
+				5EDFCE9D6D1B45950A5F4522 /* MainPillView.swift in Sources */,
+				972D4C0C0B4D9DA38379E9FA /* ManualTaskCreationView.swift in Sources */,
+				D973793C1D90FB8CD03D4DF0 /* MarqueeText.swift in Sources */,
+				49B809C1FCA0AE588945619A /* OmniTaskApp.swift in Sources */,
+				E2FACE360A27BABD52A12762 /* OnboardingView.swift in Sources */,
+				815FD44BE6075FACBA82A208 /* ProjectEditorView.swift in Sources */,
+				E170ECF798827733F859C645 /* ProjectTabsView.swift in Sources */,
+				8287B149C70A0A877CCA5793 /* ProjectViewModel.swift in Sources */,
+				35AC19C0BBD93B6C3E5F303D /* ProjectsSettingsView.swift in Sources */,
+				47FE7762010373BF414345A2 /* PushToTalkMonitor.swift in Sources */,
+				2E580A81BD68B31B512C869B /* RecurrenceOptionsView.swift in Sources */,
+				DD86AEEB0B98EEA2068B1D89 /* SettingsView.swift in Sources */,
+				5B0F1BE77D6E9C26B4A1C104 /* SettingsViewModel.swift in Sources */,
+				DE63B856F992F40F795CAA31 /* ShortcutRecorderButton.swift in Sources */,
+				4604B16CE32CB70E9A0A8FC3 /* SpeechRecognitionService.swift in Sources */,
+				3E370EF2795453D7C2D8774B /* SubtaskRowView.swift in Sources */,
+				9640551F7C83CEA4E6E24115 /* TaskContextMenu.swift in Sources */,
+				EA86F1148A892BB652E37704 /* TaskDetailView.swift in Sources */,
+				FD6EB74C79F0C61BDF899DF7 /* TaskInputView.swift in Sources */,
+				9E7220E9E6379B1BD84D2250 /* TaskInputViewModel.swift in Sources */,
+				F632F5D19F05678029E8EF68 /* TaskListView.swift in Sources */,
+				07C1E86CE8476B5115BBBA01 /* TaskListViewModel.swift in Sources */,
+				9919E659AEE091C8D50F8D84 /* TaskRowView.swift in Sources */,
+				E6575E1A6C9792220CBA067B /* TaskStructuringService.swift in Sources */,
+				67F721144BFF9C8525B37E26 /* ToastView.swift in Sources */,
+				CD83E8EED73B1258BA49CB3D /* ToastViewModel.swift in Sources */,
+				157A5AF35C1D65AC7E60BB8C /* URLSchemeHandler.swift in Sources */,
+				B80D24F666622786D4CCCF3B /* VoiceInputView.swift in Sources */,
+				A178F3969C5F182F38A0282C /* WindowManager.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		CDAA3A7E667111D1C7AAA2EE /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				09710F1D3E388D07C094A567 /* AllTasksView.swift in Sources */,
+				4C1A6897B1976B9EF5088EA7 /* AppEnvironmentiOS.swift in Sources */,
+				8992049DE64746983079BE9B /* ContentView.swift in Sources */,
+				08C3D4E5F6A7B8C9D0E1F2A3 /* CurrentTaskCard.swift in Sources */,
+				08A1B2C3D4E5F6A7B8C9D0E1 /* MainView.swift in Sources */,
+				D28B3B9A6728BCB5A1EEC6AE /* OmniTaskiOSApp.swift in Sources */,
+				08B2C3D4E5F6A7B8C9D0E1F2 /* ProjectTabsView.swift in Sources */,
+				942FE721EE84D61CD3C887A9 /* ProjectsView.swift in Sources */,
+				DF5D0F267447A43754DAD0BF /* SettingsView.swift in Sources */,
+				3FD5648A2D3D3F49C344D7EF /* TaskDetailView.swift in Sources */,
+				08D4E5F6A7B8C9D0E1F2A3B4 /* TaskInputBar.swift in Sources */,
+				8F1D68244F43D016C090F542 /* TaskInputSheet.swift in Sources */,
+				5821BCF8D2942173D65D22BB /* TaskRowView.swift in Sources */,
+				0D0A4EFE272E4C14EE9503DC /* TodayView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXSourcesBuildPhase section */
 
 /* Begin XCBuildConfiguration section */
-		2A000008000000000000000A /* Debug */ = {
+		4823AC28BBE710C366605843 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_ENTITLEMENTS = OmniTaskiOS/Resources/OmniTaskiOS.entitlements;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				DEVELOPMENT_TEAM = 5473W6M839;
+				INFOPLIST_FILE = OmniTaskiOS/Resources/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 17.0;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = com.harrisonriehle.omnitask;
+				SDKROOT = iphoneos;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Debug;
+		};
+		4CCD107BF175C8F1890167B0 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_ENTITLEMENTS = OmniTaskiOS/Resources/OmniTaskiOS.entitlements;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				DEVELOPMENT_TEAM = 5473W6M839;
+				INFOPLIST_FILE = OmniTaskiOS/Resources/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 17.0;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = com.harrisonriehle.omnitask;
+				SDKROOT = iphoneos;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Release;
+		};
+		6051405C929AE715124DE04C /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
-				ASSETCATALOG_COMPILER_GENERATE_SWIFT_ASSET_SYMBOL_EXTENSIONS = YES;
 				CLANG_ANALYZER_NONNULL = YES;
 				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
-				CLANG_CXX_LANGUAGE_STANDARD = "gnu++20";
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
+				CLANG_CXX_LIBRARY = "libc++";
 				CLANG_ENABLE_MODULES = YES;
 				CLANG_ENABLE_OBJC_ARC = YES;
 				CLANG_ENABLE_OBJC_WEAK = YES;
@@ -564,14 +732,13 @@
 				DEBUG_INFORMATION_FORMAT = dwarf;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
 				ENABLE_TESTABILITY = YES;
-				ENABLE_USER_SCRIPT_SANDBOXING = YES;
-				GCC_C_LANGUAGE_STANDARD = gnu17;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
 				GCC_DYNAMIC_NO_PIC = NO;
 				GCC_NO_COMMON_BLOCKS = YES;
 				GCC_OPTIMIZATION_LEVEL = 0;
 				GCC_PREPROCESSOR_DEFINITIONS = (
-					"DEBUG=1",
 					"$(inherited)",
+					"DEBUG=1",
 				);
 				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
 				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
@@ -579,25 +746,49 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				LOCALIZATION_PREFERS_STRING_CATALOGS = YES;
-				MACOSX_DEPLOYMENT_TARGET = 13.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 17.0;
+				MACOSX_DEPLOYMENT_TARGET = 14.0;
 				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
 				MTL_FAST_MATH = YES;
 				ONLY_ACTIVE_ARCH = YES;
-				SDKROOT = macosx;
-				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "DEBUG $(inherited)";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = DEBUG;
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+				SWIFT_VERSION = 5.0;
 			};
 			name = Debug;
 		};
-		2A000008000000000000000B /* Release */ = {
+		696AB3A4810BC38F07D480BD /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_ENTITLEMENTS = OmniTask/Resources/OmniTask.entitlements;
+				CODE_SIGN_IDENTITY = "Apple Development";
+				CODE_SIGN_STYLE = Automatic;
+				COMBINE_HIDPI_IMAGES = YES;
+				DEVELOPMENT_TEAM = 5473W6M839;
+				ENABLE_HARDENED_RUNTIME = YES;
+				INFOPLIST_FILE = OmniTask/Resources/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/../Frameworks",
+				);
+				MACOSX_DEPLOYMENT_TARGET = 14.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.harrisonriehle.omnitask;
+				PROVISIONING_PROFILE_SPECIFIER = "";
+				SDKROOT = macosx;
+				SWIFT_VERSION = 5.0;
+			};
+			name = Debug;
+		};
+		CCC42184DA93BFC8A8C91530 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
-				ASSETCATALOG_COMPILER_GENERATE_SWIFT_ASSET_SYMBOL_EXTENSIONS = YES;
 				CLANG_ANALYZER_NONNULL = YES;
 				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
-				CLANG_CXX_LANGUAGE_STANDARD = "gnu++20";
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
+				CLANG_CXX_LIBRARY = "libc++";
 				CLANG_ENABLE_MODULES = YES;
 				CLANG_ENABLE_OBJC_ARC = YES;
 				CLANG_ENABLE_OBJC_WEAK = YES;
@@ -627,8 +818,7 @@
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				ENABLE_NS_ASSERTIONS = NO;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
-				ENABLE_USER_SCRIPT_SANDBOXING = YES;
-				GCC_C_LANGUAGE_STANDARD = gnu17;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
 				GCC_NO_COMMON_BLOCKS = YES;
 				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
 				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
@@ -636,71 +826,36 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				LOCALIZATION_PREFERS_STRING_CATALOGS = YES;
-				MACOSX_DEPLOYMENT_TARGET = 13.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 17.0;
+				MACOSX_DEPLOYMENT_TARGET = 14.0;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				MTL_FAST_MATH = YES;
-				SDKROOT = macosx;
+				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_COMPILATION_MODE = wholemodule;
+				SWIFT_OPTIMIZATION_LEVEL = "-O";
+				SWIFT_VERSION = 5.0;
 			};
 			name = Release;
 		};
-		2A000008000000000000000C /* Debug */ = {
+		DFFB133EB974EEA33CC24438 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_ENTITLEMENTS = OmniTask/Resources/OmniTask.entitlements;
+				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
 				COMBINE_HIDPI_IMAGES = YES;
-				CURRENT_PROJECT_VERSION = 1;
-				DEVELOPMENT_ASSET_PATHS = "";
 				DEVELOPMENT_TEAM = 5473W6M839;
 				ENABLE_HARDENED_RUNTIME = YES;
-				ENABLE_PREVIEWS = YES;
-				GENERATE_INFOPLIST_FILE = NO;
 				INFOPLIST_FILE = OmniTask/Resources/Info.plist;
-				INFOPLIST_KEY_CFBundleDisplayName = OmniTask;
-				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.productivity";
-				INFOPLIST_KEY_NSHumanReadableCopyright = "";
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/../Frameworks",
 				);
-				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = com.omnitask.app;
-				PRODUCT_NAME = "$(TARGET_NAME)";
-				SWIFT_EMIT_LOC_STRINGS = YES;
-				SWIFT_VERSION = 5.0;
-			};
-			name = Debug;
-		};
-		2A000008000000000000000D /* Release */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
-				CODE_SIGN_ENTITLEMENTS = OmniTask/Resources/OmniTask.entitlements;
-				CODE_SIGN_STYLE = Automatic;
-				COMBINE_HIDPI_IMAGES = YES;
-				CURRENT_PROJECT_VERSION = 1;
-				DEVELOPMENT_ASSET_PATHS = "";
-				DEVELOPMENT_TEAM = 5473W6M839;
-				ENABLE_HARDENED_RUNTIME = YES;
-				ENABLE_PREVIEWS = YES;
-				GENERATE_INFOPLIST_FILE = NO;
-				INFOPLIST_FILE = OmniTask/Resources/Info.plist;
-				INFOPLIST_KEY_CFBundleDisplayName = OmniTask;
-				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.productivity";
-				INFOPLIST_KEY_NSHumanReadableCopyright = "";
-				LD_RUNPATH_SEARCH_PATHS = (
-					"$(inherited)",
-					"@executable_path/../Frameworks",
-				);
-				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = com.omnitask.app;
-				PRODUCT_NAME = "$(TARGET_NAME)";
-				SWIFT_EMIT_LOC_STRINGS = YES;
+				MACOSX_DEPLOYMENT_TARGET = 14.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.harrisonriehle.omnitask;
+				PROVISIONING_PROFILE_SPECIFIER = "";
+				SDKROOT = macosx;
 				SWIFT_VERSION = 5.0;
 			};
 			name = Release;
@@ -708,46 +863,54 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
-		2A0000080000000000000001 /* Build configuration list for PBXNativeTarget "OmniTask" */ = {
+		24624D44A473B09D1329031A /* Build configuration list for PBXProject "OmniTask" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
-				2A000008000000000000000C /* Debug */,
-				2A000008000000000000000D /* Release */,
+				6051405C929AE715124DE04C /* Debug */,
+				CCC42184DA93BFC8A8C91530 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = Release;
+			defaultConfigurationName = Debug;
 		};
-		2A0000080000000000000002 /* Build configuration list for PBXProject "OmniTask" */ = {
+		6FF1F507481EC455DDE37617 /* Build configuration list for PBXNativeTarget "OmniTask" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
-				2A000008000000000000000A /* Debug */,
-				2A000008000000000000000B /* Release */,
+				696AB3A4810BC38F07D480BD /* Debug */,
+				DFFB133EB974EEA33CC24438 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = Release;
+			defaultConfigurationName = Debug;
+		};
+		C293524221B956AAEF2416F9 /* Build configuration list for PBXNativeTarget "OmniTaskiOS" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				4823AC28BBE710C366605843 /* Debug */,
+				4CCD107BF175C8F1890167B0 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Debug;
 		};
 /* End XCConfigurationList section */
 
-/* Begin XCRemoteSwiftPackageReference section */
-		2A000003000000000000000A /* XCRemoteSwiftPackageReference "GRDB.swift" */ = {
-			isa = XCRemoteSwiftPackageReference;
-			repositoryURL = "https://github.com/groue/GRDB.swift.git";
-			requirement = {
-				kind = upToNextMajorVersion;
-				minimumVersion = 7.0.0;
-			};
+/* Begin XCLocalSwiftPackageReference section */
+		3767C25ECD383E787E89CA36 /* XCLocalSwiftPackageReference "Packages/OmniTaskCore" */ = {
+			isa = XCLocalSwiftPackageReference;
+			relativePath = Packages/OmniTaskCore;
 		};
-		2A000003000000000000000B /* XCRemoteSwiftPackageReference "KeyboardShortcuts" */ = {
+/* End XCLocalSwiftPackageReference section */
+
+/* Begin XCRemoteSwiftPackageReference section */
+		DE3598E9754C2C1FE8246AA5 /* XCRemoteSwiftPackageReference "Sparkle" */ = {
 			isa = XCRemoteSwiftPackageReference;
-			repositoryURL = "https://github.com/sindresorhus/KeyboardShortcuts.git";
+			repositoryURL = "https://github.com/sparkle-project/Sparkle";
 			requirement = {
 				kind = upToNextMajorVersion;
 				minimumVersion = 2.0.0;
 			};
 		};
-		2A000003000000000000000C /* XCRemoteSwiftPackageReference "Sparkle" */ = {
+		E634DDA5FBD0296DD4C86A29 /* XCRemoteSwiftPackageReference "KeyboardShortcuts" */ = {
 			isa = XCRemoteSwiftPackageReference;
-			repositoryURL = "https://github.com/sparkle-project/Sparkle";
+			repositoryURL = "https://github.com/sindresorhus/KeyboardShortcuts";
 			requirement = {
 				kind = upToNextMajorVersion;
 				minimumVersion = 2.0.0;
@@ -756,22 +919,25 @@
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
-		2A0000030000000000000001 /* GRDB */ = {
+		1287F4E9750B32D69D93321F /* KeyboardShortcuts */ = {
 			isa = XCSwiftPackageProductDependency;
-			package = 2A000003000000000000000A /* XCRemoteSwiftPackageReference "GRDB.swift" */;
-			productName = GRDB;
-		};
-		2A0000030000000000000002 /* KeyboardShortcuts */ = {
-			isa = XCSwiftPackageProductDependency;
-			package = 2A000003000000000000000B /* XCRemoteSwiftPackageReference "KeyboardShortcuts" */;
+			package = E634DDA5FBD0296DD4C86A29 /* XCRemoteSwiftPackageReference "KeyboardShortcuts" */;
 			productName = KeyboardShortcuts;
 		};
-		2A0000030000000000000003 /* Sparkle */ = {
+		56DF3B3458A8E828C64FD409 /* OmniTaskCore */ = {
 			isa = XCSwiftPackageProductDependency;
-			package = 2A000003000000000000000C /* XCRemoteSwiftPackageReference "Sparkle" */;
+			productName = OmniTaskCore;
+		};
+		75ED91C8A257D93862063F39 /* Sparkle */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = DE3598E9754C2C1FE8246AA5 /* XCRemoteSwiftPackageReference "Sparkle" */;
 			productName = Sparkle;
+		};
+		C6605577CD2FC1EBDA19DBC1 /* OmniTaskCore */ = {
+			isa = XCSwiftPackageProductDependency;
+			productName = OmniTaskCore;
 		};
 /* End XCSwiftPackageProductDependency section */
 	};
-	rootObject = 2A0000090000000000000001 /* Project object */;
+	rootObject = 049C28C14F3FA4F48A273DB0 /* Project object */;
 }

@@ -1,4 +1,5 @@
 import Foundation
+import OmniTaskCore
 
 /// Service that uses Claude to structure natural language input into tasks
 @MainActor
@@ -56,8 +57,9 @@ final class TaskStructuringService {
     /// Parse natural language input into structured tasks
     /// - Parameters:
     ///   - input: Natural language task description
-    ///   - defaultToToday: When true, tasks without explicit due date default to today (used during onboarding)
-    func parseInput(_ input: String, defaultToToday: Bool = false) async throws -> [OmniTask] {
+    ///   - defaultToToday: When true, tasks without explicit due date default to today
+    ///   - defaultProjectId: When provided, tasks without AI-assigned project use this project
+    func parseInput(_ input: String, defaultToToday: Bool = false, defaultProjectId: String? = nil) async throws -> [OmniTaskCore.OmniTask] {
         print("[TaskStructuringService] ========================================")
         print("[TaskStructuringService] parseInput called")
         print("[TaskStructuringService] Input: \"\(input)\"")
@@ -74,7 +76,7 @@ final class TaskStructuringService {
 
         guard hasKey else {
             print("[TaskStructuringService] No API key configured - creating simple task (no AI)")
-            let task = createSimpleTask(from: trimmed, defaultToToday: defaultToToday)
+            let task: OmniTaskCore.OmniTask = createSimpleTask(from: trimmed, defaultToToday: defaultToToday, defaultProjectId: defaultProjectId)
             print("[TaskStructuringService] Created simple task: \(task.title)")
             return [task]
         }
@@ -100,7 +102,7 @@ final class TaskStructuringService {
             print("[TaskStructuringService] Response: \(response.prefix(500))...")
 
             // Parse the response
-            let tasks = try parseResponse(response, originalInput: trimmed, defaultToToday: defaultToToday)
+            let tasks = try parseResponse(response, originalInput: trimmed, defaultToToday: defaultToToday, defaultProjectId: defaultProjectId)
             print("[TaskStructuringService] Parsed \(tasks.count) task(s)")
             for (index, task) in tasks.enumerated() {
                 print("[TaskStructuringService] Task \(index + 1): \(task.title)")
@@ -141,7 +143,11 @@ final class TaskStructuringService {
         3. Parse natural language dates like "tomorrow", "next Monday", "Friday at 3pm", "in 2 hours"
         4. Convert dates to ISO8601 format (e.g., "2025-12-05T14:00:00")
         5. Determine priority: "urgent", "high", "medium", "low", or "none"
-        6. Detect recurring patterns like "every Monday", "daily", "weekly"
+        6. Detect recurring patterns - supported formats:
+           - Simple: "daily", "weekly", "monthly", "yearly"
+           - Intervals: "every 2 weeks", "every 3 days", "every other Monday"
+           - Specific days: "every Monday", "every Mon/Wed/Fri", "every Tuesday and Thursday"
+           - Ordinal monthly: "2nd Sunday of the month", "last Friday of each month", "first Monday monthly"
         7. If input contains multiple distinct tasks, create separate task entries
         8. For compound tasks (task with steps), use subtasks array
 
@@ -155,7 +161,7 @@ final class TaskStructuringService {
               "due_date": "ISO8601 datetime or null",
               "priority": "urgent|high|medium|low|none",
               "recurring": false,
-              "recurrence_rule": "null or pattern like 'every Monday'",
+              "recurrence_rule": "null or pattern description (e.g., 'every 2 weeks', 'every Monday', '2nd Sunday of the month')",
               "subtasks": ["Subtask 1", "Subtask 2"],
               "suggested_order": 1
             }
@@ -181,7 +187,7 @@ final class TaskStructuringService {
         """
     }
 
-    private func parseResponse(_ response: String, originalInput: String, defaultToToday: Bool = false) throws -> [OmniTask] {
+    private func parseResponse(_ response: String, originalInput: String, defaultToToday: Bool = false, defaultProjectId: String? = nil) throws -> [OmniTaskCore.OmniTask] {
         // Extract JSON from the response (in case there's any wrapping text)
         let jsonString = extractJSON(from: response)
 
@@ -194,25 +200,25 @@ final class TaskStructuringService {
             parseResponse = try JSONDecoder().decode(ParseResponse.self, from: data)
         } catch {
             // If JSON parsing fails, create a simple task with the original input
-            return [createSimpleTask(from: originalInput, defaultToToday: defaultToToday)]
+            return [createSimpleTask(from: originalInput, defaultToToday: defaultToToday, defaultProjectId: defaultProjectId)]
         }
 
         if parseResponse.tasks.isEmpty {
-            return [createSimpleTask(from: originalInput, defaultToToday: defaultToToday)]
+            return [createSimpleTask(from: originalInput, defaultToToday: defaultToToday, defaultProjectId: defaultProjectId)]
         }
 
         // Build all tasks including subtasks
-        var allTasks: [OmniTask] = []
+        var allTasks: [OmniTaskCore.OmniTask] = []
 
         for (index, parsed) in parseResponse.tasks.enumerated() {
-            let parentTask = try convertToOmniTask(parsed, sortOrder: index, originalInput: originalInput, defaultToToday: defaultToToday)
+            let parentTask = try convertToOmniTask(parsed, sortOrder: index, originalInput: originalInput, defaultToToday: defaultToToday, defaultProjectId: defaultProjectId)
             allTasks.append(parentTask)
 
             // Create subtasks if present
             if let subtaskTitles = parsed.subtasks, !subtaskTitles.isEmpty {
                 print("[TaskStructuringService] Creating \(subtaskTitles.count) subtask(s) for: \(parentTask.title)")
                 for (subtaskIndex, subtaskTitle) in subtaskTitles.enumerated() {
-                    let subtask = OmniTask(
+                    let subtask = OmniTaskCore.OmniTask(
                         title: subtaskTitle,
                         parentTaskId: parentTask.id,
                         priority: parentTask.priority,
@@ -237,8 +243,8 @@ final class TaskStructuringService {
         return response
     }
 
-    private func convertToOmniTask(_ parsed: ParsedTask, sortOrder: Int, originalInput: String, defaultToToday: Bool = false) throws -> OmniTask {
-        // Find project ID
+    private func convertToOmniTask(_ parsed: ParsedTask, sortOrder: Int, originalInput: String, defaultToToday: Bool = false, defaultProjectId: String? = nil) throws -> OmniTaskCore.OmniTask {
+        // Find project ID from AI response, or use default if provided
         var projectId: String? = nil
         if let projectName = parsed.project {
             if let project = projectRepository.projects.first(where: {
@@ -248,28 +254,33 @@ final class TaskStructuringService {
             }
         }
 
+        // Use default project if AI didn't assign one
+        if projectId == nil {
+            projectId = defaultProjectId
+        }
+
         // Parse due date
         var dueDate: Date? = nil
         if let dueDateString = parsed.dueDate {
             dueDate = parseDate(dueDateString)
         }
 
-        // Default to today if requested and no due date was parsed
+        // Default to 6 hours from now if requested and no due date was parsed
         if dueDate == nil && defaultToToday {
-            dueDate = Calendar.current.startOfDay(for: Date())
+            dueDate = Date().addingTimeInterval(6 * 60 * 60)
         }
 
         // Parse priority
-        let priority = Priority.from(string: parsed.priority ?? "medium")
+        let priority = OmniTaskCore.Priority.from(string: parsed.priority ?? "medium")
 
         // Parse recurring pattern
-        var recurringPattern: RecurringPattern? = nil
+        var recurringPattern: OmniTaskCore.RecurringPattern? = nil
         if parsed.recurring == true, let rule = parsed.recurrenceRule {
-            recurringPattern = RecurringPattern.parse(from: rule)
+            recurringPattern = OmniTaskCore.RecurringPattern.parse(from: rule)
         }
 
         // Create the main task
-        let task = OmniTask(
+        let task = OmniTaskCore.OmniTask(
             title: parsed.title,
             notes: parsed.notes,
             projectId: projectId,
@@ -321,19 +332,20 @@ final class TaskStructuringService {
         return nil
     }
 
-    private func createSimpleTask(from input: String, defaultToToday: Bool = false) -> OmniTask {
-        OmniTask(
+    private func createSimpleTask(from input: String, defaultToToday: Bool = false, defaultProjectId: String? = nil) -> OmniTaskCore.OmniTask {
+        OmniTaskCore.OmniTask(
             title: input,
+            projectId: defaultProjectId,
             priority: .medium,
-            dueDate: defaultToToday ? Calendar.current.startOfDay(for: Date()) : nil,
+            dueDate: defaultToToday ? Date().addingTimeInterval(6 * 60 * 60) : nil,
             originalInput: input
         )
     }
 
     /// Create subtasks for a parent task
-    func createSubtasks(for parentId: String, titles: [String]) -> [OmniTask] {
+    func createSubtasks(for parentId: String, titles: [String]) -> [OmniTaskCore.OmniTask] {
         titles.enumerated().map { index, title in
-            OmniTask(
+            OmniTaskCore.OmniTask(
                 title: title,
                 parentTaskId: parentId,
                 priority: .medium,

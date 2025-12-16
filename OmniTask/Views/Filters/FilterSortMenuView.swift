@@ -1,4 +1,5 @@
 import SwiftUI
+import OmniTaskCore
 
 /// Popover menu for filtering and sorting tasks
 struct FilterSortMenuView: View {

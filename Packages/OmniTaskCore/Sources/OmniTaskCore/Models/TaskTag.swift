@@ -2,12 +2,12 @@ import Foundation
 import GRDB
 
 /// Junction table for many-to-many relationship between tasks and tags
-struct TaskTag: Codable, Equatable {
-    var taskId: String
-    var tagId: String
-    var createdAt: Date
+public struct TaskTag: Codable, Equatable, Sendable {
+    public var taskId: String
+    public var tagId: String
+    public var createdAt: Date
 
-    init(
+    public init(
         taskId: String,
         tagId: String,
         createdAt: Date = Date()
@@ -21,9 +21,9 @@ struct TaskTag: Codable, Equatable {
 // MARK: - GRDB Support
 
 extension TaskTag: FetchableRecord, PersistableRecord {
-    static var databaseTableName: String { "task_tags" }
+    public static var databaseTableName: String { "task_tags" }
 
-    enum Columns: String, ColumnExpression {
+    public enum Columns: String, ColumnExpression {
         case taskId, tagId, createdAt
     }
 }

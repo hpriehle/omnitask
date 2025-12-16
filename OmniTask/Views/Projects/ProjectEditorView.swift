@@ -1,9 +1,10 @@
 import SwiftUI
+import OmniTaskCore
 
 /// Sheet for creating or editing a project
 struct ProjectEditorView: View {
     @ObservedObject var projectVM: ProjectViewModel
-    var editingProject: Project?
+    var editingProject: OmniTaskCore.Project?
     var tagRepository: TagRepository?
 
     @Environment(\.dismiss) private var dismiss
@@ -12,8 +13,8 @@ struct ProjectEditorView: View {
     @State private var description: String = ""
     @State private var selectedColor: String = "#3B82F6"
 
-    // Tag management
-    @State private var tags: [Tag] = []
+    // Tag management (using OmniTaskCore.Tag for compatibility with TagRepository)
+    @State private var tags: [OmniTaskCore.Tag] = []
     @State private var newTagName: String = ""
     @State private var newTagColor: String = "#6B7280"
     @State private var showingAddTag = false
@@ -178,14 +179,14 @@ struct ProjectEditorView: View {
 
     private func addTag(name: String, color: String) {
         guard let project = editingProject, let tagRepository = tagRepository else { return }
-        let tag = Tag(name: name, color: color, projectId: project.id)
+        let tag = OmniTaskCore.Tag(name: name, color: color, projectId: project.id)
         Task {
             try? await tagRepository.create(tag)
             loadTags()
         }
     }
 
-    private func deleteTag(_ tag: Tag) {
+    private func deleteTag(_ tag: OmniTaskCore.Tag) {
         guard let tagRepository = tagRepository else { return }
         Task {
             try? await tagRepository.delete(tag)
@@ -245,7 +246,7 @@ struct ColorSwatch: View {
 // MARK: - Tag Chip
 
 struct TagChip: View {
-    let tag: Tag
+    let tag: OmniTaskCore.Tag
     let onDelete: () -> Void
 
     var body: some View {
@@ -392,6 +393,6 @@ struct FlowLayout: Layout {
         projectVM: ProjectViewModel(
             projectRepository: ProjectRepository(database: DatabaseManager())
         ),
-        editingProject: Project(name: "Work", description: "Work tasks", color: "#3B82F6")
+        editingProject: OmniTaskCore.Project(name: "Work", description: "Work tasks", color: "#3B82F6")
     )
 }

@@ -1,18 +1,19 @@
 import Foundation
 import GRDB
+import SwiftUI
 
 /// A project/category for grouping tasks
-struct Project: Identifiable, Codable, Equatable {
-    var id: String
-    var name: String
-    var description: String?
-    var color: String?
-    var sortOrder: Int
-    var isArchived: Bool
-    var createdAt: Date
-    var updatedAt: Date
+public struct Project: Identifiable, Codable, Equatable, Sendable {
+    public var id: String
+    public var name: String
+    public var description: String?
+    public var color: String?
+    public var sortOrder: Int
+    public var isArchived: Bool
+    public var createdAt: Date
+    public var updatedAt: Date
 
-    init(
+    public init(
         id: String = UUID().uuidString,
         name: String,
         description: String? = nil,
@@ -35,7 +36,7 @@ struct Project: Identifiable, Codable, Equatable {
     // MARK: - Computed Properties
 
     /// Returns the SwiftUI Color from the hex string
-    var swiftUIColor: Color {
+    public var swiftUIColor: Color {
         Color(hex: color ?? "#3B82F6")
     }
 }
@@ -43,18 +44,16 @@ struct Project: Identifiable, Codable, Equatable {
 // MARK: - GRDB Support
 
 extension Project: FetchableRecord, PersistableRecord {
-    static var databaseTableName: String { "projects" }
+    public static var databaseTableName: String { "projects" }
 
-    enum Columns: String, ColumnExpression {
+    public enum Columns: String, ColumnExpression {
         case id, name, description, color, sortOrder, isArchived, createdAt, updatedAt
     }
 }
 
 // MARK: - SwiftUI Color Extension
 
-import SwiftUI
-
-extension Color {
+public extension Color {
     init(hex: String) {
         let hex = hex.trimmingCharacters(in: CharacterSet.alphanumerics.inverted)
         var int: UInt64 = 0

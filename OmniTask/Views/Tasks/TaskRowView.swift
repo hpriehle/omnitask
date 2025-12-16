@@ -1,18 +1,21 @@
 import SwiftUI
+import OmniTaskCore
 
 /// Single task row with checkbox, title, and metadata
 struct TaskRowView: View {
     let task: OmniTask
-    let projects: [Project]
+    let projects: [OmniTaskCore.Project]
     var tagRepository: TagRepository?
     var isSelected: Bool = false
     let onComplete: () -> Void
     let onUpdate: (OmniTask) -> Void
 
     // Subtask support
+    var subtasks: [OmniTask] = []
     var subtaskCount: (total: Int, completed: Int)?
     var isExpanded: Bool = false
     var canComplete: Bool = true
+    var isPendingConfirmation: Bool = false // Waiting for second click to confirm completion
     var onToggleExpand: (() -> Void)?
     var onAddSubtask: (() -> Void)?
 
@@ -32,6 +35,7 @@ struct TaskRowView: View {
 
     @State private var isHovered = false
     @State private var isCompleting = false
+    @State private var showConfetti = false
     @State private var showingDetail = false
     @State private var editableTask: OmniTask
 
@@ -40,9 +44,11 @@ struct TaskRowView: View {
         projects: [Project],
         tagRepository: TagRepository? = nil,
         isSelected: Bool = false,
+        subtasks: [OmniTask] = [],
         subtaskCount: (total: Int, completed: Int)? = nil,
         isExpanded: Bool = false,
         canComplete: Bool = true,
+        isPendingConfirmation: Bool = false,
         onComplete: @escaping () -> Void,
         onUpdate: @escaping (OmniTask) -> Void,
         onToggleExpand: (() -> Void)? = nil,
@@ -58,9 +64,11 @@ struct TaskRowView: View {
         self.projects = projects
         self.tagRepository = tagRepository
         self.isSelected = isSelected
+        self.subtasks = subtasks
         self.subtaskCount = subtaskCount
         self.isExpanded = isExpanded
         self.canComplete = canComplete
+        self.isPendingConfirmation = isPendingConfirmation
         self.onComplete = onComplete
         self.onUpdate = onUpdate
         self.onToggleExpand = onToggleExpand
@@ -76,18 +84,24 @@ struct TaskRowView: View {
 
     var body: some View {
         HStack(alignment: .top, spacing: 10) {
-            // Checkbox
-            Button(action: completeWithAnimation) {
+            // Checkbox with confetti overlay
+            ZStack {
                 Image(systemName: task.isCompleted ? "checkmark.circle.fill" : "circle")
                     .font(.system(size: 18))
                     .foregroundColor(task.isCompleted ? .green : checkboxColor)
-                    .scaleEffect(isCompleting ? 1.2 : 1.0)
-            }
-            .buttonStyle(.plain)
-            .disabled(isCompleting || !canComplete)
-            .help(canComplete ? "" : "Complete all subtasks first")
+                    .scaleEffect(isCompleting ? 1.3 : 1.0)
+                    .animation(.spring(response: 0.3, dampingFraction: 0.6), value: isCompleting)
+                    .animation(.easeInOut(duration: 0.2), value: task.isCompleted)
 
-            // Content
+                ConfettiView(isShowing: $showConfetti, particleCount: 12)
+            }
+            .frame(width: 24, height: 24)
+            .contentShape(Rectangle())
+            .onTapGesture {
+                completeWithAnimation()
+            }
+
+            // Content (tappable area for edit)
             VStack(alignment: .leading, spacing: 4) {
                 HStack(spacing: 6) {
                     // Project dot (shown in Today view instead of priority)
@@ -101,9 +115,10 @@ struct TaskRowView: View {
                     // Title
                     Text(task.title)
                         .font(.system(size: 14))
-                        .foregroundColor(.primary)
+                        .foregroundColor(task.isCompleted ? .secondary : .primary)
                         .strikethrough(task.isCompleted)
                         .lineLimit(2)
+                        .animation(.easeInOut(duration: 0.25), value: task.isCompleted)
 
                     // Recurring indicator
                     if task.isRecurring {
@@ -127,6 +142,11 @@ struct TaskRowView: View {
                         }
                     }
                 }
+            }
+            .contentShape(Rectangle())
+            .onTapGesture {
+                editableTask = task
+                showingDetail = true
             }
 
             Spacer()
@@ -211,17 +231,29 @@ struct TaskRowView: View {
                     .strokeBorder(Color.accentColor.opacity(0.5), lineWidth: 1.5)
             }
         }
-        .contentShape(Rectangle())
-        .onTapGesture {
-            editableTask = task
-            showingDetail = true
-        }
         .onHover { hovering in
             withAnimation(.easeInOut(duration: 0.15)) {
                 isHovered = hovering
             }
         }
-        .opacity(isCompleting ? 0.5 : 1.0)
+        .contextMenu {
+            let _ = print("[TaskRowView] contextMenu opened for task: '\(task.title)', subtasks.count: \(subtasks.count)")
+            TaskContextMenu(
+                task: task,
+                subtasks: subtasks,
+                projects: projects,
+                onUpdate: onUpdate
+            )
+        }
+        .overlay(alignment: .bottomLeading) {
+            ConfirmationTooltip(
+                message: "Click again to complete with subtasks",
+                isVisible: isPendingConfirmation
+            )
+            .offset(x: 4, y: 4)
+            .allowsHitTesting(false)
+            .animation(.easeInOut(duration: 0.2), value: isPendingConfirmation)
+        }
         .sheet(isPresented: $showingDetail) {
             TaskDetailView(
                 task: $editableTask,
@@ -247,7 +279,10 @@ struct TaskRowView: View {
     // MARK: - Components
 
     private var checkboxColor: Color {
-        canComplete ? .secondary : .secondary.opacity(0.5)
+        if isPendingConfirmation {
+            return .orange
+        }
+        return .secondary
     }
 
     private var keyboardSelectionBackground: Color {
@@ -349,12 +384,59 @@ struct TaskRowView: View {
     // MARK: - Actions
 
     private func completeWithAnimation() {
-        withAnimation(.spring(response: 0.3, dampingFraction: 0.6)) {
-            isCompleting = true
+        print("[TaskRowView] completeWithAnimation called for task: '\(task.title)'")
+        print("[TaskRowView] - task.id: \(task.id)")
+        print("[TaskRowView] - isPendingConfirmation: \(isPendingConfirmation)")
+        print("[TaskRowView] - subtaskCount: \(String(describing: subtaskCount))")
+        print("[TaskRowView] - canComplete: \(canComplete)")
+
+        // If uncompleting, just call onComplete without animation
+        if task.isCompleted {
+            print("[TaskRowView] Task is completed - uncompleting without animation")
+            onComplete()
+            return
         }
 
+        // If already pending confirmation (second click), complete with animation
+        if isPendingConfirmation {
+            print("[TaskRowView] Second click detected - calling onComplete for confirmation with animation")
+            triggerCompletionAnimation()
+            // Delay onComplete to allow animation to show before row is removed
+            DispatchQueue.main.asyncAfter(deadline: .now() + 0.4) {
+                self.onComplete()
+            }
+            return
+        }
+
+        // First click - let ViewModel decide if confirmation needed
+        // If task has no subtasks, it completes and disappears
+        // If task needs confirmation, ViewModel sets pendingCompletionTaskId
+        // and view re-renders with tooltip + orange checkbox
+        print("[TaskRowView] First click - calling onComplete with animation")
+        triggerCompletionAnimation()
+        // Delay onComplete to allow animation to show before row is removed
+        DispatchQueue.main.asyncAfter(deadline: .now() + 0.4) {
+            print("[TaskRowView] Delayed onComplete now executing")
+            self.onComplete()
+        }
+        print("[TaskRowView] onComplete scheduled")
+    }
+
+    private func triggerCompletionAnimation() {
+        print("[TaskRowView] triggerCompletionAnimation called - isCompleting: \(isCompleting), showConfetti: \(showConfetti)")
+        withAnimation(.spring(response: 0.3, dampingFraction: 0.6)) {
+            isCompleting = true
+            print("[TaskRowView] isCompleting set to TRUE")
+        }
+        showConfetti = true
+        print("[TaskRowView] showConfetti set to TRUE")
+
+        // Reset scale after animation
         DispatchQueue.main.asyncAfter(deadline: .now() + 0.3) {
-            onComplete()
+            print("[TaskRowView] Resetting isCompleting to false")
+            withAnimation(.spring(response: 0.2, dampingFraction: 0.8)) {
+                self.isCompleting = false
+            }
         }
     }
 }
@@ -362,19 +444,17 @@ struct TaskRowView: View {
 // MARK: - Preview
 
 #Preview {
-    let projects = [
-        Project(name: "Work", color: "#3B82F6"),
-        Project(name: "Personal", color: "#10B981")
-    ]
-
-    return VStack(spacing: 8) {
+    VStack(spacing: 8) {
         TaskRowView(
             task: OmniTask(
                 title: "Urgent task with long title that wraps",
                 priority: .urgent,
                 dueDate: Date().addingTimeInterval(-3600)
             ),
-            projects: projects,
+            projects: [
+                OmniTaskCore.Project(name: "Work", color: "#3B82F6"),
+                OmniTaskCore.Project(name: "Personal", color: "#10B981")
+            ],
             onComplete: {},
             onUpdate: { _ in }
         )
@@ -386,7 +466,10 @@ struct TaskRowView: View {
                 priority: .high,
                 dueDate: Date()
             ),
-            projects: projects,
+            projects: [
+                OmniTaskCore.Project(name: "Work", color: "#3B82F6"),
+                OmniTaskCore.Project(name: "Personal", color: "#10B981")
+            ],
             onComplete: {},
             onUpdate: { _ in }
         )
@@ -397,7 +480,10 @@ struct TaskRowView: View {
                 priority: .medium,
                 recurringPattern: .daily
             ),
-            projects: projects,
+            projects: [
+                OmniTaskCore.Project(name: "Work", color: "#3B82F6"),
+                OmniTaskCore.Project(name: "Personal", color: "#10B981")
+            ],
             onComplete: {},
             onUpdate: { _ in }
         )
@@ -409,7 +495,10 @@ struct TaskRowView: View {
                 isCompleted: true,
                 completedAt: Date()
             ),
-            projects: projects,
+            projects: [
+                OmniTaskCore.Project(name: "Work", color: "#3B82F6"),
+                OmniTaskCore.Project(name: "Personal", color: "#10B981")
+            ],
             onComplete: {},
             onUpdate: { _ in }
         )

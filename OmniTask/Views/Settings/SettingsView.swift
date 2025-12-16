@@ -1,5 +1,6 @@
 import SwiftUI
 import Sparkle
+import OmniTaskCore
 
 /// Settings window content
 struct SettingsView: View {

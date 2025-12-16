@@ -1,9 +1,10 @@
 import SwiftUI
+import OmniTaskCore
 
 /// Expanded view for editing task details
 struct TaskDetailView: View {
     @Binding var task: OmniTask
-    let projects: [Project]
+    let projects: [OmniTaskCore.Project]
     var tagRepository: TagRepository?
     let onSave: (OmniTask) -> Void
     let onCancel: () -> Void
@@ -15,10 +16,10 @@ struct TaskDetailView: View {
     @State private var dueDate: Date?
     @State private var hasDueDate: Bool
     @State private var isRecurring: Bool
-    @State private var recurringFrequency: RecurringPattern.Frequency
+    @State private var recurringPattern: RecurringPattern?
 
     // Tag state
-    @State private var availableTags: [Tag] = []
+    @State private var availableTags: [OmniTaskCore.Tag] = []
     @State private var selectedTagIds: Set<String> = []
     @State private var tagSearchText: String = ""
     @State private var showingTagPicker = false
@@ -28,7 +29,7 @@ struct TaskDetailView: View {
 
     init(
         task: Binding<OmniTask>,
-        projects: [Project],
+        projects: [OmniTaskCore.Project],
         tagRepository: TagRepository? = nil,
         onSave: @escaping (OmniTask) -> Void,
         onCancel: @escaping () -> Void
@@ -46,7 +47,7 @@ struct TaskDetailView: View {
         self._dueDate = State(initialValue: task.wrappedValue.dueDate)
         self._hasDueDate = State(initialValue: task.wrappedValue.dueDate != nil)
         self._isRecurring = State(initialValue: task.wrappedValue.recurringPattern != nil)
-        self._recurringFrequency = State(initialValue: task.wrappedValue.recurringPattern?.frequency ?? .weekly)
+        self._recurringPattern = State(initialValue: task.wrappedValue.recurringPattern)
     }
 
     var body: some View {
@@ -125,26 +126,10 @@ struct TaskDetailView: View {
 
             // Recurring
             if hasDueDate {
-                HStack {
-                    Toggle("Recurring", isOn: $isRecurring)
-                        .toggleStyle(.switch)
-                        .labelsHidden()
-
-                    Text("Recurring")
-                        .foregroundColor(.secondary)
-
-                    Spacer()
-
-                    if isRecurring {
-                        Picker("", selection: $recurringFrequency) {
-                            Text("Daily").tag(RecurringPattern.Frequency.daily)
-                            Text("Weekly").tag(RecurringPattern.Frequency.weekly)
-                            Text("Monthly").tag(RecurringPattern.Frequency.monthly)
-                        }
-                        .labelsHidden()
-                        .fixedSize()
-                    }
-                }
+                RecurrenceOptionsView(
+                    isRecurring: $isRecurring,
+                    pattern: $recurringPattern
+                )
             }
 
             // Tags section
@@ -222,7 +207,7 @@ struct TaskDetailView: View {
             }
         }
         .padding()
-        .frame(width: 300, height: 480)
+        .frame(minWidth: 320, maxWidth: 320, minHeight: 480, maxHeight: 650)
         .onAppear {
             // Prevent auto-selection of title text
             DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) {
@@ -278,7 +263,7 @@ struct TaskDetailView: View {
         }
 
         if isRecurring && hasDueDate {
-            updatedTask.recurringPattern = RecurringPattern(frequency: recurringFrequency)
+            updatedTask.recurringPattern = recurringPattern
         } else {
             updatedTask.recurringPattern = nil
         }
@@ -300,7 +285,7 @@ struct TaskDetailView: View {
 // MARK: - Task Tag Chip (for display in TaskDetailView)
 
 struct TaskTagChip: View {
-    let tag: Tag
+    let tag: OmniTaskCore.Tag
     let onRemove: () -> Void
 
     var body: some View {
@@ -331,7 +316,7 @@ struct TaskTagChip: View {
 // MARK: - Tag Picker View
 
 struct TagPickerView: View {
-    let availableTags: [Tag]
+    let availableTags: [OmniTaskCore.Tag]
     @Binding var selectedTagIds: Set<String>
     @Binding var tagSearchText: String
     let projectId: String?
@@ -340,7 +325,7 @@ struct TagPickerView: View {
 
     @Environment(\.dismiss) private var dismiss
 
-    private var filteredTags: [Tag] {
+    private var filteredTags: [OmniTaskCore.Tag] {
         if tagSearchText.isEmpty {
             return availableTags
         }
@@ -436,7 +421,7 @@ struct TagPickerView: View {
         .frame(width: 220, height: 200)
     }
 
-    private func toggleTag(_ tag: Tag) {
+    private func toggleTag(_ tag: OmniTaskCore.Tag) {
         if selectedTagIds.contains(tag.id) {
             selectedTagIds.remove(tag.id)
         } else {
@@ -446,7 +431,7 @@ struct TagPickerView: View {
 
     private func createNewTag() {
         guard let projectId = projectId, let tagRepository = tagRepository else { return }
-        let newTag = Tag(name: tagSearchText, projectId: projectId)
+        let newTag = OmniTaskCore.Tag(name: tagSearchText, projectId: projectId)
         Task {
             try? await tagRepository.create(newTag)
             selectedTagIds.insert(newTag.id)
@@ -462,8 +447,8 @@ struct TagPickerView: View {
     TaskDetailView(
         task: .constant(OmniTask(title: "Test task", priority: .high, dueDate: Date())),
         projects: [
-            Project(name: "Work", color: "#3B82F6"),
-            Project(name: "Personal", color: "#10B981")
+            OmniTaskCore.Project(name: "Work", color: "#3B82F6"),
+            OmniTaskCore.Project(name: "Personal", color: "#10B981")
         ],
         onSave: { _ in },
         onCancel: {}
